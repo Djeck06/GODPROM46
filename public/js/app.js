@@ -1967,7 +1967,19 @@
 
 window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 
-__webpack_require__(/*! alpinejs */ "./node_modules/alpinejs/dist/alpine.js");
+__webpack_require__(/*! alpinejs */ "./node_modules/alpinejs/dist/alpine.js"); //Sticky menu
+
+
+var header = document.querySelector('.sticky-bar');
+var sticky = header.offsetTop;
+
+window.onscroll = function () {
+  if (window.pageYOffset > sticky) {
+    header.classList.add('sticky');
+  } else {
+    header.classList.remove('sticky');
+  }
+};
 
 /***/ }),
 

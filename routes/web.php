@@ -27,6 +27,12 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}']], f
     
 });
 
+Route::group(['namespace' => 'Client', 'middleware' => 'verified'], function () {
+    Route::group(['prefix' => 'estimation', 'name' => 'estimation.'], function () {
+        Route::get('/', [\App\Http\Controllers\Client\EstimationController::class, 'index'])->name('index');
+    });
+});
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');

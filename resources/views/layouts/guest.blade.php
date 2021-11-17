@@ -1,48 +1,28 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+        <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+        <!-- Fonts -->
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    <!-- Styles -->
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+        <!-- Styles -->
+        <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
-</head>
+        <!-- Scripts -->
+        <script src="{{ asset('js/app.js') }}" defer></script>
+    </head>
+    <body class="font-sans antialiased flex flex-col min-h-screen">
+        @include('layouts.nav')
+        <!-- Page Content -->
+        <main class="main relative flex-grow">
+            {{ $slot }}
+        </main>
 
-<body>
-    <div class="font-sans antialiased">
-        <div class="flex flex-col justify-between min-h-screen bg-gray-100">
-            @include('layouts.nav')
-
-
-            <!-- Page Content -->
-            <main>
-                {{ $slot }}
-            </main>
-
-            <foote class="border-t">
-                <div class="lg:mb-5 py-3 text-sm text-gray-400">
-                    <div
-                        class="flex flex-col items-center justify-between lg:flex-row max-w-6xl mx-auto lg:space-y-0 space-y-3">
-                        <div class="flex space-x-2 ">
-                            <a href="#">Facebook</a>
-                            <a href="#">Twitter</a>
-                            <a href="#">{{ __('Terms') }}</a>
-                        </div>
-                        <p class="capitalize">GodProm © copyright 2021</p>
-                    </div>
-                </div>
-            </foote>
-        </div>
-    </div>
-</body>
-
+        @include('layouts.footer')
+    </body>
 </html>
