@@ -5,7 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+        <title>@yield('title')</title>
+
+        <link rel="shortcut icon" type="image/x-icon"  href="{{ asset('images/favicon.png') }}">
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -17,12 +19,14 @@
         <script src="{{ asset('js/app.js') }}" defer></script>
     </head>
     <body class="font-sans antialiased flex flex-col min-h-screen">
-        @include('layouts.nav')
+        @include('partials.app.header')
         <!-- Page Content -->
         <main class="main relative flex-grow">
             {{ $slot }}
         </main>
+        
+        @include('partials.app.download-app')
 
-        @include('layouts.footer')
+        @include('partials.app.footer')
     </body>
 </html>

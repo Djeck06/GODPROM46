@@ -6,11 +6,17 @@ module.exports = {
     "./storage/framework/views/*.php",
     "./resources/views/**/*.blade.php",
   ],
-
   theme: {
+    color: {
+      blue: {
+        light: "#8ed9ed",
+        dark: "#2f5fb8",
+        DEFAULT: "#5692ca",
+      },
+    },
     extend: {
       fontFamily: {
-        sans: ["Montserrat", ...defaultTheme.fontFamily.sans],
+        sans: ["Quicksand", ...defaultTheme.fontFamily.sans],
       },
     },
     container: {
