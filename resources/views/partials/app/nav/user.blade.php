@@ -15,9 +15,9 @@
 
     @guest
         <a href="{{ route('login') }}"
-            class="border border-blue-500 px-4 py-2 rounded text-blue-500 text-sm font-semibold">{{ __('Login') }}</a>
+            class="border border-blue-500 px-4 py-2 rounded text-blue-500 text-sm font-semibold login-btn">{{ __('Login') }}</a>
         <a href="{{ route('register') }}"
-            class="px-4 py-2 rounded text-white bg-blue-500 hover:bg-blue-700 text-sm font-semibold">{{ __('Register') }}</a>
+            class="px-4 py-2 rounded text-white bg-blue-500 hover:bg-blue-700 text-sm font-semibold register-btn">{{ __('Register') }}</a>
     @endguest
 
     @auth

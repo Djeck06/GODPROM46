@@ -1,5 +1,5 @@
 <div class="flex items-center space-x-8">
-    <ul class="hidden md:flex justify-around space-x-4">
+    <ul class="hidden md:flex justify-around space-x-4 app-menu">
         <li class="py-4">
             <a href="{{ route('home', app()->getLocale()) }}"
                 class="hover:text-blue-600 text-gray-500 text-sm font-semibold uppercase">{{ __('Home') }}</a>
