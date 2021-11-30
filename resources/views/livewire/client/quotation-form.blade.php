@@ -12,40 +12,56 @@
             <div class="mt-5 md:mt-0 md:col-span-2">
                 <div class="sm:overflow-hidden">
                     <div class="px-4">
-                        <div class="grid grid-cols-6 gap-6">
-                            <div class="col-span-6 sm:col-span-4">
-                                <x-inputs.label>{{ __('Object Name') }}</x-inputs.label>
-                                <x-inputs.text name="name" placeholder="{{ __('e.g. Carton') }}" />
+                        <div class="grid grid-cols-6 gap-6" x-data="{others: false}">
+                            <div class="col-span-12">
+                                <x-inputs.label>{{ __('Package type') }}</x-inputs.label>
+                                <select name="package-type" autocomplete="package-type"
+                                    class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" x-model="pType">
+                                    <option option="standard">{{ __('Package Standard') }}</option>
+                                    <option class="medium">{{ __('Package Moyen Standard') }}</option>
+                                    <option class="other">{{ __('Others') }}</option>
+                                </select>
                             </div>
+                            <div class="col-span-12" id=" other-object" x-show="{pType == 'other'}">
+                                <div class="grid grid-cols-6 gap-6">
+                                    <div class="col-span-6 sm:col-span-4">
+                                        <x-inputs.label>{{ __('Object Name') }}</x-inputs.label>
+                                        <x-inputs.text name="name" placeholder="{{ __('e.g. Carton') }}" />
+                                    </div>
 
-                            <div class="col-span-6 sm:col-span-2">
-                                <x-inputs.label>{{ __('Quantity') }}</x-inputs.label>
-                                <x-inputs.text type="number" name="quantity" value="1" />
+                                    <div class="col-span-6 sm:col-span-2">
+                                        <x-inputs.label>{{ __('Quantity') }}</x-inputs.label>
+                                        <x-inputs.text type="number" name="quantity" value="1" />
+                                    </div>
+
+                                    <div class="col-span-6 sm:col-span-4">
+                                        <x-inputs.label>{{ __('Weight by unit') }}</x-inputs.label>
+                                        <x-inputs.text type="number" name="weight"
+                                            placeholder="{{ __('Weight (in Kg)') }}" />
+                                    </div>
+
+                                    <div class="col-span-6 sm:col-span-2"></div>
+
+                                    <div class="col-span-6 sm:col-span-6 lg:col-span-2">
+                                        <x-inputs.label>{{ __('Length') }}</x-inputs.label>
+                                        <x-inputs.text type="number" name="weight"
+                                            placeholder="{{ __('Length (in Cm)') }}" />
+                                    </div>
+
+                                    <div class="col-span-6 sm:col-span-6 lg:col-span-2">
+                                        <x-inputs.label>{{ __('Width') }}</x-inputs.label>
+                                        <x-inputs.text type="number" name="weight"
+                                            placeholder="{{ __('Width (in Cm)') }}" />
+                                    </div>
+
+                                    <div class="col-span-6 sm:col-span-6 lg:col-span-2">
+                                        <x-inputs.label>{{ __('Height') }}</x-inputs.label>
+                                        <x-inputs.text type="number" name="weight"
+                                            placeholder="{{ __('Height (in Cm)') }}" />
+                                    </div>
+                                </div>
+
                             </div>
-
-                            <div class="col-span-6 sm:col-span-4">
-                                <x-inputs.label>{{ __('Weight by unit') }}</x-inputs.label>
-                                <x-inputs.text type="number" name="weight" placeholder="{{ __('Weight (in Kg)') }}" />
-                            </div>
-
-                            <div class="col-span-6 sm:col-span-2"></div>
-
-                            <div class="col-span-6 sm:col-span-6 lg:col-span-2">
-                                <x-inputs.label>{{ __('Length') }}</x-inputs.label>
-                                <x-inputs.text type="number" name="weight" placeholder="{{ __('Length (in Cm)') }}" />
-                            </div>
-
-                            <div class="col-span-6 sm:col-span-6 lg:col-span-2">
-                                <x-inputs.label>{{ __('Width') }}</x-inputs.label>
-                                <x-inputs.text type="number" name="weight" placeholder="{{ __('Width (in Cm)') }}" />
-                            </div>
-
-                            <div class="col-span-6 sm:col-span-6 lg:col-span-2">
-                                <x-inputs.label>{{ __('Height') }}</x-inputs.label>
-                                <x-inputs.text type="number" name="weight"
-                                    placeholder="{{ __('Height (in Cm)') }}" />
-                            </div>
-
                         </div>
                     </div>
                 </div>
@@ -79,11 +95,15 @@
                                 <div class="col-span-6">
                                     <div class="flex items-start mb-2">
                                         <div class="flex items-center h-5">
-                                            <input id="headOffice" name="headOffice" type="checkbox" value="yes" @click="headOffice = !headOffice" class="focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300 rounded">
+                                            <input id="headOffice" name="headOffice" type="checkbox" value="yes"
+                                                @click="headOffice = !headOffice"
+                                                class="focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300 rounded">
                                         </div>
                                         <div class="ml-3 text-sm">
-                                            <label for="headOffice" class="font-medium text-gray-700">{{ __('Head Office') }}</label>
-                                            <p class="text-gray-500">{{ __('Bring your package to the head office') }}</p>
+                                            <label for="headOffice"
+                                                class="font-medium text-gray-700">{{ __('Head Office') }}</label>
+                                            <p class="text-gray-500">
+                                                {{ __('Bring your package to the head office') }}</p>
                                         </div>
                                     </div>
                                 </div>
