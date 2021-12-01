@@ -1,0 +1,5 @@
+- Assurance on object select
+- Packages infos
+- Add phone number for delivery address (Editable by client)
+- contact : remove phone number
+- 

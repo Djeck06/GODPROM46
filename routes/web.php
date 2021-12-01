@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Front\PageController;
 use App\Http\Controllers\Client\DashboardController;
 use App\Http\Controllers\Client\QuotationController;
@@ -15,6 +16,19 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+
+Route::prefix('/admin')->name('admin.')->namespace('Admin')->group(function () {
+
+    Route::middleware('auth:admin')->group(function () {
+        Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('home');
+    });
+
+
+    require __DIR__ . '/admin-auth.php';
+});
+
+
 
 Route::get('/', function () {
     return redirect()->route('home-locale', app()->getLocale());
@@ -41,4 +55,3 @@ Route::get('/email/verify', function () {
 })->middleware('auth')->name('verification.notice');
 
 require __DIR__.'/auth.php';
-

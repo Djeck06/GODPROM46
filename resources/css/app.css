@@ -10,7 +10,33 @@
   width: 100%;
   z-index: 9999;
   transition: all 0.3s ease 0s;
-  background: #fff;
+  color: #fff;
 
+  @apply bg-blue-500;
   @apply shadow;
+}
+
+.sticky-bar.sticky .app-menu>li>a,
+.sticky-bar.sticky .language-btn {
+  @apply text-white;
+}
+.sticky-bar.sticky .login-btn {
+  @apply text-white;
+  @apply border-white;
+}
+
+.sticky-bar.sticky .register-btn {
+  @apply text-white;
+  @apply bg-yellow-500;
+}
+.sticky-bar.sticky .register-btn,
+.sticky-bar.sticky .login-btn {
+  @apply hover:bg-white;
+  @apply hover:text-blue-500;
+}
+
+.sticky-bar.sticky .header-btn {
+  @apply text-white;
+  @apply bg-blue-500;
+  @apply border-white;
 }

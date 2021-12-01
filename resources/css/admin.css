@@ -1,0 +1,13 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+.font-family-nunito {
+  font-family: 'Inter',
+  sans-serif;
+}
+
+.menu-item.active {
+  @apply opacity-100;
+  @apply bg-gray-700;
+}

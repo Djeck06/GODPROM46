@@ -4,19 +4,18 @@
     'description' => getDescription($description),
     ])
 
-    <section class="xl:bg-contain bg-top bg-no-repeat -mt-24 pt-24 bg-gradient-to-r from-transparent  to-blue-100">
-        <div class="container mx-auto">
+    <section class="xl:bg-contain bg-top bg-no-repeat -mt-24 pt-24 bg-gradient-to-r from-transparent  to-blue-100 relative flex items-center justify-center overflow-hidden">
+        <div class="container mx-auto z-30">
             <div class="flex flex-wrap items-center -mx-3">
                 <div class="w-full lg:w-2/5 px-3">
                     <div class="max-w-lg lg:max-w-md mx-auto lg:mx-0 mb-8 text-center lg:text-left">
-                        <h2 class="text-3xl lg:text-4xl mb-4 font-bold font-heading">
+                        <h2 class="text-3xl lg:text-4xl mb-4 font-bold font-heading ">
                             Livraison - Transport <br>
-                            <span class="text-blue-500">Import - Export</span>
+                            <span class="text-white">Import - Export</span>
                         </h2>
-                        <p class="text-blueGray-400 leading-relaxed">Nous sommes <strong
-                                class="text-blue-500">GodProm</strong>, Lorem ipsum dolor sit amet consectetur,
+                        <p class="text-white leading-relaxed">Nous sommes <strong class="text-blue-500">GodProm</strong>, Lorem ipsum dolor sit amet consectetur,
                             adipisicing elit. Odit possimus nostrum eaque.</p>
-                        <p class="text-blueGray-400 leading-relaxed mt-3 text-sm">Lorem ipsum, dolor sit amet consectetur
+                        <p class="text-white leading-relaxed mt-3 text-sm">Lorem ipsum, dolor sit amet consectetur
                             adipisicing elit. Voluptatum, pariatur.</p>
                     </div>
                     <div class="text-center lg:text-left">
@@ -34,7 +33,28 @@
                 </div>
             </div>
         </div>
+
+        <video autoplay loop muted class="absolute z-10 w-auto min-w-full min-h-full max-w-none">
+            <source
+                src="{{ asset('videos/video.mp4') }}"
+                type="video/mp4" />
+            Your browser does not support the video tag.
+        </video>
     </section>
+
+    {{-- <div class="relative flex items-center justify-center h-screen overflow-hidden">
+        <div class="container">
+            <div class="relative z-30 p-5 text-2xl text-white bg-blue-300 bg-opacity-50 rounded">
+                Welcome to my site!
+            </div>
+        </div>
+        <video autoplay loop muted class="absolute z-10 w-auto min-w-full min-h-full max-w-none">
+            <source
+                src="{{ asset('videos/video.mp4') }}"
+                type="video/mp4" />
+            Your browser does not support the video tag.
+        </video>
+    </div> --}}
 
     <section class="pt-20 pb-24 bg-blueGray-50" id="how-we-work">
         <div class="container">
@@ -89,6 +109,8 @@
             </div>
         </div>
     </section>
+
+    
 
     @include('partials.app.download-app')
 </x-app-layout>
