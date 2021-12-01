@@ -1,12 +1,12 @@
 <div class="flex space-x-4 items-center">
     @if (Auth::check() && Auth::user()->type == 'client')
         <a href="{{ route('quotation.create') }}"
-            class="border border-blue-500 px-4 py-2 rounded text-blue-500 text-sm font-semibold">{{ __('Send') }}</a>
+            class="border border-blue-500 px-4 py-2 rounded text-blue-500 text-sm font-semibold header-btn">{{ __('Send') }}</a>
     @endif
 
     @if (Auth::check() && Auth::user()->type == 'transporter')
         <a href="#"
-            class="border border-blue-500 px-4 py-2 rounded text-blue-500 text-sm font-semibold">{{ __('Transport') }}</a>
+            class="border border-blue-500 px-4 py-2 rounded text-blue-500 text-sm font-semibold header-btn">{{ __('Transport') }}</a>
     @endif
 
     <div class="hidden sm:flex sm:items-center sm:ml-6">
@@ -24,7 +24,7 @@
         <x-dropdown align="right" width="48">
             <x-slot name="trigger">
                 <button
-                    class="flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">
+                    class="flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out header-btn">
                     <div>{{ Auth::user()->full_name }}</div>
 
                     <div class="ml-1">

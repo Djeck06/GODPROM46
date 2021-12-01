@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Client\QuotationRequest;
 use Illuminate\Http\Request;
 
 class QuotationController extends Controller
@@ -35,9 +36,9 @@ class QuotationController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(QuotationRequest $request)
     {
-        //
+        dd($request);
     }
 
     /**

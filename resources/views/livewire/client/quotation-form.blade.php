@@ -1,5 +1,6 @@
 <div>
-    <form>
+    <form method="POST" action="{{ route('quotation.store') }}">
+        @csrf
         <div class="md:grid md:grid-cols-3 md:gap-6">
             <div class="md:col-span-1">
                 <div class="px-4 sm:px-0">
@@ -16,13 +17,14 @@
                             <div class="col-span-12">
                                 <x-inputs.label>{{ __('Package type') }}</x-inputs.label>
                                 <select name="package-type" autocomplete="package-type"
-                                    class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" x-model="pType">
-                                    <option option="standard">{{ __('Package Standard') }}</option>
-                                    <option class="medium">{{ __('Package Moyen Standard') }}</option>
-                                    <option class="other">{{ __('Others') }}</option>
+                                    class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                    x-model="pType">
+                                    <option :value="standard">{{ __('Package Standard') }}</option>
+                                    <option :value="medium">{{ __('Package Moyen Standard') }}</option>
+                                    <option :value="other">{{ __('Others') }}</option>
                                 </select>
                             </div>
-                            <div class="col-span-12" id=" other-object" x-show="{pType == 'other'}">
+                            <div class="col-span-12" id="other-object" x-show="{pType == 'other'}">
                                 <div class="grid grid-cols-6 gap-6">
                                     <div class="col-span-6 sm:col-span-4">
                                         <x-inputs.label>{{ __('Object Name') }}</x-inputs.label>
@@ -209,7 +211,7 @@
         </div>
 
         <div class="px-4 py-3 text-right sm:px-6">
-            <button type="submit"
+            <button type="cancel"
                 class="inline-flex justify-center py-2 px-4 border border-gray-500 shadow-sm text-sm font-medium rounded-md text-gray-600 bg-white hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
                 {{ __('Cancel') }}
             </button>
