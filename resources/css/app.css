@@ -20,6 +20,7 @@
 .sticky-bar.sticky .language-btn {
   @apply text-white;
 }
+
 .sticky-bar.sticky .login-btn {
   @apply text-white;
   @apply border-white;
@@ -29,6 +30,7 @@
   @apply text-white;
   @apply bg-yellow-500;
 }
+
 .sticky-bar.sticky .register-btn,
 .sticky-bar.sticky .login-btn {
   @apply hover:bg-white;

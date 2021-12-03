@@ -13,57 +13,19 @@
             <div class="mt-5 md:mt-0 md:col-span-2">
                 <div class="sm:overflow-hidden">
                     <div class="px-4">
-                        <div class="grid grid-cols-6 gap-6" x-data="{others: false}">
-                            <div class="col-span-12">
-                                <x-inputs.label>{{ __('Package type') }}</x-inputs.label>
-                                <select name="package-type" autocomplete="package-type"
-                                    class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                                    x-model="pType">
-                                    <option :value="standard">{{ __('Package Standard') }}</option>
-                                    <option :value="medium">{{ __('Package Moyen Standard') }}</option>
-                                    <option :value="other">{{ __('Others') }}</option>
-                                </select>
-                            </div>
-                            <div class="col-span-12" id="other-object" x-show="{pType == 'other'}">
-                                <div class="grid grid-cols-6 gap-6">
-                                    <div class="col-span-6 sm:col-span-4">
-                                        <x-inputs.label>{{ __('Object Name') }}</x-inputs.label>
-                                        <x-inputs.text name="name" placeholder="{{ __('e.g. Carton') }}" />
-                                    </div>
+                        <div class="items-wrapper">
+                            <x-quotation.package :item="0" />
 
-                                    <div class="col-span-6 sm:col-span-2">
-                                        <x-inputs.label>{{ __('Quantity') }}</x-inputs.label>
-                                        <x-inputs.text type="number" name="quantity" value="1" />
-                                    </div>
+                            @foreach ($items as $key => $value)
+                                <x-quotation.package :key="$key" :item="$value" />
+                            @endforeach
+                        </div>
 
-                                    <div class="col-span-6 sm:col-span-4">
-                                        <x-inputs.label>{{ __('Weight by unit') }}</x-inputs.label>
-                                        <x-inputs.text type="number" name="weight"
-                                            placeholder="{{ __('Weight (in Kg)') }}" />
-                                    </div>
-
-                                    <div class="col-span-6 sm:col-span-2"></div>
-
-                                    <div class="col-span-6 sm:col-span-6 lg:col-span-2">
-                                        <x-inputs.label>{{ __('Length') }}</x-inputs.label>
-                                        <x-inputs.text type="number" name="weight"
-                                            placeholder="{{ __('Length (in Cm)') }}" />
-                                    </div>
-
-                                    <div class="col-span-6 sm:col-span-6 lg:col-span-2">
-                                        <x-inputs.label>{{ __('Width') }}</x-inputs.label>
-                                        <x-inputs.text type="number" name="weight"
-                                            placeholder="{{ __('Width (in Cm)') }}" />
-                                    </div>
-
-                                    <div class="col-span-6 sm:col-span-6 lg:col-span-2">
-                                        <x-inputs.label>{{ __('Height') }}</x-inputs.label>
-                                        <x-inputs.text type="number" name="weight"
-                                            placeholder="{{ __('Height (in Cm)') }}" />
-                                    </div>
-                                </div>
-
-                            </div>
+                        <div class="flex justify-end sm:pt-5">
+                            <button type="button" wire:click.prevent="addItem({{ $i }})"
+                                class="py-2 px-3 border border-gray-300 rounded-md text-sm leading-4 font-medium text-gray-700 hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800 transition duration-150 ease-in-out">
+                                {{ __('Add object') }}
+                            </button>
                         </div>
                     </div>
                 </div>

@@ -19,6 +19,7 @@ class CreateQuotationsTable extends Migration
                 ->constrained()
                 ->cascadeOnUpdate();
 
+            $table->boolean('pickup_at_office')->default(false);
             $table->string('pickup_country')->nullable();
             $table->string('pickup_city')->nullable();
             $table->string('pickup_address')->nullable();
@@ -29,7 +30,7 @@ class CreateQuotationsTable extends Migration
 
             $table->text('notes')->nullable();
             $table->string('status')->default('pending');
-            
+
             $table->timestamps();
 
             $table->softDeletes();
