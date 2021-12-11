@@ -6,13 +6,13 @@ use Illuminate\View\Component;
 
 class Package extends Component
 {
-    public $item;
     public $key;
+    public $errors;
 
-    public function __construct($item, $key = null)
+    public function __construct($key, $errors = [])
     {
         $this->key = $key;
-        $this->item = $item;
+        $this->errors = $errors;
     }
 
     /**

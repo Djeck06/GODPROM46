@@ -11,4 +11,10 @@ class Client extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [];
+
+    //has quotation
+    public function quotations()
+    {
+        return $this->hasMany(Quotation::class);
+    }
 }

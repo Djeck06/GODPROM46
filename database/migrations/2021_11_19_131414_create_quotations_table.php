@@ -27,6 +27,7 @@ class CreateQuotationsTable extends Migration
             $table->string('delivery_country')->nullable();
             $table->string('delivery_city')->nullable();
             $table->string('delivery_address')->nullable();
+            $table->string('delivery_phone')->nullable();
 
             $table->text('notes')->nullable();
             $table->string('status')->default('pending');

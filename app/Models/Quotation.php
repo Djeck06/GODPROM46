@@ -10,6 +10,12 @@ class Quotation extends Model
 {
     use HasFactory, SoftDeletes;
 
+    const STATUSES = [
+        'pending' => 'Pending',
+        'approved' => 'Approved',
+        'rejected' => 'Rejected',
+    ];
+
     protected $fillable = [
         'client_id',
         'pickup_at_office',
@@ -19,6 +25,7 @@ class Quotation extends Model
         'delivery_country',
         'delivery_city',
         'delivery_address',
+        'delivery_phone',
         'notes',
         'status'
     ];
@@ -33,4 +40,9 @@ class Quotation extends Model
     {
         return $this->belongsTo(Client::class);
     }
+
+    //Cast
+    protected $casts = [
+        'pickup_at_office' => 'boolean',
+    ];
 }

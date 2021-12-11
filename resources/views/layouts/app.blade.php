@@ -27,6 +27,7 @@
         </main>
 
         @include('partials.app.footer')
+        <x-notification />
         @livewireScripts
     </body>
 </html>

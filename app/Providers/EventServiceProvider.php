@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Events\Quotation\QuotationWasCreated;
+use App\Listeners\Quotation\SendQuotationAdminNotification;
+use App\Listeners\Quotation\SendQuotationClientNotification;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -18,6 +21,10 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+        QuotationWasCreated::class => [
+            SendQuotationAdminNotification::class,
+            SendQuotationClientNotification::class,
+        ]
     ];
 
     /**
