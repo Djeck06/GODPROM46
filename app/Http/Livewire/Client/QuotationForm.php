@@ -103,6 +103,10 @@ class QuotationForm extends Component
     }
     public function mount()
     {
+        //Through exception
+        $this->quotation = Quotation::findOrFail(1);
+        return;
+
         $this->items = [$this->makeBlankItem()];
         $this->quotation = $this->makeBlankQuotation();
     }
