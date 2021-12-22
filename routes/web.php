@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Front\PageController;
 use App\Http\Controllers\Client\DashboardController;
 use App\Http\Controllers\Client\QuotationController;
@@ -19,15 +18,8 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::prefix('/admin')->name('admin.')->namespace('Admin')->group(function () {
-
-    Route::middleware('auth:admin')->group(function () {
-        Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('home');
-    });
-
-
-    require __DIR__ . '/admin-auth.php';
+    require __DIR__ . '/admin.php';
 });
-
 
 
 Route::get('/', function () {
@@ -40,8 +32,6 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}']], f
     Route::get('/faq', [PageController::class, 'faq'])->name('faq');
     Route::get('/about', [PageController::class, 'about'])->name('about');
     Route::get('/contact', [PageController::class, 'contact'])->name('contact');
-
-    
 });
 
 Route::group(['middleware' => 'verified'], function () {

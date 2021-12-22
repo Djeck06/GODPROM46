@@ -5,7 +5,7 @@
     ])
 
     <section class="xl:bg-contain bg-top bg-no-repeat -mt-24 pt-24 bg-gradient-to-r from-transparent  to-blue-100 relative flex items-center justify-center overflow-hidden">
-        <div class="container mx-auto z-30">
+        <div class="container mx-auto z-20">
             <div class="flex flex-wrap items-center -mx-3">
                 <div class="w-full lg:w-2/5 px-3">
                     <div class="max-w-lg lg:max-w-md mx-auto lg:mx-0 mb-8 text-center lg:text-left">

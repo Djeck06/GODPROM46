@@ -5,6 +5,7 @@
     <form class="flex flex-col pt-3 md:pt-8" method="POST" action="{{ route('admin.login') }}">
         <x-auth-validation-errors class="bg-red-100 mb-4 p-4 rounded" :errors="$errors" />
         @csrf
+        
         <div class="flex flex-col pt-4">
             <label for="email" class="text-lg">Email</label>
             <input type="email" id="email" name="email" placeholder="xxxx@xxx.com" value="{{ old('email') }}"

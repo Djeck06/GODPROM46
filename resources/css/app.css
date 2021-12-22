@@ -8,12 +8,12 @@
   top: 0;
   left: 0;
   width: 100%;
-  z-index: 30;
   transition: all 0.3s ease 0s;
   color: #fff;
 
   @apply bg-blue-500;
   @apply shadow;
+  @apply z-30;
 }
 
 .sticky-bar.sticky .app-menu>li>a,

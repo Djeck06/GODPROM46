@@ -50,23 +50,23 @@
                         <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
                             <div class="grid grid-cols-6 gap-6">
                                 <div class="col-span-6 sm:col-span-3">
-                                    <x-inputs.label>{{ __('Name') }}</x-inputs.label>
-                                    <x-inputs.text name="name" placeholder="{{ __('Name') }}" required />
+                                    <x-label>{{ __('Name') }}</x-label>
+                                    <x-input.text name="name" placeholder="{{ __('Name') }}" required />
                                 </div>
 
                                 <div class="col-span-6 sm:col-span-3">
-                                    <x-inputs.label>{{ __('Email') }}</x-inputs.label>
-                                    <x-inputs.text type="email" name="email" placeholder="{{ __('Email') }}" required />
+                                    <x-label>{{ __('Email') }}</x-label>
+                                    <x-input.text type="email" name="email" placeholder="{{ __('Email') }}" required />
                                 </div>
 
                                 <div class="col-span-6">
-                                    <x-inputs.label>{{ __('Subject') }}</x-inputs.label>
-                                    <x-inputs.text name="subject" placeholder="{{ __('Subject') }}" />
+                                    <x-label>{{ __('Subject') }}</x-label>
+                                    <x-input.text name="subject" placeholder="{{ __('Subject') }}" />
                                 </div>
 
                                 <div class="col-span-6">
-                                    <x-inputs.label>{{ __('Message') }}</x-inputs.label>
-                                    <x-inputs.textarea rows="6" name="message" placeholder="{{ __('Message') }}" />
+                                    <x-label>{{ __('Message') }}</x-label>
+                                    <x-input.textarea rows="6" name="message" placeholder="{{ __('Message') }}" />
                                 </div>
 
                             </div>
