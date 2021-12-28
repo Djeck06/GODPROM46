@@ -6,15 +6,13 @@ use App\Http\Livewire\DataTable\WithCachedRows;
 use App\Http\Livewire\DataTable\WithPerPagePagination;
 use App\Http\Livewire\DataTable\WithSorting;
 use App\Models\Country;
+use App\Models\Package;
 use Livewire\Component;
 
-class CountryParam extends Component
+class PackageParams extends Component
 {
     use WithSorting, WithPerPagePagination, WithCachedRows;
-
-    public $showDeleteModal = false;
     public $showEditModal = false;
-    public $showImportModal = false;
 
     public $filters = [
         'search' => '',
@@ -22,56 +20,49 @@ class CountryParam extends Component
 
     protected $queryString = ['sorts'];
 
-    public Country $country;
+    public Package $package;
 
     public function rules()
     {
         return [
-            'editing.name' => 'required|unique:countries,name,' . $this->editing->id,
-            'editing.code' => 'required|min:2|max:2|unique:countries,code,' . $this->editing->id,
-            'editing.is_pickup_country' => 'boolean',
-            'editing.is_delivery_country' => 'boolean',
+            'editing.name' => 'required',
+            'editing.description' => 'nullable',
+            'editing.image' => 'nullable',
+            'editing.is_active' => 'boolean',
         ];
     }
 
-
     public function mount()
     {
-        $this->editing = $this->makeBlankCountry();
+        $this->editing = $this->makeBlankPackage();
     }
 
-    public function makeBlankCountry()
+    public function makeBlankPackage()
     {
-        return Country::make(['is_pickup_country' => false, 'is_delivery_country' => false]);
+        return Package::make(['is_active' => true]);
     }
 
     public function create()
     {
         $this->useCachedRows();
 
-        if ($this->editing->getKey()) $this->editing = $this->makeBlankCountry();
+        if ($this->editing->getKey()) $this->editing = $this->makeBlankPackage();
 
         $this->showEditModal = true;
     }
 
-    public function edit(Country $country)
+    public function edit(Package $package)
     {
         $this->useCachedRows();
 
-        if ($this->editing->isNot($country)) $this->editing = $country;
+        if ($this->editing->isNot($package)) $this->editing = $package;
 
         $this->showEditModal = true;
-    }
-
-    public function showImportModal()
-    {
-        $this->showImportModal = true;
     }
 
     public function getRowsQueryProperty()
     {
-        $query = Country::query()
-            ->orderBy('name', 'asc')
+        $query = Package::query()
             ->when($this->filters['search'], fn ($query, $search) => $query->where('name', 'like', '%' . $search . '%'));
 
         return $this->applySorting($query);
@@ -96,8 +87,8 @@ class CountryParam extends Component
 
     public function render()
     {
-        return view('livewire.admin.params.countries', [
-            'countries' => $this->rows,
+        return view('livewire.admin.params.packages', [
+            'packages' => $this->rows,
         ]);
     }
 }

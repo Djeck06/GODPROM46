@@ -11,30 +11,9 @@ class Package extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'package_type_id',
-        'pickup_country_id',
-        'delivery_country_id',
-        'price',
-        'is_active',
-        'notes',
+        'name',
+        'description',
+        'image',
     ];
 
-    protected $casts = [
-        'is_active' => 'boolean',
-    ];
-
-    public function packageType()
-    {
-        return $this->belongsTo(PackageType::class);
-    }
-
-    public function pickupCountry()
-    {
-        return $this->belongsTo(Country::class, 'pickup_country_id');
-    }
-
-    public function deliveryCountry()
-    {
-        return $this->belongsTo(Country::class, 'delivery_country_id');
-    }
 }

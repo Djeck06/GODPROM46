@@ -21,7 +21,7 @@
     <script src="{{ asset('js/admin.js') }}" defer></script>
 </head>
 
-<body class="bg-gray-100 font-family-nunito flex">
+<body class="bg-gray-100 font-family-nunito flex relative" x-data="{navOpen: false}">
     @include('partials.admin.sidebar')
 
     <div class="relative w-full flex flex-col h-screen overflow-y-hidden">

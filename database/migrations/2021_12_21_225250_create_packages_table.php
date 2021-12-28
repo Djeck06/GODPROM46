@@ -15,20 +15,10 @@ class CreatePackagesTable extends Migration
     {
         Schema::create('packages', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('package_type_id')
-                ->constrained()
-                ->cascadeOnUpdate();
-
-            $table->foreignId('pickup_country_id')
-                ->constrained('countries')
-                ->cascadeOnUpdate();
-
-            $table->foreignId('delivery_country_id')
-                ->constrained('countries')
-                ->cascadeOnUpdate();
-
-            $table->integer('price')->default(0);
-            $table->text('notes')->nullable();
+            $table->string('name');
+            $table->text('description')->nullable();
+            $table->string('image')->nullable();
+            $table->boolean('is_active')->default(true);
 
             $table->timestamps();
             $table->softDeletes();
