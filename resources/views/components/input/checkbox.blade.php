@@ -1,1 +1,1 @@
-<input {{ $attributes }} type="checkbox" />
+<input {{ $attributes }} class="shadow-none" type="checkbox" />

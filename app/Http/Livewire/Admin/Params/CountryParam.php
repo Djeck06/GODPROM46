@@ -96,7 +96,7 @@ class CountryParam extends Component
 
     public function render()
     {
-        return view('livewire.admin.params.country', [
+        return view('livewire.admin.params.countries', [
             'countries' => $this->rows,
         ]);
     }

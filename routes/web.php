@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Front\PageController;
 use App\Http\Controllers\Client\DashboardController;
+use App\Http\Controllers\Client\OrderController;
 use App\Http\Controllers\Client\QuotationController;
 use Illuminate\Support\Facades\Route;
 
@@ -15,12 +16,6 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-
-Route::prefix('/admin')->name('admin.')->namespace('Admin')->group(function () {
-    require __DIR__ . '/admin.php';
-});
-
 
 Route::get('/', function () {
     return redirect()->route('home-locale', app()->getLocale());
@@ -36,6 +31,13 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}']], f
 
 Route::group(['middleware' => 'verified'], function () {
     Route::resource('quotation', QuotationController::class);
+    Route::group(['prefix' => 'order', 'as' => 'orders.'], function () {
+        Route::get('/', [OrderController::class, 'index'])->name('index');
+    });
+});
+
+Route::prefix('/admin')->name('admin.')->namespace('Admin')->group(function () {
+    require __DIR__ . '/admin.php';
 });
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');

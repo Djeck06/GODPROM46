@@ -25,13 +25,13 @@
                             <div class="flex lg:flex-row flex-col lg:space-x-2">
                                 <div class="flex-1">
                                     <x-label for="first_name" class="sr-only" :value="__('First name')" />
-                                    <x-input id="first_name" class="block mt-1 w-full" type="text" name="first_name"
+                                    <x-input.text id="first_name" class="block mt-1 w-full" type="text" name="first_name"
                                         :placeholder="__('First name')" :value="old('first_name')" required autofocus />
                                 </div>
 
                                 <div class="flex-1 lg:mt-0 sm:mt-4">
                                     <x-label for="last_name" class="sr-only" :value="__('Last name')" />
-                                    <x-input id="last_name" class="block mt-1 w-full" type="text" name="last_name"
+                                    <x-input.text id="last_name" class="block mt-1 w-full" type="text" name="last_name"
                                         :placeholder="__('Last name')" :value="old('last_name')" required autofocus />
                                 </div>
                             </div>
@@ -40,7 +40,7 @@
                             <div class="mt-4">
                                 <x-label for="email" class="sr-only" :value="__('Email')" />
 
-                                <x-input id="email" class="block mt-1 w-full" type="email" name="email"
+                                <x-input.text id="email" class="block mt-1 w-full" type="email" name="email"
                                     :placeholder="__('Email')" :value="old('email')" required />
                             </div>
 
@@ -74,7 +74,7 @@
                             <div class="mt-4">
                                 <x-label for="password" class="sr-only" :value="__('Password')" />
 
-                                <x-input id="password" class="block mt-1 w-full" type="password" name="password"
+                                <x-input.text id="password" class="block mt-1 w-full" type="password" name="password"
                                     :placeholder="__('Password')" required autocomplete="new-password" />
                             </div>
 
@@ -83,7 +83,7 @@
                                 <x-label for="password_confirmation" class="sr-only"
                                     :value="__('Confirm Password')" />
 
-                                <x-input id="password_confirmation" class="block mt-1 w-full" type="password"
+                                <x-input.text id="password_confirmation" class="block mt-1 w-full" type="password"
                                     name="password_confirmation" :placeholder="__('Confirm Password')" required />
                             </div>
 
@@ -104,7 +104,7 @@
                                     {{ __('Already registered?') }}
                                 </a>
 
-                                <x-button class="ml-4">
+                                <x-button class="ml-4" type="submit">
                                     {{ __('Register') }}
                                 </x-button>
                             </div>

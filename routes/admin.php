@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\Auth\ForgotPasswordController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\Auth\LoginController;
 use App\Http\Controllers\Admin\ParamsController;
+use App\Http\Controllers\Admin\UsersController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -33,5 +34,14 @@ Route::middleware('auth:admin')->group(function () {
 
   Route::group(['prefix' => 'params', 'as' => 'params.'], function () {
     Route::get('/countries', [ParamsController::class, 'countries'])->name('countries');
+    Route::get('/packages', [ParamsController::class, 'packages'])->name('packages');
+    Route::get('/prices', [ParamsController::class, 'prices'])->name('prices');
   });
+
+  Route::group(['prefix' => 'users', 'as' => 'users.'], function () {
+    Route::get('/', [UsersController::class, 'index'])->name('index');
+  });
+
+
+  
 });

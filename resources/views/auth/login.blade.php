@@ -27,17 +27,17 @@
 
                             <!-- Email Address -->
                             <div>
-                                <x-label for="email" class="sr-only" :value="__('Email')" />
+                                <x-input.label for="email" class="sr-only" :value="__('Email')" />
 
-                                <x-input id="email" class="block mt-1 w-full" type="email" name="email"
+                                <x-input.text id="email" class="block mt-1 w-full" type="email" name="email"
                                     :value="old('email')" :placeholder="__('Email')" required autofocus />
                             </div>
 
                             <!-- Password -->
                             <div class="mt-4">
-                                <x-label for="password" class="sr-only" :value="__('Password')" />
+                                <x-input.label for="password" class="sr-only" :value="__('Password')" />
 
-                                <x-input id="password" class="block mt-1 w-full" type="password" name="password"
+                                <x-input.text id="password" class="block mt-1 w-full" type="password" name="password"
                                     :placeholder="__('Password')" required autocomplete="current-password" />
                             </div>
 
@@ -59,7 +59,7 @@
                                     </a>
                                 @endif
 
-                                <x-button class="ml-3">
+                                <x-button class="ml-3" type="submit">
                                     {{ __('Log in') }}
                                 </x-button>
                             </div>

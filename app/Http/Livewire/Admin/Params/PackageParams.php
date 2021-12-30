@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Admin\Params;
 use App\Http\Livewire\DataTable\WithCachedRows;
 use App\Http\Livewire\DataTable\WithPerPagePagination;
 use App\Http\Livewire\DataTable\WithSorting;
+use App\Models\Country;
 use App\Models\Package;
 use Livewire\Component;
 
@@ -24,12 +25,10 @@ class PackageParams extends Component
     public function rules()
     {
         return [
-            'editing.package_type_id' => 'required|exists:package_types,id',
-            'editing.pickup_delivery_country_id' => 'required|exists:countries,id',
-            'editing.delivery_delivery_country_id' => 'required|exists:countries,id',
-            'editing.price' => 'required|numeric',
+            'editing.name' => 'required',
+            'editing.description' => 'nullable',
+            'editing.image' => 'nullable',
             'editing.is_active' => 'boolean',
-            'editing.notes' => 'nullable',
         ];
     }
 
@@ -40,14 +39,14 @@ class PackageParams extends Component
 
     public function makeBlankPackage()
     {
-        return Package::make(['is_active' => false]);
+        return Package::make(['is_active' => true]);
     }
 
     public function create()
     {
         $this->useCachedRows();
 
-        if ($this->editing->getKey()) $this->editing = $this->makeBlankCountry();
+        if ($this->editing->getKey()) $this->editing = $this->makeBlankPackage();
 
         $this->showEditModal = true;
     }
