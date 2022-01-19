@@ -31,6 +31,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}']], f
 
 Route::group(['middleware' => 'verified'], function () {
     Route::resource('quotation', QuotationController::class);
+    
     Route::group(['prefix' => 'order', 'as' => 'orders.'], function () {
         Route::get('/', [OrderController::class, 'index'])->name('index');
     });
