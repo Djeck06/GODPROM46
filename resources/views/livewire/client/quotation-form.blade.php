@@ -74,7 +74,7 @@
 
                                 <div class="grid grid-cols-6 gap-6" x-show="!headOffice">
                                     <div class="col-span-6 sm:col-span-3">
-                                        <x-inputs.label>{{ __('Pick Up Country') }}</x-inputs.label>
+                                        <x-input.label>{{ __('Pick Up Country') }}</x-input.label>
                                         <select id="country" wire:model.defer="quotation.pickup_country"
                                             autocomplete="country-name"
                                             class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
@@ -88,16 +88,16 @@
                                     </div>
 
                                     <div class="col-span-6 sm:col-span-3">
-                                        <x-inputs.label>{{ __('Pick Up City') }}</x-inputs.label>
-                                        <x-inputs.text wire:model.defer="quotation.pickup_city"
+                                        <x-input.label>{{ __('Pick Up City') }}</x-input.label>
+                                        <x-input.text wire:model.defer="quotation.pickup_city"
                                             placeholder="{{ __('e.g. Lomé') }}" />
                                         @error('quotation.pickup_city') <div class="mt-1 text-red-500 text-sm">
                                             {{ $message }}</div>@enderror
                                     </div>
 
                                     <div class="col-span-6">
-                                        <x-inputs.label>{{ __('Pick Up Address') }}</x-inputs.label>
-                                        <x-inputs.text wire:model.defer="quotation.pickup_address"
+                                        <x-input.label>{{ __('Pick Up Address') }}</x-input.label>
+                                        <x-input.text wire:model.defer="quotation.pickup_address"
                                             placeholder="{{ __('e.g. Boluevard du 30 Aout') }}" />
                                         @error('quotation.pickup_address') <div class="mt-1 text-red-500 text-sm">
                                             {{ $message }}</div>@enderror
@@ -114,7 +114,7 @@
 
                                 <div class="grid grid-cols-6 gap-6 mb-4">
                                     <div class="col-span-6 sm:col-span-3">
-                                        <x-inputs.label>{{ __('Delivery Country') }}</x-inputs.label>
+                                        <x-input.label>{{ __('Delivery Country') }}</x-input.label>
                                         <select id="country" wire:model.defer="quotation.delivery_country"
                                             autocomplete="country-name"
                                             class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
@@ -128,24 +128,24 @@
                                     </div>
 
                                     <div class="col-span-6 sm:col-span-3">
-                                        <x-inputs.label>{{ __('Delivery City') }}</x-inputs.label>
-                                        <x-inputs.text wire:model.defer="quotation.delivery_city"
+                                        <x-input.label>{{ __('Delivery City') }}</x-input.label>
+                                        <x-input.text wire:model.defer="quotation.delivery_city"
                                             placeholder="{{ __('e.g. Lomé') }}" />
                                         @error('quotation.delivery_city') <div class="mt-1 text-red-500 text-sm">
                                             {{ $message }}</div> @enderror
                                     </div>
 
                                     <div class="col-span-6 sm:col-span-3">
-                                        <x-inputs.label>{{ __('Delivery Phone') }}</x-inputs.label>
-                                        <x-inputs.text wire:model.defer="quotation.delivery_phone"
+                                        <x-input.label>{{ __('Delivery Phone') }}</x-input.label>
+                                        <x-input.text wire:model.defer="quotation.delivery_phone"
                                             placeholder="{{ __('e.g. Lomé') }}" />
                                         @error('quotation.delivery_phone') <div class="mt-1 text-red-500 text-sm">
                                             {{ $message }}</div> @enderror
                                     </div>
 
                                     <div class="col-span-6">
-                                        <x-inputs.label>{{ __('Delivery Address') }}</x-inputs.label>
-                                        <x-inputs.text wire:model.defer="quotation.delivery_address"
+                                        <x-input.label>{{ __('Delivery Address') }}</x-input.label>
+                                        <x-input.text wire:model.defer="quotation.delivery_address"
                                             placeholder="{{ __('e.g. Boluevard du 30 Aout') }}" />
                                         @error('quotation.delivery_address') <div class="mt-1 text-red-500 text-sm">
                                             {{ $message }}</div> @enderror
@@ -181,8 +181,8 @@
                     <div class="px-4">
                         <div class="grid grid-cols-6 gap-6 mb-4">
                             <div class="col-span-6">
-                                <x-inputs.label>{{ __('Additional Informations') }}</x-inputs.label>
-                                <x-inputs.textarea wire:model.defer="quotation.notes" rows="4" placeholder="{{ __('Notes...') }}" />
+                                <x-input.label>{{ __('Additional Informations') }}</x-input.label>
+                                <x-input.textarea wire:model.defer="quotation.notes" rows="4" placeholder="{{ __('Notes...') }}" />
                                 <p class="mt-2 text-sm text-gray-500">
                             </div>
 
