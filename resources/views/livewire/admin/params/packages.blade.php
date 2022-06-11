@@ -74,7 +74,7 @@
                             <x-table.cell colspan="5">
                                 <div class="flex justify-center items-center space-x-2">
                                     <x-icon.inbox class="h-5 w-5 text-cool-gray-400" />
-                                    <span class="font-medium py-8 text-cool-gray-400 text-md">Aucun package dÃ©fini!
+                                    <span class="font-medium py-8 text-cool-gray-400 text-md">Aucun package défini!
                                     </span>
                                 </div>
                             </x-table.cell>

@@ -36,6 +36,7 @@ Route::middleware('auth:admin')->group(function () {
     Route::get('/countries', [ParamsController::class, 'countries'])->name('countries');
     Route::get('/packages', [ParamsController::class, 'packages'])->name('packages');
     Route::get('/prices', [ParamsController::class, 'prices'])->name('prices');
+    Route::get('/appointments', [ParamsController::class, 'appointments'])->name('appointments');
   });
 
   Route::group(['prefix' => 'users', 'as' => 'users.'], function () {

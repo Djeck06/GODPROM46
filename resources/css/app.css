@@ -2,7 +2,6 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
-
 .sticky-bar.sticky {
   position: fixed;
   top: 0;
@@ -41,4 +40,8 @@
   @apply text-white;
   @apply bg-blue-500;
   @apply border-white;
+}
+
+.sticky-bar.sticky .notificationBell {
+  @apply text-white;
 }

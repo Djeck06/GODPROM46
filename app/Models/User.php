@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+// use Storage;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -26,6 +27,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'email',
         'password',
         'type',
+        'avatar'
     ];
 
     /**
@@ -74,5 +76,15 @@ class User extends Authenticatable implements MustVerifyEmail
     public function sendPasswordResetNotification($token)
     {
         $this->notify(new QueuedResetPassword($token));
+    }
+
+    public function avatarUrl()
+    {
+        return $this->avatar ? asset('storage/' . $this->avatar) : 'https://www.gravatar.com/avatar/' . md5(strtolower(trim($this->email)));
+        // $this->avatar ? Storage::url($this->avatar) : 'https://www.gravatar.com/avatar/' . md5(strtolower(trim($this->email)));
+        return 'https://www.gravatar.com/avatar/' . md5(strtolower(trim($this->email)));
+        // //  $this->avatar
+        // //     ? Stora::disk('avatars')->url($this->avatar)
+        // //     : 'https://www.gravatar.com/avatar/' . md5(strtolower(trim($this->email)));
     }
 }

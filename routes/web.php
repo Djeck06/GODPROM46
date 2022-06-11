@@ -3,6 +3,7 @@
 use App\Http\Controllers\Front\PageController;
 use App\Http\Controllers\Client\DashboardController;
 use App\Http\Controllers\Client\OrderController;
+use App\Http\Controllers\Client\ProfileController;
 use App\Http\Controllers\Client\QuotationController;
 use Illuminate\Support\Facades\Route;
 
@@ -31,9 +32,18 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}']], f
 
 Route::group(['middleware' => 'verified'], function () {
     Route::resource('quotation', QuotationController::class);
+
+    Route::group(['prefix' => 'account', 'as' => 'profile.'], function () {
+        Route::get('/', [ProfileController::class, 'index'])->name('index');
+        Route::get('/orders', [ProfileController::class, 'orders'])->name('orders');
+        Route::get('/settings', [ProfileController::class, 'settings'])->name('settings');
+        Route::get('/security', [ProfileController::class, 'security'])->name('security');
+    });
     
     Route::group(['prefix' => 'order', 'as' => 'orders.'], function () {
         Route::get('/', [OrderController::class, 'index'])->name('index');
+        Route::get('/{order:reference}/show', [OrderController::class, 'show'])->name('show');
+        Route::get('/{order:reference}/history', [OrderController::class, 'track'])->name('history');
     });
 });
 

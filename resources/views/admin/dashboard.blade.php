@@ -18,7 +18,6 @@
                         </div>
                     </div>
 
-
                 </div>
 
                 <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-3">
@@ -30,6 +29,7 @@
                         </svg>
                         Messages
                     </a>
+
                     <a href="#" class="flex items-center rounded-3xl bg-blue-500 text-white px-4 py-2">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">

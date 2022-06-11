@@ -8,7 +8,7 @@
 -- Purchase here: https://tailwindui.com/
 --}}
 
-<div class="align-middle min-w-full overflow-x-auto shadow overflow-hidden sm:rounded-lg">
+<div class="align-middle min-w-full overflow-x-auto shadow overflow-hidden sm:rounded">
     <table class="min-w-full divide-y divide-cool-gray-200">
         <thead>
             <tr>

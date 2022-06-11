@@ -32185,6 +32185,11 @@ select {
   border-color: rgba(255, 255, 255, var(--tw-border-opacity));
 }
 
+.sticky-bar.sticky .notificationBell {
+  --tw-text-opacity: 1;
+  color: rgba(255, 255, 255, var(--tw-text-opacity));
+}
+
 @media (min-width: 640px) {
   .sm\:container {
     width: 100%;
@@ -188604,4 +188609,3 @@ select {
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
-

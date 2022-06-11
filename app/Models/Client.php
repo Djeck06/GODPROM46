@@ -12,9 +12,21 @@ class Client extends Model
 
     protected $fillable = [];
 
-    //has quotation
+    //eager load user
+    protected $with = ['user'];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function quotations()
     {
         return $this->hasMany(Quotation::class);
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
     }
 }

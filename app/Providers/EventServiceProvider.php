@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Events\Order\OrderWasCreated;
 use App\Events\Quotation\QuotationWasCreated;
+use App\Listeners\Order\SetCreatedEvent;
 use App\Listeners\Quotation\SendQuotationAdminNotification;
 use App\Listeners\Quotation\SendQuotationClientNotification;
 use Illuminate\Auth\Events\Registered;
@@ -21,10 +23,9 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
-        QuotationWasCreated::class => [
-            SendQuotationAdminNotification::class,
-            SendQuotationClientNotification::class,
-        ]
+        OrderWasCreated::class => [
+            SetCreatedEvent::class,
+        ],
     ];
 
     /**

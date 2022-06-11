@@ -19,7 +19,9 @@ class CreateOrdersTable extends Migration
                 ->constrained()
                 ->cascadeOnUpdate();
 
-            $table->boolean('pickup_at_office')->default(false);
+            $table->string('reference')->unique();
+
+            // $table->boolean('pickup_at_office')->default(false);
             $table->string('pickup_country')->nullable();
             $table->string('pickup_city')->nullable();
             $table->string('pickup_address')->nullable();
@@ -30,7 +32,11 @@ class CreateOrdersTable extends Migration
             $table->string('delivery_phone')->nullable();
 
             $table->text('notes')->nullable();
-            $table->string('status')->default('pending');
+            $table->string('status')->default('pending'); //pending | paying | paid | processing | completed | cancelled | refunded | closed | failed | expired |
+
+            $table->integer('price')->default(0);
+            $table->integer('insurance')->default(0);
+            $table->integer('total')->default(0);
 
             $table->timestamps();
             $table->softDeletes();

@@ -9,14 +9,6 @@
 <x-common.nav-link href="#">
     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
-    </svg>
-    Devis
-</x-common.nav-link>
-
-<x-common.nav-link href="#">
-    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
             d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
     </svg>
     Clients
@@ -30,6 +22,16 @@
     </svg>
     Transporteurs
 </x-common.nav-link>
+
+<span class="block py-2 pl-6 bg-blue-100 text-xs font-light text-gray-800 my-3">Commandes</span>
+<x-common.nav-link href="#">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+    </svg>
+    Commandes
+</x-common.nav-link>
+
 
 <span class="block py-2 pl-6 bg-blue-100 text-xs font-light text-gray-800 my-3">Statistiques</span>
 
@@ -94,6 +96,10 @@
 
     <x-common.nav-link :href="route('admin.params.packages')" :active="request()->routeIs('admin.params.packages')">
         Packages
+    </x-common.nav-link>
+
+    <x-common.nav-link :href="route('admin.params.appointments')" :active="request()->routeIs('admin.params.appointments')">
+        Plages de RDV
     </x-common.nav-link>
 
 </x-common.nav-dropdown>

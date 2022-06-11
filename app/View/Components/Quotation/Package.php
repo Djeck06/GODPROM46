@@ -7,12 +7,12 @@ use Illuminate\View\Component;
 class Package extends Component
 {
     public $key;
-    public $errors;
+    public $packages;
 
-    public function __construct($key, $errors = [])
+    public function __construct($key, $packages)
     {
         $this->key = $key;
-        $this->errors = $errors;
+        $this->packages = $packages;
     }
 
     /**

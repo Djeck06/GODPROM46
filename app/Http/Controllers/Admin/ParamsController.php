@@ -27,4 +27,13 @@ class ParamsController extends Controller
             'title' => __('Gestions des prix'),
         ]);
     }
+
+    public function appointments()
+    {
+        return view('admin.params.appointments', [
+            'title' => __('Gestions des rendez-vous'),
+        ]);
+    }
+
+    
 }
