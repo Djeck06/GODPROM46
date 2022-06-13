@@ -31,12 +31,19 @@ Route::namespace('Auth')->group(function () {
 
 Route::middleware('auth:admin')->group(function () {
   Route::get('/dashboard', [DashboardController::class, 'index'])->name('home');
+  Route::get('/commands', [DashboardController::class, 'commands'])->name('commands');
+  Route::get('/boxes', [DashboardController::class, 'boxes'])->name('boxes');
+  Route::get('/carriers', [DashboardController::class, 'carriers'])->name('carriers');
+  Route::get('/carriers', [DashboardController::class, 'carriers'])->name('carriers');
+  Route::get('/customers', [DashboardController::class, 'customers'])->name('customers');
 
   Route::group(['prefix' => 'params', 'as' => 'params.'], function () {
     Route::get('/countries', [ParamsController::class, 'countries'])->name('countries');
     Route::get('/packages', [ParamsController::class, 'packages'])->name('packages');
     Route::get('/prices', [ParamsController::class, 'prices'])->name('prices');
     Route::get('/appointments', [ParamsController::class, 'appointments'])->name('appointments');
+
+    
   });
 
   Route::group(['prefix' => 'users', 'as' => 'users.'], function () {

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Admin\Params;
+namespace App\Http\Livewire\Admin;
 
 use App\Http\Livewire\DataTable\WithCachedRows;
 use App\Http\Livewire\DataTable\WithPerPagePagination;
@@ -8,7 +8,7 @@ use App\Http\Livewire\DataTable\WithSorting;
 use App\Models\Package;
 use Livewire\Component;
 
-class PackageParams extends Component
+class CommandParams extends Component
 {
     use WithSorting, WithPerPagePagination, WithCachedRows;
     public $showEditModal = false;
@@ -87,7 +87,7 @@ class PackageParams extends Component
     public function render()
     {
       
-        return view('livewire.admin.params.packages', [
+        return view('livewire.admin.commands', [
             'packages' => $this->rows,
         ]);
     }

@@ -7,3 +7,4 @@ All notable changes are documented in this file using the [Keep a CHANGELOG](htt
 ## [] - 2022-13-06
 ### updated
 - updated app\Http\Livewire\Admin\Params\AppointmentParams.php 
+- mise à jour des menues 

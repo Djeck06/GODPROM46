@@ -6,6 +6,9 @@ use App\Http\Livewire\DataTable\WithCachedRows;
 use App\Http\Livewire\DataTable\WithPerPagePagination;
 use App\Http\Livewire\DataTable\WithSorting;
 use App\Models\Country;
+use App\Models\Package;
+
+
 use Livewire\Component;
 
 class CountryParam extends Component
