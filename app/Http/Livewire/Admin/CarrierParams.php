@@ -5,10 +5,10 @@ namespace App\Http\Livewire\Admin;
 use App\Http\Livewire\DataTable\WithCachedRows;
 use App\Http\Livewire\DataTable\WithPerPagePagination;
 use App\Http\Livewire\DataTable\WithSorting;
-use App\Models\Package;
+use App\Models\Transporter;
 use Livewire\Component;
 
-class BoxParams extends Component
+class CarrierParams extends Component
 {
     use WithSorting, WithPerPagePagination, WithCachedRows;
     public $showEditModal = false;
@@ -19,15 +19,15 @@ class BoxParams extends Component
 
     protected $queryString = ['sorts'];
 
-    public Package $package;
+    public Transporter $transporter;
 
     public function rules()
     {
         return [
-            'editing.name' => 'required',
-            'editing.description' => 'nullable',
-            'editing.image' => 'nullable',
-            'editing.is_active' => 'boolean',
+            // 'editing.name' => 'required',
+            // 'editing.description' => 'nullable',
+            // 'editing.image' => 'nullable',
+            // 'editing.is_active' => 'boolean',
         ];
     }
 
@@ -38,7 +38,7 @@ class BoxParams extends Component
 
     public function makeBlankPackage()
     {
-        return Package::make(['is_active' => true]);
+        // return Transporter::make(['is_active' => true]);
     }
 
     public function create()
@@ -50,19 +50,19 @@ class BoxParams extends Component
         $this->showEditModal = true;
     }
 
-    public function edit(Package $package)
+    public function edit(Transporter $transporter)
     {
         $this->useCachedRows();
 
-        if ($this->editing->isNot($package)) $this->editing = $package;
+        if ($this->editing->isNot($transporter)) $this->editing = $transporter;
 
         $this->showEditModal = true;
     }
 
     public function getRowsQueryProperty()
     {
-        $query = Package::query()
-            ->when($this->filters['search'], fn ($query, $search) => $query->where('name', 'like', '%' . $search . '%'));
+        $query = Transporter::query() ;
+            // ->when($this->filters['search'], fn ($query, $search) => $query->where('name', 'like', '%' . $search . '%'));
 
         return $this->applySorting($query);
     }
@@ -87,8 +87,8 @@ class BoxParams extends Component
     public function render()
     {
       
-        return view('livewire.admin.boxes', [
-            'packages' => $this->rows,
+        return view('livewire.admin.carriers', [
+            'transporters' => $this->rows,
         ]);
     }
 }

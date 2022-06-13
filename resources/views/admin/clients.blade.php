@@ -13,6 +13,6 @@
         </div>
     </div>
 
-    <livewire:admin.carrier-params />
+    <livewire:admin.client-params />
 
 </x-admin-layout>

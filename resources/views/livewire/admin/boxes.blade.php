@@ -27,8 +27,13 @@
                         <x-input.checkbox />
                     </x-table.heading>
                     <x-table.heading sortable multi-column wire:click="sortBy('name')"
-                        :direction="$sorts['name'] ?? null">Package</x-table.heading>
-                    <x-table.heading>Description</x-table.heading>
+                        :direction="$sorts['name'] ?? null">Reférence</x-table.heading>
+                    <x-table.heading>Numero Booking</x-table.heading>
+                    <x-table.heading>A quai depuis (date)</x-table.heading>
+                    <x-table.heading>Consignataire</x-table.heading>
+                    <x-table.heading>Type TC</x-table.heading>
+                    <x-table.heading>Poids</x-table.heading>
+
                     <x-table.heading>Statut</x-table.heading>
                     <x-table.heading />
                 </x-slot>
@@ -42,27 +47,39 @@
 
                             <x-table.cell>
                                 <span class="inline-flex space-x-2 truncate text-sm leading-5">
-                                    {{ $package->name }}
+                                    {{ $package->id}}
                                 </span>
                             </x-table.cell>
 
+                            
                             <x-table.cell>
-                                <span class="">{{ $package->description }}</span>
+                                <span class="">---</span>
                             </x-table.cell>
 
                             <x-table.cell>
-                                @if ($package->is_active)
-                                    <span
-                                        class="bg-green-100 font-semibold inline-flex px-2 py-1 rounded-2xl text-green-800 text-xs">Actif</span>
-                                @else
-                                    <span
-                                        class="bg-red-100 font-semibold inline-flex px-2 py-1 rounded-2xl text-red-800 text-xs">Inactif</span>
-                                @endif
+                                <span class="">(date)</span>
+                            </x-table.cell>
+
+                            <x-table.cell>
+                                <span class="">---</span>
+                            </x-table.cell>
+                            <x-table.cell>
+                                <span class="">---</span>
+                            </x-table.cell>
+
+                            <x-table.cell>
+                                <span class="">xxx tonnes</span>
+                            </x-table.cell>
+
+                            <x-table.cell>
+                               
+                                    <span class="bg-red-100 font-semibold inline-flex px-2 py-1 rounded-2xl text-red-800 text-xs">Inactif</span>
+                               
                             </x-table.cell>
 
                             <x-table.cell>
                                 <div class="flex justify-center items-center">
-                                    <x-button.link class="flex items-center mr-3" wire:click="edit({{ $package->id }})">
+                                    <x-button.link class="flex items-center mr-3" >
                                         <x-icon.edit class="w-4" />Modifier
                                     </x-button.link>
 

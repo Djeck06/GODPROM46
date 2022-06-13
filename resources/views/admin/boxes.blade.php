@@ -13,6 +13,6 @@
         </div>
     </div>
 
-    <livewire:admin.command-params />
+    <livewire:admin.boxe-params />
 
 </x-admin-layout>

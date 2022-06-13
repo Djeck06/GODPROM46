@@ -26,60 +26,40 @@
                     <x-table.heading>
                         <x-input.checkbox />
                     </x-table.heading>
-                    <x-table.heading sortable multi-column wire:click="sortBy('name')"
-                        :direction="$sorts['name'] ?? null">Réference</x-table.heading>
-                    <x-table.heading sortable multi-column wire:click="sortBy('name')"
-                        :direction="$sorts['name'] ?? null">Client</x-table.heading>
-                    <x-table.heading>Ville de livraison</x-table.heading>
-                    <x-table.heading>Numéro de téléphone de livraison</x-table.heading>
-                    <x-table.heading>Total</x-table.heading>
+                    <x-table.heading>Téléphone</x-table.heading>
+                    <x-table.heading>Description</x-table.heading>
                     <x-table.heading>Statut</x-table.heading>
                     <x-table.heading />
                 </x-slot>
 
                 <x-slot name="body">
-                    @forelse ($packages as $package)
-                        <x-table.row wire:loading.class.delay="opacity-50" wire:key="row-{{ $package->id }}">
+                    @forelse ($transporters as $transporter)
+                        <x-table.row wire:loading.class.delay="opacity-50" wire:key="row-{{ $transporter->id }}">
                             <x-table.cell class="pr-0">
-                                <x-input.checkbox value="{{ $package->id }}" />
-                            </x-table.cell>
-
-                            <x-table.cell>
-                                <span class="">{{ $package->id }}</span>
+                                <x-input.checkbox value="{{ $transporter->id }}" />
                             </x-table.cell>
 
                             <x-table.cell>
                                 <span class="inline-flex space-x-2 truncate text-sm leading-5">
-                                    {{ $package->name }}
+                                    {{ $transporter->phone }}
                                 </span>
                             </x-table.cell>
 
                             <x-table.cell>
-                                <span class=""></span>
-                            </x-table.cell>
-                            <x-table.cell>
-                                <span class=""></span>
+                                <span class="">{{ $transporter->description }}</span>
                             </x-table.cell>
 
                             <x-table.cell>
-                                <span class="">1000 £</span>
-                            </x-table.cell>
-
-                            <x-table.cell>
-                                @if ($package->is_active)
-                                    <span
-                                        class="bg-green-100 font-semibold inline-flex px-2 py-1 rounded-2xl text-green-800 text-xs">Actif</span>
-                                @else
-                                    <span
-                                        class="bg-red-100 font-semibold inline-flex px-2 py-1 rounded-2xl text-red-800 text-xs">Inactif</span>
-                                @endif
+                               
+                                <span class="bg-red-100 font-semibold inline-flex px-2 py-1 rounded-2xl text-red-800 text-xs">Inactif</span>
+            
                             </x-table.cell>
 
                             <x-table.cell>
                                 <div class="flex justify-center items-center">
-                                    <x-button class="flex items-center mr-3 " >
-                                        Détail
-                                    </x-button>
+                                    <x-button.link class="flex items-center mr-3" >
+                                        <x-icon.edit class="w-4" />Modifier
+                                    </x-button.link>
 
                                 </div>
                             </x-table.cell>
@@ -100,7 +80,7 @@
             </x-table>
 
             <div>
-                {{ $packages->links() }}
+                {{ $transporters->links() }}
             </div>
         </div>
     </div>

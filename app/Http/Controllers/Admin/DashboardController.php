@@ -19,6 +19,20 @@ class DashboardController extends Controller
         ]);
     }
 
+    public function commandassigns()
+    {
+        return view('admin.commands', [
+            'title' => __('Gestions des assignements'),
+        ]);
+    }
+
+    public function docks()
+    {
+        return view('admin.commands', [
+            'title' => __('Gestions des quais'),
+        ]);
+    }
+
     public function boxes()
     {
         return view('admin.boxes', [
@@ -35,7 +49,7 @@ class DashboardController extends Controller
 
     public function customers()
     {
-        return view('admin.customers', [
+        return view('admin.clients', [
             'title' => __('Gestions des Clients'),
         ]);
     }
