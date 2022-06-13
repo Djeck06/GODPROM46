@@ -1,0 +1,19 @@
+
+# ChangeLog
+
+All notable changes are documented in this file using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
+
+-employees management
+-bank account management
+-insurances management
+-requests management
+-places management
+-loans management
+-salaries management
+-contracts management
+-absence permissions management
+
+
+## [] - 2022-13-06
+### updated
+- updated app\Http\Livewire\Admin\Params\AppointmentParams.php 

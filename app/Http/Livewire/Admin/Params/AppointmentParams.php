@@ -15,7 +15,7 @@ class AppointmentParams extends Component
             'settings.appointment_start' => 'required|date_format:H:i',
             'settings.appointment_end' => 'required|date_format:H:i',
             'appointment_day' => 'required|date_format:Y-m-d',
-        ]
+        ] ;
     }
 
     public function mount()
