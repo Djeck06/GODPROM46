@@ -39,6 +39,7 @@ Route::middleware('auth:admin')->group(function () {
   Route::get('/commands', [DashboardController::class, 'commands'])->name('commands');
   Route::get('/docks', [DashboardController::class, 'docks'])->name('docks');
   Route::get('/command-assigns', [DashboardController::class, 'commandassigns'])->name('commandassigns');
+  Route::get('/fencing', [DashboardController::class, 'fencing'])->name('fencing');
 
 
   Route::group(['prefix' => 'params', 'as' => 'params.'], function () {

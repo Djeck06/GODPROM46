@@ -53,4 +53,12 @@ class DashboardController extends Controller
             'title' => __('Gestions des Clients'),
         ]);
     }
+
+
+    public function fencing()
+    {
+        return view('admin.fencings', [
+            'title' => __('Gestions des clotures'),
+        ]);
+    }
 }
