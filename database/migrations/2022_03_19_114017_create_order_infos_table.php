@@ -13,36 +13,39 @@ class CreateOrderInfosTable extends Migration
      */
     public function up()
     {
-        Schema::create('order_infos', function (Blueprint $table) {
-            $table->id();
+        if ( ! Schema::hasTable('order_infos') ) {
 
-            $table->foreignId('order_id')
-                ->constrained()
-                ->cascadeOnUpdate();
+            Schema::create('order_infos', function (Blueprint $table) {
+                $table->id();
 
-            $table->foreignId('transporter_id')
-                ->nullable()
-                ->constrained()
-                ->cascadeOnUpdate();
+                $table->foreignId('order_id')
+                    ->constrained()
+                    ->cascadeOnUpdate();
 
-            $table->dateTime('appointment_date')->nullable();
-            $table->string('appointment_code')->nullable();
+                $table->foreignId('transporter_id')
+                    ->nullable()
+                    ->constrained()
+                    ->cascadeOnUpdate();
 
-            $table->string('receiver_name')->nullable();
-            $table->string('receiver_address')->nullable();
-            $table->string('receiver_phone')->nullable();
-            $table->string('receiver_email')->nullable();
-            $table->text('receiver_comments')->nullable();
+                $table->dateTime('appointment_date')->nullable();
+                $table->string('appointment_code')->nullable();
 
-            $table->string('reception_code')->nullable();
+                $table->string('receiver_name')->nullable();
+                $table->string('receiver_address')->nullable();
+                $table->string('receiver_phone')->nullable();
+                $table->string('receiver_email')->nullable();
+                $table->text('receiver_comments')->nullable();
 
-            $table->string('order_rate')->nullable();
-            
+                $table->string('reception_code')->nullable();
+
+                $table->string('order_rate')->nullable();
+                
 
 
-            $table->timestamps();
-            $table->softDeletes();
-        });
+                $table->timestamps();
+                $table->softDeletes();
+            });
+        }
     }
 
     /**

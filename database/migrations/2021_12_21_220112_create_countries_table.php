@@ -13,16 +13,19 @@ class CreateCountriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('countries', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('code')->nullable();
+        if ( ! Schema::hasTable('countries') ) {
 
-            $table->boolean('is_pickup_country')->default(false);
-            $table->boolean('is_delivery_country')->default(false);
+            Schema::create('countries', function (Blueprint $table) {
+                $table->id();
+                $table->string('name');
+                $table->string('code')->nullable();
 
-            $table->softDeletes();
-        });
+                $table->boolean('is_pickup_country')->default(false);
+                $table->boolean('is_delivery_country')->default(false);
+
+                $table->softDeletes();
+            });
+        }
     }
 
     /**

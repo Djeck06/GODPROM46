@@ -14,19 +14,22 @@ class CreateUserSettingsMetadataTable extends Migration
      */
     public function up(): void
     {
-        Schema::create('user_settings_metadata', function (Blueprint $table): void {
-            $table->id();
+        if ( ! Schema::hasTable('user_settings_metadata') ) {
 
-            $table->string('name')->unique();
-            $table->string('type');
-            $table->string('default')->nullable();
-            $table->boolean('is_enabled')->default(true);
+            Schema::create('user_settings_metadata', function (Blueprint $table): void {
+                $table->id();
 
-            $table->string('group')->default('default');
-            $table->string('bag')->default(config('laraset.default', 'users'));
+                $table->string('name')->unique();
+                $table->string('type');
+                $table->string('default')->nullable();
+                $table->boolean('is_enabled')->default(true);
 
-            $table->timestamps();
-        });
+                $table->string('group')->default('default');
+                $table->string('bag')->default(config('laraset.default', 'users'));
+
+                $table->timestamps();
+            });
+        }
     }
 
     /**

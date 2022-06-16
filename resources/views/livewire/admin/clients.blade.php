@@ -29,6 +29,8 @@
                     <x-table.heading sortable multi-column wire:click="sortBy('name')"
                         :direction="$sorts['name'] ?? null">Designation</x-table.heading>
                     <x-table.heading>Email</x-table.heading> 
+                    <x-table.heading>Statut</x-table.heading>
+                    <x-table.heading />
 
                 </x-slot>
 
@@ -47,11 +49,27 @@
 
                             
                             <x-table.cell>
-                                <span class="">{{ $client->email}}</span>
+                                <span class="">{{ !is_null($client->user) ? $client->user->email : ''}}</span>
+                            </x-table.cell>
+
+                            <x-table.cell>
+                               
+                                <span class="bg-red-100 font-semibold inline-flex px-2 py-1 rounded-2xl text-red-800 text-xs">{{ $client->status_name }}</span>
+            
                             </x-table.cell>
 
                          
+                            <x-table.cell>
+                                <div class="flex justify-center items-center">
+                                    <x-button class="flex items-center mr-3 " >
+                                        Détail
+                                    </x-button>
+                                    <x-button class="flex items-center mr-3 "   wire:click="edit({{ $client->id }})" >
+                                            <x-icon.edit class="w-4" />Modifier
+                                    </x-button>
 
+                                </div>
+                            </x-table.cell>
                         
 
                             
@@ -83,8 +101,14 @@
             <x-slot name="title">Editer un client</x-slot>
 
             <x-slot name="content">
-                <x-input.group for="name" label="Nom du client" :error="$errors->first('editing.name')">
-                    <x-input.text wire:model.defer="editing.name" id="name" placeholder="Nom" />
+                <x-input.group for="last_name" label="Nom du client" :error="$errors->first('editing.last_name')">
+                    <x-input.text wire:model.defer="editing.last_name" id="last_name" placeholder="Nom" />
+                </x-input.group>
+                <x-input.group for="first_name" label="Prénoms" :error="$errors->first('editing.first_name')">
+                    <x-input.text wire:model.defer="editing.first_name" id="first_name" placeholder="Prénom" />
+                </x-input.group>
+                <x-input.group for="phone" label="Numéro de téléphone" :error="$errors->first('editing.phone')">
+                    <x-input.text wire:model.defer="editing.phone" id="phone" placeholder="Numéro de téléphone" />
                 </x-input.group>
 
                 <x-input.group for="description" label="Description du client"
@@ -105,9 +129,9 @@
                     </x-input.file-upload>
                 </x-input.group>
 
-                <x-input.group for="is_active" label="Statut" :error="$errors->first('editing.is_active')">
-                    <x-input.checkbox wire:model.defer="editing.is_active" id="is_active" />
-                    <label class="text-sm ml-2 text-gray-700" for="is_active">Activer</label>
+                <x-input.group for="status" label="Statut" :error="$errors->first('editing.status')">
+                    <x-input.checkbox wire:model.defer="editing.status" id="status" />
+                    <label class="text-sm ml-2 text-gray-700" for="status">Activer</label>
                 </x-input.group>
 
 

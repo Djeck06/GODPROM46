@@ -1,4 +1,4 @@
-<aside class="relative bg-blue-600 h-screen w-64 hidden sm:block shadow-xl" :class="{'-translate-x-full': !navOpen}">
+<aside class="relative bg-blue-600  w-64 hidden sm:block shadow-xl" :class="{'-translate-x-full': !navOpen}">
     <div class="p-6">
         <a href="#" class="text-white text-3xl font-semibold uppercase hover:text-gray-300">{{ config('app.name', 'GodProm') }}</a>
         {{-- <button

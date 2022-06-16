@@ -13,27 +13,30 @@ class CreateOrderEventsTable extends Migration
      */
     public function up()
     {
-        Schema::create('order_events', function (Blueprint $table) {
-            $table->id();
+        if ( ! Schema::hasTable('order_events') ) {
 
-            $table->foreignId('order_id')
-                ->constrained()
-                ->cascadeOnUpdate();
+            Schema::create('order_events', function (Blueprint $table) {
+                $table->id();
 
-            $table->string('event');
-            $table->string('event_type'); // pickup | delivery | payment | order | order_status
-            $table->string('event_code')->nullable();
-            $table->string('event_message')->nullable();
-            $table->string('event_status')->nullable();
-            $table->timestamp('event_date');
+                $table->foreignId('order_id')
+                    ->constrained()
+                    ->cascadeOnUpdate();
 
-            $table->string('event_initiator')->nullable();
-            $table->string('event_initiator_id')->nullable();
-            $table->text('notes')->nullable();
+                $table->string('event');
+                $table->string('event_type'); // pickup | delivery | payment | order | order_status
+                $table->string('event_code')->nullable();
+                $table->string('event_message')->nullable();
+                $table->string('event_status')->nullable();
+                $table->timestamp('event_date');
 
-            $table->timestamps();
-            $table->softDeletes();
-        });
+                $table->string('event_initiator')->nullable();
+                $table->string('event_initiator_id')->nullable();
+                $table->text('notes')->nullable();
+
+                $table->timestamps();
+                $table->softDeletes();
+            });
+        }
     }
 
     /**

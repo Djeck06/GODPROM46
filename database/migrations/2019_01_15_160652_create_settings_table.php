@@ -13,11 +13,14 @@ class CreateSettingsTable extends Migration
      */
     public function up()
     {
-        Schema::create('settings', function (Blueprint $table) {
-            $table->string('key')->index();
-            $table->longtext('value')->nullable();
-            $table->string('locale')->nullable();
-        });
+        if ( ! Schema::hasTable('settings') ) {
+
+            Schema::create('settings', function (Blueprint $table) {
+                $table->string('key')->index();
+                $table->longtext('value')->nullable();
+                $table->string('locale')->nullable();
+            });
+        }
     }
 
     /**

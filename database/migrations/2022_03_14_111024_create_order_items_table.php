@@ -13,25 +13,28 @@ class CreateOrderItemsTable extends Migration
      */
     public function up()
     {
-        Schema::create('order_items', function (Blueprint $table) {
-            $table->id();
+        if ( ! Schema::hasTable('order_items') ) {
 
-            $table->foreignId('order_id')
-                ->constrained()
-                ->cascadeOnUpdate();
+            Schema::create('order_items', function (Blueprint $table) {
+                $table->id();
 
-            $table->foreignId('package_id')
-                ->constrained()
-                ->cascadeOnUpdate();
+                $table->foreignId('order_id')
+                    ->constrained()
+                    ->cascadeOnUpdate();
 
-            $table->integer('price')->nullable();
-            $table->integer('quantity')->default(1);
-            $table->boolean('has_insurance')->default(false);
-            $table->string('name')->nullable();
+                $table->foreignId('package_id')
+                    ->constrained()
+                    ->cascadeOnUpdate();
 
-            $table->timestamps();
-            $table->softDeletes();
-        });
+                $table->integer('price')->nullable();
+                $table->integer('quantity')->default(1);
+                $table->boolean('has_insurance')->default(false);
+                $table->string('name')->nullable();
+
+                $table->timestamps();
+                $table->softDeletes();
+            });
+        }
     }
 
     /**

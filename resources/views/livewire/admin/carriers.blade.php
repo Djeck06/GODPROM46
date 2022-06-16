@@ -26,8 +26,11 @@
                     <x-table.heading>
                         <x-input.checkbox />
                     </x-table.heading>
+                    <x-table.heading>Nom</x-table.heading>
+                    <x-table.heading>Prénom</x-table.heading>
                     <x-table.heading>Téléphone</x-table.heading>
-                    <x-table.heading>Description</x-table.heading>
+                    <x-table.heading>Immatriculation véhicule</x-table.heading>
+                    <x-table.heading>Code NAF</x-table.heading>
                     <x-table.heading>Statut</x-table.heading>
                     <x-table.heading />
                 </x-slot>
@@ -38,38 +41,52 @@
                             <x-table.cell class="pr-0">
                                 <x-input.checkbox value="{{ $transporter->id }}" />
                             </x-table.cell>
+                            <x-table.cell>
+                                <span class="">{{ $transporter->lastname }}</span>
+                            </x-table.cell>
+                            <x-table.cell>
+                                <span class="">{{ $transporter->firstname }}</span>
+                            </x-table.cell>
 
                             <x-table.cell>
                                 <span class="inline-flex space-x-2 truncate text-sm leading-5">
                                     {{ $transporter->phone }}
                                 </span>
                             </x-table.cell>
-
                             <x-table.cell>
-                                <span class="">{{ $transporter->description }}</span>
+                                <span class="inline-flex space-x-2 truncate text-sm leading-5">
+                                    {{ $transporter->register_number }}
+                                </span>
                             </x-table.cell>
+                            <x-table.cell>
+                                <span class="inline-flex space-x-2 truncate text-sm leading-5">
+                                    {{ $transporter->naf_code }}
+                                </span>
+                            </x-table.cell>
+
+                           
 
                             <x-table.cell>
                                
-                                <span class="bg-red-100 font-semibold inline-flex px-2 py-1 rounded-2xl text-red-800 text-xs">Inactif</span>
+                                <span class="bg-red-100 font-semibold inline-flex px-2 py-1 rounded-2xl text-red-800 text-xs">{{ $transporter->status_name }}</span>
             
                             </x-table.cell>
 
                             <x-table.cell>
                                 <div class="flex justify-center items-center">
-                                    <x-button.link class="flex items-center mr-3" >
-                                        <x-icon.edit class="w-4" />Modifier
-                                    </x-button.link>
+                                    <x-button class="flex items-center mr-3 "   wire:click="edit({{ $transporter->id }})" >
+                                            <x-icon.edit class="w-4" />Modifier
+                                    </x-button>
 
                                 </div>
                             </x-table.cell>
                         </x-table.row>
                     @empty
                         <x-table.row>
-                            <x-table.cell colspan="5">
+                            <x-table.cell colspan="8">
                                 <div class="flex justify-center items-center space-x-2">
                                     <x-icon.inbox class="h-5 w-5 text-cool-gray-400" />
-                                    <span class="font-medium py-8 text-cool-gray-400 text-md">Aucun package défini!
+                                    <span class="font-medium py-8 text-cool-gray-400 text-md">Aucun transpoteur défini!
                                     </span>
                                 </div>
                             </x-table.cell>
@@ -87,44 +104,76 @@
 
     <!-- Save  Modal -->
     <form wire:submit.prevent="save">
-        <x-modal.dialog wire:model.defer="showEditModal">
-            <x-slot name="title">Editer un package</x-slot>
+        <x-modal.dialog wire:model.defer="showEditModal" cssWidth="sm:w-8/12">
+            <x-slot name="title">Editer un transporteur</x-slot>
 
             <x-slot name="content">
-                <x-input.group for="name" label="Nom du package" :error="$errors->first('editing.name')">
-                    <x-input.text wire:model.defer="editing.name" id="name" placeholder="Nom" />
-                </x-input.group>
+                <div class="sm:grid sm:grid-cols-2 sm:gap-x-12 ">
+                
+                    <x-input.group for="lastname" label="Nom" :error="$errors->first('editing.lastname')">
+                        <x-input.text wire:model.defer="editing.lastname" id="lastname" placeholder="Nom" />
+                    </x-input.group>
 
-                <x-input.group for="description" label="Description du package"
-                    :error="$errors->first('editing.description')">
-                    <x-input.textarea wire:model.defer="editing.description" id="description"
-                        placeholder="Description" />
-                </x-input.group>
+                    <x-input.group for="firstname" label="Prénoms" :error="$errors->first('editing.firstname')">
+                        <x-input.text wire:model.defer="editing.firstname" id="firstname" placeholder="Prénoms" />
+                    </x-input.group>
+                    <x-input.group for="phone" label="Numéro de téléphone" :error="$errors->first('editing.phone')">
+                        <x-input.text wire:model.defer="editing.phone" id="phone" placeholder="Numéro de téléphone" />
+                    </x-input.group>
+                    <x-input.group for="description" label="Description"
+                        :error="$errors->first('editing.description')">
+                        <x-input.textarea wire:model.defer="editing.description" id="description"
+                            placeholder="Description" />
+                    </x-input.group>
+                    
+                </div>
+                <div class="font-extrabold tracking-tight leading-none sm:border-t sm:py-5">
+                    Info sur le véhicule
+                </div>
+                <div class="sm:grid sm:grid-cols-2 sm:gap-x-12 ">
+                
+                    
 
-                <x-input.group label="Image" for="photo" :error="$errors->first('editing.image')">
-                    <x-input.file-upload wire:model="editing.image" id="photo">
-                        {{-- <span class="h-12 w-12 rounded-full overflow-hidden bg-gray-100">
-                        @if ($editing['image'])
-                            <img src="{{ $upload->temporaryUrl() }}" alt="Profile Photo">
-                        @else
-                            <img src="{{ auth()->user()->avatarUrl() }}" alt="Profile Photo">
-                        @endif
-                    </span> --}}
-                    </x-input.file-upload>
-                </x-input.group>
+                    <x-input.group for="tva_number" label="Numéro TVA" :error="$errors->first('editing.tva_number')">
+                        <x-input.text wire:model.defer="editing.tva_number" id="tva_number" placeholder="Numéro TVA" />
+                    </x-input.group>
 
-                <x-input.group for="is_active" label="Statut" :error="$errors->first('editing.is_active')">
-                    <x-input.checkbox wire:model.defer="editing.is_active" id="is_active" />
-                    <label class="text-sm ml-2 text-gray-700" for="is_active">Activer</label>
-                </x-input.group>
+                    <x-input.group for="siren_number" label="Numéro sirène" :error="$errors->first('editing.siren_number')">
+                        <x-input.text wire:model.defer="editing.siren_number" id="siren_number" placeholder="Numéro sirène" />
+                    </x-input.group>
 
+                    <x-input.group for="siret_number" label="Numéro SIRET" :error="$errors->first('editing.siret_number')">
+                        <x-input.text wire:model.defer="editing.siret_number" id="siret_number" placeholder="Numéro SIRET" />
+                    </x-input.group>
 
+                </div>
+                <div class="font-extrabold tracking-tight leading-none sm:border-t sm:py-5">
+                    Documents
+                </div>
+                <div class="sm:grid sm:grid-cols-2 sm:gap-x-12 ">
+                   
+
+                    <x-input.group label="Permis de conduire" for="photo" :error="$errors->first('editing.image')">
+                        <x-input.file-upload wire:model="editing.image" id="photo">
+                            {{-- <span class="h-12 w-12 rounded-full overflow-hidden bg-gray-100">
+                            @if ($editing['image'])
+                                <img src="{{ $upload->temporaryUrl() }}" alt="Profile Photo">
+                            @else
+                                <img src="{{ auth()->user()->avatarUrl() }}" alt="Profile Photo">
+                            @endif
+                        </span> --}}
+                        </x-input.file-upload>
+                    </x-input.group>
+                </div>
+               
+               
+                
             </x-slot>
 
             <x-slot name="footer">
                 <x-button.secondary wire:click="$set('showEditModal', false)">Annuler</x-button.primary>
 
-                    <x-button.primary type="submit">Enregistrer</x-button.primary>
+                <x-button.primary type="submit">Enregistrer</x-button.primary>
             </x-slot>
         </x-modal.dialog>
     </form>

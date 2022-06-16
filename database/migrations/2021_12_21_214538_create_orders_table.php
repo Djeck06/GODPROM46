@@ -13,34 +13,37 @@ class CreateOrdersTable extends Migration
      */
     public function up()
     {
-        Schema::create('orders', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('client_id')
-                ->constrained()
-                ->cascadeOnUpdate();
+        if ( ! Schema::hasTable('orders') ) {
 
-            $table->string('reference')->unique();
+            Schema::create('orders', function (Blueprint $table) {
+                $table->id();
+                $table->foreignId('client_id')
+                    ->constrained()
+                    ->cascadeOnUpdate();
 
-            // $table->boolean('pickup_at_office')->default(false);
-            $table->string('pickup_country')->nullable();
-            $table->string('pickup_city')->nullable();
-            $table->string('pickup_address')->nullable();
+                $table->string('reference')->unique();
 
-            $table->string('delivery_country')->nullable();
-            $table->string('delivery_city')->nullable();
-            $table->string('delivery_address')->nullable();
-            $table->string('delivery_phone')->nullable();
+                // $table->boolean('pickup_at_office')->default(false);
+                $table->string('pickup_country')->nullable();
+                $table->string('pickup_city')->nullable();
+                $table->string('pickup_address')->nullable();
 
-            $table->text('notes')->nullable();
-            $table->string('status')->default('pending'); //pending | paying | paid | processing | completed | cancelled | refunded | closed | failed | expired |
+                $table->string('delivery_country')->nullable();
+                $table->string('delivery_city')->nullable();
+                $table->string('delivery_address')->nullable();
+                $table->string('delivery_phone')->nullable();
 
-            $table->integer('price')->default(0);
-            $table->integer('insurance')->default(0);
-            $table->integer('total')->default(0);
+                $table->text('notes')->nullable();
+                $table->string('status')->default('pending'); //pending | paying | paid | processing | completed | cancelled | refunded | closed | failed | expired |
 
-            $table->timestamps();
-            $table->softDeletes();
-        });
+                $table->integer('price')->default(0);
+                $table->integer('insurance')->default(0);
+                $table->integer('total')->default(0);
+
+                $table->timestamps();
+                $table->softDeletes();
+            });
+        }
     }
 
     /**

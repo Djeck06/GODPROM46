@@ -9,3 +9,15 @@ All notable changes are documented in this file using the [Keep a CHANGELOG](htt
 - updated app\Http\Livewire\Admin\Params\AppointmentParams.php 
 - mise à jour des menues
 - mise à jour des pages liées aux menues 
+
+## [] - 2022-16-06
+### updated
+- update_transporters_table
+- update_clents_table
+- update_users_table
+- create_document_types_table
+- update_media_table
+- mise à jour des menues
+- insertion et modification des transpoteurs et clients
+- custom de certain composants laravel tels que : x-input.group et x-modal
+

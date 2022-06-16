@@ -13,26 +13,29 @@ class CreatePricesTable extends Migration
      */
     public function up()
     {
-        Schema::create('prices', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('package_id')
-            ->constrained()
-                ->cascadeOnUpdate();
+        if ( ! Schema::hasTable('prices') ) {
 
-            $table->foreignId('pickup_country_id')
-            ->constrained('countries')
-                ->cascadeOnUpdate();
+            Schema::create('prices', function (Blueprint $table) {
+                $table->id();
+                $table->foreignId('package_id')
+                ->constrained()
+                    ->cascadeOnUpdate();
 
-            $table->foreignId('delivery_country_id')
-            ->constrained('countries')
-                ->cascadeOnUpdate();
+                $table->foreignId('pickup_country_id')
+                ->constrained('countries')
+                    ->cascadeOnUpdate();
 
-            $table->integer('price')->default(0);
-            $table->text('notes')->nullable();
+                $table->foreignId('delivery_country_id')
+                ->constrained('countries')
+                    ->cascadeOnUpdate();
 
-            $table->timestamps();
-            $table->softDeletes();
-        });
+                $table->integer('price')->default(0);
+                $table->text('notes')->nullable();
+
+                $table->timestamps();
+                $table->softDeletes();
+            });
+        }
     }
 
     /**

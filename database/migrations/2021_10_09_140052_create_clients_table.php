@@ -13,16 +13,19 @@ class CreateClientsTable extends Migration
      */
     public function up()
     {
-        Schema::create('clients', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')
-                ->constrained()
-                ->cascadeOnUpdate();
-            $table->string('phone')->nullable();
-            $table->timestamps();
+        if ( ! Schema::hasTable('clients') ) {
 
-            $table->softDeletes();
-        });
+            Schema::create('clients', function (Blueprint $table) {
+                $table->id();
+                $table->foreignId('user_id')
+                    ->constrained()
+                    ->cascadeOnUpdate();
+                $table->string('phone')->nullable();
+                $table->timestamps();
+
+                $table->softDeletes();
+            });
+        }
     }
 
     /**

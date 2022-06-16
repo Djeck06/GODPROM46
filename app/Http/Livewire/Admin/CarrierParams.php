@@ -24,10 +24,15 @@ class CarrierParams extends Component
     public function rules()
     {
         return [
-            // 'editing.name' => 'required',
-            // 'editing.description' => 'nullable',
-            // 'editing.image' => 'nullable',
-            // 'editing.is_active' => 'boolean',
+            'editing.firstname' => 'required',
+            'editing.lastname' => 'required',
+            'editing.phone' => 'required',
+            'editing.description' => 'nullable',
+            'editing.tva_number' => 'nullable',
+            'editing.siren_number' => 'nullable',
+            'editing.siret_number' => 'nullable',
+            'editing.naf_code' => 'nullable',
+            'editing.registration_number' => 'nullable'
         ];
     }
 
@@ -38,7 +43,7 @@ class CarrierParams extends Component
 
     public function makeBlankPackage()
     {
-        // return Transporter::make(['is_active' => true]);
+        return Transporter::make();
     }
 
     public function create()

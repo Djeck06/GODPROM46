@@ -13,17 +13,20 @@ class CreateTransportersTable extends Migration
      */
     public function up()
     {
-        Schema::create('transporters', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')
-                ->constrained()
-                ->cascadeOnUpdate();
-            $table->string('phone')->nullable();
-            $table->text('description')->nullable();
-            $table->timestamps();
+        if ( ! Schema::hasTable('transporters') ) {
 
-            $table->softDeletes();
-        });
+            Schema::create('transporters', function (Blueprint $table) {
+                $table->id();
+                $table->foreignId('user_id')
+                    ->constrained()
+                    ->cascadeOnUpdate();
+                $table->string('phone')->nullable();
+                $table->text('description')->nullable();
+                $table->timestamps();
+
+                $table->softDeletes();
+            });
+        }
     }
 
     /**

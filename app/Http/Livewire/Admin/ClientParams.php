@@ -5,7 +5,7 @@ namespace App\Http\Livewire\Admin;
 use App\Http\Livewire\DataTable\WithCachedRows;
 use App\Http\Livewire\DataTable\WithPerPagePagination;
 use App\Http\Livewire\DataTable\WithSorting;
-use App\Models\User;
+use App\Models\Client;
 use Livewire\Component;
 
 class ClientParams extends Component
@@ -19,15 +19,16 @@ class ClientParams extends Component
 
     protected $queryString = ['sorts'];
 
-    public User $user;
+    public Client $client;
 
     public function rules()
     {
         return [
-            // 'editing.name' => 'required',
+            'editing.first_name' => 'required',
+            'editing.last_name' => 'required',
+            'editing.phone' => 'required',
             // 'editing.description' => 'nullable',
-            // 'editing.image' => 'nullable',
-            // 'editing.is_active' => 'boolean',
+            'editing.status' => 'nullable|boolean',
         ];
     }
 
@@ -38,7 +39,7 @@ class ClientParams extends Component
 
     public function makeBlankPackage()
     {
-        // return User::make(['is_active' => true]);
+        return Client::make();
     }
 
     public function create()
@@ -50,20 +51,20 @@ class ClientParams extends Component
         $this->showEditModal = true;
     }
 
-    public function edit(User $user)
+    public function edit(Client $client)
     {
         $this->useCachedRows();
 
-        if ($this->editing->isNot($user)) $this->editing = $user;
+        if ($this->editing->isNot($client)) $this->editing = $client;
 
         $this->showEditModal = true;
     }
 
     public function getRowsQueryProperty()
     {
-        $query = User::query() ;
+        $query = Client::query() ;
             // ->when($this->filters['search'], fn ($query, $search) => $query->where('name', 'like', '%' . $search . '%'));
-
+        
         return $this->applySorting($query);
     }
 
@@ -77,8 +78,8 @@ class ClientParams extends Component
     public function save()
     {
         $this->validate();
-        // dd($this->editing);
-
+        $this->editing->status =  ($this->editing->status == true)? 1 : 0 ; 
+  
         $this->editing->save();
 
         $this->showEditModal = false;

@@ -32,22 +32,52 @@
     </svg>
     Commandes
 </x-common.nav-link>
-<x-common.nav-link :href="route('admin.docks')" :active="request()->routeIs('admin.docks')">
-    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M5,10.5 C5,6 8,3 12.5,3 C17,3 20,6.75 20,10.5 C20,12.8325623 17.8236613,16.03566 13.470984,20.1092932 C12.9154018,20.6292577 12.0585054,20.6508331 11.4774555,20.1594925 C7.15915182,16.5078313 5,13.2880005 5,10.5 Z M12.5,12 C13.8807119,12 15,10.8807119 15,9.5 C15,8.11928813 13.8807119,7 12.5,7 C11.1192881,7 10,8.11928813 10,9.5 C10,10.8807119 11.1192881,12 12.5,12 Z" />
-    </svg>
-    Quai
-</x-common.nav-link>
-<x-common.nav-link :href="route('admin.commandassigns')" :active="request()->routeIs('admin.commandassigns')">
+
+
+
+
+<x-common.nav-dropdown :active="request()->routeIs('admin.quai.*')">
+    <x-slot name="title">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M5,10.5 C5,6 8,3 12.5,3 C17,3 20,6.75 20,10.5 C20,12.8325623 17.8236613,16.03566 13.470984,20.1092932 C12.9154018,20.6292577 12.0585054,20.6508331 11.4774555,20.1594925 C7.15915182,16.5078313 5,13.2880005 5,10.5 Z M12.5,12 C13.8807119,12 15,10.8807119 15,9.5 C15,8.11928813 13.8807119,7 12.5,7 C11.1192881,7 10,8.11928813 10,9.5 C10,10.8807119 11.1192881,12 12.5,12 Z" />
+        </svg>
+        Quai
+    </x-slot>
+
+    <x-common.nav-link  :href="route('admin.commandassigns')" :active="request()->routeIs('admin.commandassigns')">
     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
         d="M4,9.67471899 L10.880262,13.6470401 C10.9543486,13.689814 11.0320333,13.7207107 11.1111111,13.740321 L11.1111111,21.4444444 L4.49070127,17.526473 C4.18655139,17.3464765 4,17.0193034 4,16.6658832 L4,9.67471899 Z M20,9.56911707 L20,16.6658832 C20,17.0193034 19.8134486,17.3464765 19.5092987,17.526473 L12.8888889,21.4444444 L12.8888889,13.6728275 C12.9050191,13.6647696 12.9210067,13.6561758 12.9368301,13.6470401 L20,9.56911707 Z" />
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
         d="M4.21611835,7.74669402 C4.30015839,7.64056877 4.40623188,7.55087574 4.5299008,7.48500698 L11.5299008,3.75665466 C11.8237589,3.60013944 12.1762411,3.60013944 12.4700992,3.75665466 L19.4700992,7.48500698 C19.5654307,7.53578262 19.6503066,7.60071528 19.7226939,7.67641889 L12.0479413,12.1074394 C11.9974761,12.1365754 11.9509488,12.1699127 11.9085461,12.2067543 C11.8661433,12.1699127 11.819616,12.1365754 11.7691509,12.1074394 L4.21611835,7.74669402 Z" />
     </svg>
-    Assignation
-</x-common.nav-link>
+    assignation
+    </x-common.nav-link>
+
+    <x-common.nav-link :href="route('admin.docks')" :active="request()->routeIs('admin.docks')">
+        
+    reception
+    </x-common.nav-link>
+
+    <x-common.nav-link :href="route('admin.docks')" :active="request()->routeIs('admin.docks')">
+        
+    attente
+    </x-common.nav-link>
+
+    <x-common.nav-link :href="route('admin.docks')" :active="request()->routeIs('admin.docks')">
+        
+    reconditionnement.
+    </x-common.nav-link>
+    
+
+
+
+
+</x-common.nav-dropdown>
+
+
+
 <x-common.nav-link :href="route('admin.params.appointments')" :active="request()->routeIs('admin.params.appointments')">
     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
