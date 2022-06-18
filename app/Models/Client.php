@@ -10,7 +10,11 @@ class Client extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = [];
+    protected $fillable = [
+        'first_name',
+        'last_name',
+        'user_id',
+    ];
 
     const STAT_1 = "en attente de validation";
     const STAT_2 = "actif";

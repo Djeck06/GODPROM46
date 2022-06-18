@@ -23,4 +23,15 @@ class Country extends Model
         'is_pickup_country' => 'boolean',
         'is_delivery_country' => 'boolean',
     ];
+
+    public function pickup_country_prices()
+    {
+        return $this->hasMany(Price::class,'pickup_country_id');
+    }
+
+    public function delivery_country_prices()
+    {
+        return $this->hasMany(Price::class,'delivery_country_id');
+    }
+
 }

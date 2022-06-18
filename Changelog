@@ -21,3 +21,10 @@ All notable changes are documented in this file using the [Keep a CHANGELOG](htt
 - insertion et modification des transpoteurs et clients
 - custom de certain composants laravel tels que : x-input.group et x-modal
 
+## [] - 2022-18-06
+### updated
+- order_creation partie client
+    - pays de reception et pays d'émission revue
+- inscription et vérification de mail (using queue)
+- migrations de payements
+

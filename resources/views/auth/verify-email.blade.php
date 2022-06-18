@@ -30,7 +30,9 @@
                                 @csrf
 
                                 <div>
-                                    <x-button>
+                                   
+
+                                    <x-button type="submit">
                                         {{ __('Resend Verification Email') }}
                                     </x-button>
                                 </div>

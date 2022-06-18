@@ -44,19 +44,28 @@ class RegisteredUserController extends Controller
 
         DB::transaction(function() use ($request) {
             $user = User::create([
-                'first_name' => $request->first_name,
-                'last_name' => $request->last_name,
+                // 'first_name' => $request->first_name,
+                // 'last_name' => $request->last_name,
                 'type' => $request->type,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
             ]);
+
+           
     
             if ($request->type == 'client') {
-                $user->client()->create();
+                $user->client()->create([
+                    'first_name'=> $request->first_name,
+                    'last_name'=> $request->last_name,
+                ]);
+
             }
     
             if ($request->type == 'transporter') {
-                $user->transporter()->create();
+                $user->transporter()->create([
+                    'firstname' => $request->first_name,
+                    'lastname'=> $request->last_name,
+                ]);
             }
             event(new Registered($user));
 

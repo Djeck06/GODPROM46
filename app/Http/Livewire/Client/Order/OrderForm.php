@@ -21,7 +21,7 @@ class OrderForm extends Component
     public $showSummary = false;
     public $loading = false;
 
-    private $insurance_price = 5;
+    private $insurance_price = 0;
 
     protected $rules = [
         'order.pickup_country' => 'required',
@@ -34,12 +34,12 @@ class OrderForm extends Component
         'order.delivery_phone' => 'required',
 
         'items.0.type' => 'required|numeric',
-        'items.0.name' => 'required',
+        // 'items.0.name' => 'required',
         'items.0.quantity' => 'required|numeric',
         'items.0.has_insurance' => 'nullable',
 
         'items.*.type' => 'required|numeric',
-        'items.*.name' => 'required',
+        // 'items.*.name' => 'required',
         'items.*.quantity' => 'required|numeric',
         'items.*.has_insurance' => 'nullable',
 
@@ -61,7 +61,7 @@ class OrderForm extends Component
     {
         return [
             'type' => 1,
-            'name' => '',
+            // 'name' => '',
             'quantity' => 1,
             'has_insurance' => null,
         ];
@@ -69,12 +69,12 @@ class OrderForm extends Component
 
     public function getPickupCountriesProperty()
     {
-        return Country::where('is_pickup_country', true)->get();
+        return Country::where('is_pickup_country', true)->has('pickup_country_prices')->get();
     }
 
     public function getDeliveryCountriesProperty()
     {
-        return Country::where('is_delivery_country', true)->get();
+        return Country::where('is_delivery_country', true)->has('delivery_country_prices')->get();
     }
 
     public function getPackagesProperty()
@@ -110,7 +110,7 @@ class OrderForm extends Component
                 'package_name' => $package->name,
                 'pickup_country_name' => Country::find($this->order->pickup_country)->name,
                 'delivery_country_name' => Country::find($this->order->delivery_country)->name,
-                'label' => $item['name'],
+                //'label' => $item['name'],
                 'image' => $package->image ? asset($package->image) : asset('images/package/default.jpeg'),
                 'price' => $price->price,
                 'insurance_price' => $insurance,
@@ -154,10 +154,10 @@ class OrderForm extends Component
         foreach ($this->prices as $item) {
             $order->items()->save(new OrderItem([
                 'package_id' => $item['package_id'],
-                'name' => $item['label'],
+                //'name' => $item['label'],
                 'quantity' => $item['quantity'],
                 'price' => $item['price'],
-                'has_insurance' => $item['insurance_price'] > 0
+                //'has_insurance' => $item['insurance_price'] > 0
             ]));
         }
 

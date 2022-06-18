@@ -2,7 +2,7 @@
     <div class="flex space-x-2">
         <div class="w-full" {{ $attributes->class(['w-10/12' => $key > 0]) }}>
             <div class="grid grid-cols-6 gap-6">
-                <div class="col-span-12">
+                <div class="col-span-6 sm:col-span-3">
                     <x-input.label>{{ __('Package type') }}</x-input.label>
                     <select autocomplete="package-type"
                         class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
@@ -24,13 +24,15 @@
                     @endforeach --}}
 
                 </div>
+                {{-- 
                 <div class="col-span-6 sm:col-span-8">
                     <x-input.label>{{ __('Object Name') }}</x-input.label>
                     <x-input.text placeholder="{{ __('e.g. Carton') }}"
                         wire:model.defer="items.{{ $key }}.name" />
                      
                 </div>
-                <div class="col-span-6 sm:col-span-4">
+                --}}
+                <div class="col-span-6 sm:col-span-3">
                     <x-input.label>{{ __('Quantity') }}</x-input.label>
                     <x-input.text type="number" wire:model.defer="items.{{ $key }}.quantity" />
                     
