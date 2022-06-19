@@ -24,6 +24,9 @@ class CreateOrderPaymentsTable extends Migration
                 ->cascadeOnUpdate();
 
             $table->string('account_number');
+            $table->integer('amount_paid')->default(0);
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -15,6 +15,7 @@ class CreateClientPaymentPlatformsTable extends Migration
     {
         Schema::create('client_payment_platforms', function (Blueprint $table) {
             $table->id();
+            $table->string('reference')->unique();
             $table->foreignId('client_id')
                     ->constrained()
                     ->cascadeOnUpdate();
@@ -27,6 +28,8 @@ class CreateClientPaymentPlatformsTable extends Migration
             
 
             $table->timestamps();
+            $table->softDeletes();
+
         });
     }
 
