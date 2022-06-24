@@ -13,7 +13,30 @@
                 <div class="md:grid md:grid-cols-5 md:gap-6">
                     <div class="mt-5 md:mt-0 md:col-span-4">
                         @include('client.order.inc.menu', ['order' => $order])
-
+                        <div class="md:col-span-1">
+                            <div class="p-4 bg-gray-100 rounded">
+                                <h3 class="text-lg font-bold leading-6 text-gray-900">
+                                    {{ __('Order summary') }}
+                                </h3>
+                                <ul>
+                                    <li class="py-3 w-full flex items-center justify-between text-sm">
+                                        <span>{{ __('Subtotal') }}</span>
+                                        <span class="font-bold text-gray-900">{{ $order->price   }}€</span>
+                                    </li>
+                                    <li class="py-3 w-full flex items-center justify-between text-sm">
+                                        <span>{{ __('Insurance Fees') }}</span>
+                                        <span class="font-bold text-gray-900">{{ $order->insurance }}€</span>
+                                    </li>
+                                    <li
+                                        class="py-3 w-full flex items-center justify-between text-md border-t border-gray-20">
+                                        <span class="font-semibold text-gray-800">{{ __('Total') }}</span>
+                                        <span class="font-bold text-gray-900">{{ $order->total }}€</span>
+                                    </li>
+                                </ul>
+                              
+                                
+                            </div>
+                        </div>
                         <div class="mt-5 md:col-span-2">
                             <div class="mt-2 space-y-12 lg:space-y-0 lg:grid lg:grid-cols-2 lg:gap-x-6">
                                 <div class="border-2 border-blue-400 p-4 rounded">
@@ -53,7 +76,7 @@
                                                     <h3>
                                                         <a href="#"> {{ $item->package->name }} </a>
                                                     </h3>
-                                                    <p class="ml-4">{{ $item->price }}€</p>
+                                                    <p class="ml-4">{{ $item->quantity *  $item->price }}€</p>
                                                 </div>
                                                 {{--<p class="mt-1 text-sm text-gray-500">{{ $item->package->name }}</p> --}}
                                             </div>
@@ -81,11 +104,16 @@
                                     <p>{{ $order->notes }}</p>
                                 </div>
                             @endif
+
+                            
                         </div>
                     </div>
+                    
 
                     <div class="md:col-span-1">
+                        
                         @include('client.order.inc.sidebar', ['order' => $order])
+                        
                     </div>
                 </div>
             </div>
