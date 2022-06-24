@@ -5,13 +5,14 @@ namespace App\Http\Livewire\Admin;
 use App\Http\Livewire\DataTable\WithCachedRows;
 use App\Http\Livewire\DataTable\WithPerPagePagination;
 use App\Http\Livewire\DataTable\WithSorting;
-use App\Models\Package;
+use App\Models\Order;
 use Livewire\Component;
 
 class CommandParams extends Component
 {
     use WithSorting, WithPerPagePagination, WithCachedRows;
     public $showEditModal = false;
+    public $settings;
 
     public $filters = [
         'search' => '',
@@ -19,7 +20,7 @@ class CommandParams extends Component
 
     protected $queryString = ['sorts'];
 
-    public Package $package;
+    public Order $order;
 
     public function rules()
     {
@@ -28,17 +29,25 @@ class CommandParams extends Component
             'editing.description' => 'nullable',
             'editing.image' => 'nullable',
             'editing.is_active' => 'boolean',
+            'appointment_day_start' => 'required|date_format:Y-m-d',
+            'appointment_day_end' => 'required|date_format:Y-m-d',
         ];
     }
 
     public function mount()
     {
         $this->editing = $this->makeBlankPackage();
+
+        $this->settings = [
+
+            'appointment_day_starts' => [],
+            'appointment_day_ends' => []
+        ];
     }
 
     public function makeBlankPackage()
     {
-        return Package::make(['is_active' => true]);
+        return Order::make(['is_active' => true]);
     }
 
     public function create()
@@ -50,19 +59,19 @@ class CommandParams extends Component
         $this->showEditModal = true;
     }
 
-    public function edit(Package $package)
+    public function edit(Order $order)
     {
         $this->useCachedRows();
 
-        if ($this->editing->isNot($package)) $this->editing = $package;
+        if ($this->editing->isNot($order)) $this->editing = $order;
 
         $this->showEditModal = true;
     }
 
     public function getRowsQueryProperty()
     {
-        $query = Package::query()
-            ->when($this->filters['search'], fn ($query, $search) => $query->where('name', 'like', '%' . $search . '%'));
+        $query = Order::query()
+            ->when($this->filters['search'], fn ($query, $search) => $query->where('reference', 'like', '%' . $search . '%'));
 
         return $this->applySorting($query);
     }
@@ -77,7 +86,7 @@ class CommandParams extends Component
     public function save()
     {
         $this->validate();
-        // dd($this->editing);
+        
 
         $this->editing->save();
 
@@ -88,7 +97,7 @@ class CommandParams extends Component
     {
       
         return view('livewire.admin.commands', [
-            'packages' => $this->rows,
+            'commands' => $this->rows,
         ]);
     }
 }

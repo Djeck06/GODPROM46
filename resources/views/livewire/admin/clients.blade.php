@@ -27,7 +27,7 @@
                         <x-input.checkbox />
                     </x-table.heading>
                     <x-table.heading sortable multi-column wire:click="sortBy('name')"
-                        :direction="$sorts['name'] ?? null">Designation</x-table.heading>
+                        :direction="$sorts['name'] ?? null">Nom et Prenoms</x-table.heading>
                     <x-table.heading>Email</x-table.heading> 
                     <x-table.heading>Statut</x-table.heading>
                     <x-table.heading />
@@ -43,13 +43,13 @@
 
                             <x-table.cell>
                                 <span class="inline-flex space-x-2 truncate text-sm leading-5">
-                                    {{ $client->first_name}} {{ $client->last_name}}
+                                    {{ $client->last_name}} {{ $client->first_name}}
                                 </span>
                             </x-table.cell>
 
                             
                             <x-table.cell>
-                                <span class="">{{ !is_null($client->user) ? $client->user->email : ''}}</span>
+                                <span class="">{{ $client->email}}</span>
                             </x-table.cell>
 
                             <x-table.cell>
@@ -107,8 +107,8 @@
                 <x-input.group for="first_name" label="Prénoms" :error="$errors->first('editing.first_name')">
                     <x-input.text wire:model.defer="editing.first_name" id="first_name" placeholder="Prénom" />
                 </x-input.group>
-                <x-input.group for="phone" label="Numéro de téléphone" :error="$errors->first('editing.phone')">
-                    <x-input.text wire:model.defer="editing.phone" id="phone" placeholder="Numéro de téléphone" />
+                <x-input.group for="email" label="Adresse Email" :error="$errors->first('editing.email')">
+                    <x-input.text wire:model.defer="editing.email" id="email" placeholder="Adresse Email" />
                 </x-input.group>
 
                 <x-input.group for="description" label="Description du client"

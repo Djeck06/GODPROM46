@@ -26,7 +26,7 @@ class ClientParams extends Component
         return [
             'editing.first_name' => 'required',
             'editing.last_name' => 'required',
-            'editing.phone' => 'required',
+            'editing.email' => 'required',
             // 'editing.description' => 'nullable',
             'editing.status' => 'nullable|boolean',
         ];
@@ -63,7 +63,7 @@ class ClientParams extends Component
     public function getRowsQueryProperty()
     {
         $query = Client::query() ;
-            // ->when($this->filters['search'], fn ($query, $search) => $query->where('name', 'like', '%' . $search . '%'));
+        //->when($this->filters['search'], fn ($query, $search) => $query->where('name', 'like', '%' . $search . '%'));
         
         return $this->applySorting($query);
     }

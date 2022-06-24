@@ -19,5 +19,5 @@ class Transporter extends Model
         'registration_number',
         'naf_code',
         'status',
-    ]
+    ];
 }

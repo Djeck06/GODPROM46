@@ -1,6 +1,9 @@
 <div class="p-6 sm:p-8">
     <div class="py-4 space-y-4">
         <div class="flex justify-between">
+            @php 
+                $dateOptions = ['enableTime' => false, 'dateFormat' => 'Y-m-d', 'maxDate' => 'today'];
+            @endphp
             <div class="w-1/4 flex space-x-4">
                 <x-input.text wire:model="filters.search" placeholder="Rechercher un package..." />
             </div>
@@ -14,6 +17,9 @@
                     </x-input.select>
                 </x-input.group>
 
+                <x-input.time :options="$dateOptions" wire:model.defer="appointment_day" placeholder="Heure de début des enlèvements" />
+                <x-input.time :options="$dateOptions" wire:model.defer="appointment_day" placeholder="Heure de début des enlèvements" />
+
                 <x-button.primary wire:click="create">
                     <x-icon.plus /> Nouveau
                 </x-button.primary>
@@ -26,47 +32,67 @@
                     <x-table.heading>
                         <x-input.checkbox />
                     </x-table.heading>
+                    <x-table.heading>Date et Heure</x-table.heading>
                     <x-table.heading sortable multi-column wire:click="sortBy('name')"
                         :direction="$sorts['name'] ?? null">Réference</x-table.heading>
                     <x-table.heading sortable multi-column wire:click="sortBy('name')"
                         :direction="$sorts['name'] ?? null">Client</x-table.heading>
-                    <x-table.heading>Ville de livraison</x-table.heading>
-                    <x-table.heading>Numéro de téléphone de livraison</x-table.heading>
-                    <x-table.heading>Total</x-table.heading>
+                    <x-table.heading>Ville d'enlèvement</x-table.heading>
+                    <x-table.heading>Adresse d'Enlevement</x-table.heading>
+                    <x-table.heading>Pays de Livraison</x-table.heading>
+                    <x-table.heading>Ville de Livraison</x-table.heading>
                     <x-table.heading>Statut</x-table.heading>
+                    <x-table.heading>Niveau</x-table.heading>
+                    <x-table.heading>Payement</x-table.heading>
                     <x-table.heading />
                 </x-slot>
 
                 <x-slot name="body">
-                    @forelse ($packages as $package)
-                        <x-table.row wire:loading.class.delay="opacity-50" wire:key="row-{{ $package->id }}">
+                    @forelse ($commands as $order)
+                        <x-table.row wire:loading.class.delay="opacity-50" wire:key="row-{{ $order->id }}">
                             <x-table.cell class="pr-0">
-                                <x-input.checkbox value="{{ $package->id }}" />
+                                <x-input.checkbox value="{{ $order->id }}" />
                             </x-table.cell>
 
                             <x-table.cell>
-                                <span class="">{{ $package->id }}</span>
+                                <span class="">{{ $order->created_at }}</span>
+                            </x-table.cell>
+
+                            <x-table.cell>
+                                <span class="">{{ $order->reference }}</span>
                             </x-table.cell>
 
                             <x-table.cell>
                                 <span class="inline-flex space-x-2 truncate text-sm leading-5">
-                                    {{ $package->name }}
+                                    {{ $order->name }}
                                 </span>
                             </x-table.cell>
 
                             <x-table.cell>
-                                <span class=""></span>
+                                <span class="">{{ $order->pickup_city }}</span>
                             </x-table.cell>
                             <x-table.cell>
-                                <span class=""></span>
-                            </x-table.cell>
-
-                            <x-table.cell>
-                                <span class="">1000 £</span>
+                                <span class="">{{ $order->pickup_address }}</span>
                             </x-table.cell>
 
                             <x-table.cell>
-                                @if ($package->is_active)
+                                <span class="">{{ $order->name }}</span>
+                            </x-table.cell>
+
+                            <x-table.cell>
+                                <span class="">{{ $order->delivery_city }}</span>
+                            </x-table.cell>
+
+                            <x-table.cell>
+                                <span class="">{{ $order->name }}</span>
+                            </x-table.cell>
+
+                            <x-table.cell>
+                                <span class="">{{ $order->name }}</span>
+                            </x-table.cell>
+
+                            <x-table.cell>
+                                @if ($order->is_active)
                                     <span
                                         class="bg-green-100 font-semibold inline-flex px-2 py-1 rounded-2xl text-green-800 text-xs">Actif</span>
                                 @else
@@ -79,6 +105,10 @@
                                 <div class="flex justify-center items-center">
                                     <x-button class="flex items-center mr-3 " >
                                         Détail
+                                    </x-button>
+
+                                    <x-button.primary class="flex items-center mr-3 " >
+                                        Etiquette
                                     </x-button>
 
                                 </div>
@@ -100,7 +130,7 @@
             </x-table>
 
             <div>
-                {{ $packages->links() }}
+                {{ $commands->links() }}
             </div>
         </div>
     </div>

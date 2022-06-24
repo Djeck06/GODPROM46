@@ -31,6 +31,9 @@
                     <x-table.heading>Téléphone</x-table.heading>
                     <x-table.heading>Immatriculation véhicule</x-table.heading>
                     <x-table.heading>Code NAF</x-table.heading>
+                    <x-table.heading>Numéro TVA</x-table.heading>
+                    <x-table.heading>Numéro Siren</x-table.heading>
+                    <x-table.heading>Numéro Siret</x-table.heading>
                     <x-table.heading>Statut</x-table.heading>
                     <x-table.heading />
                 </x-slot>
@@ -63,6 +66,22 @@
                                     {{ $transporter->naf_code }}
                                 </span>
                             </x-table.cell>
+                            <x-table.cell>
+                                <span class="inline-flex space-x-2 truncate text-sm leading-5">
+                                    {{ $transporter->tva_number }}
+                                </span>
+                            </x-table.cell>
+                            <x-table.cell>
+                                <span class="inline-flex space-x-2 truncate text-sm leading-5">
+                                    {{ $transporter->siren_number }}
+                                </span>
+                            </x-table.cell>
+                            <x-table.cell>
+                                <span class="inline-flex space-x-2 truncate text-sm leading-5">
+                                    {{ $transporter->siret_number }}
+                                </span>
+                            </x-table.cell>
+                            
 
                            
 
@@ -74,6 +93,9 @@
 
                             <x-table.cell>
                                 <div class="flex justify-center items-center">
+                                <x-button class="flex items-center mr-3 " >
+                                        Détail
+                                    </x-button>
                                     <x-button class="flex items-center mr-3 "   wire:click="edit({{ $transporter->id }})" >
                                             <x-icon.edit class="w-4" />Modifier
                                     </x-button>
@@ -146,14 +168,125 @@
                         <x-input.text wire:model.defer="editing.siret_number" id="siret_number" placeholder="Numéro SIRET" />
                     </x-input.group>
 
+                    <x-input.group for="naf_code" label="Code NAF" :error="$errors->first('editing.naf_code')">
+                        <x-input.text wire:model.defer="editing.naf_code" id="naf_code" placeholder="Code NAF" />
+                    </x-input.group>
+
                 </div>
                 <div class="font-extrabold tracking-tight leading-none sm:border-t sm:py-5">
                     Documents
                 </div>
                 <div class="sm:grid sm:grid-cols-2 sm:gap-x-12 ">
                    
+                    <x-input.group label="KABIS" for="photo" :error="$errors->first('editing.image')">
+                        <x-input.file-upload wire:model="editing.image" id="photo">
+                            {{-- <span class="h-12 w-12 rounded-full overflow-hidden bg-gray-100">
+                            @if ($editing['image'])
+                                <img src="{{ $upload->temporaryUrl() }}" alt="Profile Photo">
+                            @else
+                                <img src="{{ auth()->user()->avatarUrl() }}" alt="Profile Photo">
+                            @endif
+                        </span> --}}
+                        </x-input.file-upload>
+                    </x-input.group>
 
-                    <x-input.group label="Permis de conduire" for="photo" :error="$errors->first('editing.image')">
+                    <x-input.group label="URSAF" for="photo" :error="$errors->first('editing.image')">
+                        <x-input.file-upload wire:model="editing.image" id="photo">
+                            {{-- <span class="h-12 w-12 rounded-full overflow-hidden bg-gray-100">
+                            @if ($editing['image'])
+                                <img src="{{ $upload->temporaryUrl() }}" alt="Profile Photo">
+                            @else
+                                <img src="{{ auth()->user()->avatarUrl() }}" alt="Profile Photo">
+                            @endif
+                        </span> --}}
+                        </x-input.file-upload>
+                    </x-input.group>
+
+                    <x-input.group label="Licence d'Exploitation" for="photo" :error="$errors->first('editing.image')">
+                        <x-input.file-upload wire:model="editing.image" id="photo">
+                            {{-- <span class="h-12 w-12 rounded-full overflow-hidden bg-gray-100">
+                            @if ($editing['image'])
+                                <img src="{{ $upload->temporaryUrl() }}" alt="Profile Photo">
+                            @else
+                                <img src="{{ auth()->user()->avatarUrl() }}" alt="Profile Photo">
+                            @endif
+                        </span> --}}
+                        </x-input.file-upload>
+                    </x-input.group>
+
+                    <x-input.group label="Permis de Conduire" for="photo" :error="$errors->first('editing.image')">
+                        <x-input.file-upload wire:model="editing.image" id="photo">
+                            {{-- <span class="h-12 w-12 rounded-full overflow-hidden bg-gray-100">
+                            @if ($editing['image'])
+                                <img src="{{ $upload->temporaryUrl() }}" alt="Profile Photo">
+                            @else
+                                <img src="{{ auth()->user()->avatarUrl() }}" alt="Profile Photo">
+                            @endif
+                        </span> --}}
+                        </x-input.file-upload>
+                    </x-input.group> 
+
+                    <x-input.group label="Assurance marchandise" for="photo" :error="$errors->first('editing.image')">
+                        <x-input.file-upload wire:model="editing.image" id="photo">
+                            {{-- <span class="h-12 w-12 rounded-full overflow-hidden bg-gray-100">
+                            @if ($editing['image'])
+                                <img src="{{ $upload->temporaryUrl() }}" alt="Profile Photo">
+                            @else
+                                <img src="{{ auth()->user()->avatarUrl() }}" alt="Profile Photo">
+                            @endif
+                        </span> --}}
+                        </x-input.file-upload>
+                    </x-input.group>
+
+                    <x-input.group label="Assurance Flotte" for="photo" :error="$errors->first('editing.image')">
+                        <x-input.file-upload wire:model="editing.image" id="photo">
+                            {{-- <span class="h-12 w-12 rounded-full overflow-hidden bg-gray-100">
+                            @if ($editing['image'])
+                                <img src="{{ $upload->temporaryUrl() }}" alt="Profile Photo">
+                            @else
+                                <img src="{{ auth()->user()->avatarUrl() }}" alt="Profile Photo">
+                            @endif
+                        </span> --}}
+                        </x-input.file-upload>
+                    </x-input.group>
+
+                    <x-input.group label="Assurance Véhicule" for="photo" :error="$errors->first('editing.image')">
+                        <x-input.file-upload wire:model="editing.image" id="photo">
+                            {{-- <span class="h-12 w-12 rounded-full overflow-hidden bg-gray-100">
+                            @if ($editing['image'])
+                                <img src="{{ $upload->temporaryUrl() }}" alt="Profile Photo">
+                            @else
+                                <img src="{{ auth()->user()->avatarUrl() }}" alt="Profile Photo">
+                            @endif
+                        </span> --}}
+                        </x-input.file-upload>
+                    </x-input.group>
+
+                    <x-input.group label="Carte grise" for="photo" :error="$errors->first('editing.image')">
+                        <x-input.file-upload wire:model="editing.image" id="photo">
+                            {{-- <span class="h-12 w-12 rounded-full overflow-hidden bg-gray-100">
+                            @if ($editing['image'])
+                                <img src="{{ $upload->temporaryUrl() }}" alt="Profile Photo">
+                            @else
+                                <img src="{{ auth()->user()->avatarUrl() }}" alt="Profile Photo">
+                            @endif
+                        </span> --}}
+                        </x-input.file-upload>
+                    </x-input.group>
+
+                    <x-input.group label="Attestation LCTD" for="photo" :error="$errors->first('editing.image')">
+                        <x-input.file-upload wire:model="editing.image" id="photo">
+                            {{-- <span class="h-12 w-12 rounded-full overflow-hidden bg-gray-100">
+                            @if ($editing['image'])
+                                <img src="{{ $upload->temporaryUrl() }}" alt="Profile Photo">
+                            @else
+                                <img src="{{ auth()->user()->avatarUrl() }}" alt="Profile Photo">
+                            @endif
+                        </span> --}}
+                        </x-input.file-upload>
+                    </x-input.group>
+
+                    <x-input.group label="Attestation d'impôts" for="photo" :error="$errors->first('editing.image')">
                         <x-input.file-upload wire:model="editing.image" id="photo">
                             {{-- <span class="h-12 w-12 rounded-full overflow-hidden bg-gray-100">
                             @if ($editing['image'])
