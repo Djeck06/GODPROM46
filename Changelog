@@ -28,3 +28,7 @@ All notable changes are documented in this file using the [Keep a CHANGELOG](htt
 - inscription et vérification de mail (using queue)
 - migrations de payements
 
+## [] - 2022-25-06
+### updated
+- using stripe
+

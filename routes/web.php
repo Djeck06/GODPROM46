@@ -5,6 +5,7 @@ use App\Http\Controllers\Client\DashboardController;
 use App\Http\Controllers\Client\OrderController;
 use App\Http\Controllers\Client\ProfileController;
 use App\Http\Controllers\Client\QuotationController;
+use App\Http\Controllers\Client\StripeController ;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -33,6 +34,10 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}']], f
 Route::group(['middleware' => 'verified'], function () {
     Route::resource('quotation', QuotationController::class);
 
+    Route::get('/payment', [StripeController::class, 'charge'])->name('goToPayment');
+    Route::post('/payment/process-payment', [StripeController::class, 'processPayment'])->name('processPayment');
+
+
     Route::group(['prefix' => 'account', 'as' => 'profile.'], function () {
         Route::get('/', [ProfileController::class, 'index'])->name('index');
         Route::get('/orders', [ProfileController::class, 'orders'])->name('orders');
@@ -44,6 +49,7 @@ Route::group(['middleware' => 'verified'], function () {
         Route::get('/', [OrderController::class, 'index'])->name('index');
         Route::get('/{order:reference}/show', [OrderController::class, 'show'])->name('show');
         Route::get('/{order:reference}/history', [OrderController::class, 'track'])->name('history');
+        Route::get('/{order:reference}/pay', [StripeController::class, 'charge'])->name('goToPayment');
     });
 });
 
