@@ -22,19 +22,19 @@ class StripeController extends Controller
         ]);
     }
 
-    public function processPayment(Request $request, String $product, $price)
+    public function processPayment(Request $request)
     {
-        dd($request->input('payment_method')) ;
+        
         $client = Auth::user()->client;
         $paymentMethod = $request->input('payment_method');
         $client->createOrGetStripeCustomer();
         $client->addPaymentMethod($paymentMethod);
         try{
-            $client->charge($price*100, $paymentMethod);
+            $client->charge($request->input('price')*100, $paymentMethod);
         }catch (\Exception $e){
             return back()->withErrors(['message' => 'Error creating subscription. ' . $e->getMessage()]);
         }
-        return redirect('home');
+        return redirect()->route('profile.orders');
     }
 
 

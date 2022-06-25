@@ -34,8 +34,6 @@
                                     </li>
                                 </ul>
                               
-                                <a href="{{route('goToPayment', ['search list', 25])}}"><button>In Recommended Search List for $25</button></a> &nbsp;
-<a href="{{route('goToPayment', ['update information', 10])}}"><button>Update Information for $10</button></a>
                             </div>
                         </div>
                         <div class="mt-5 md:col-span-2">
