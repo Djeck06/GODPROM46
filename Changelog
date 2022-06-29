@@ -34,7 +34,7 @@ All notable changes are documented in this file using the [Keep a CHANGELOG](htt
 
 ## [] - 2022-29-06
 ### updated
-- updated admin part
+- updated admin part step 2
     - create and update order
     - get order details
     - work on page filtering
