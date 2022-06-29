@@ -38,10 +38,10 @@ class CarrierParams extends Component
 
     public function mount()
     {
-        $this->editing = $this->makeBlankPackage();
+        $this->editing = $this->makeBlankCarrier();
     }
 
-    public function makeBlankPackage()
+    public function makeBlankCarrier()
     {
         return Transporter::make();
     }
@@ -50,7 +50,7 @@ class CarrierParams extends Component
     {
         $this->useCachedRows();
 
-        if ($this->editing->getKey()) $this->editing = $this->makeBlankPackage();
+        if ($this->editing->getKey()) $this->editing = $this->makeBlankCarrier();
 
         $this->showEditModal = true;
     }
@@ -66,8 +66,9 @@ class CarrierParams extends Component
 
     public function getRowsQueryProperty()
     {
-        $query = Transporter::query() ;
-            // ->when($this->filters['search'], fn ($query, $search) => $query->where('name', 'like', '%' . $search . '%'));
+        $query = Transporter::query()
+            ->when($this->filters['search'], fn ($query, $search) => $query->where('firstname', 'like', '%' . $search . '%')->orWhere('lastname', 'like', '%' . $search . '%')
+            ->orWhere('phone', 'like', '%' . $search . '%'));
 
         return $this->applySorting($query);
     }

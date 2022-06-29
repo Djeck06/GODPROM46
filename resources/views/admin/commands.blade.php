@@ -7,12 +7,18 @@
                         <div class="text-4xl font-extrabold tracking-tight leading-none">
                             {{ $title }}!
                         </div>
+
+                        
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <livewire:admin.command-params />
+    @if(isset($etat))
+    <livewire:admin.command-params :etat="$etat" :secondtitle="$secondtitle"  />
+    @else
+    <livewire:admin.command-params  />
+    @endif
 
 </x-admin-layout>

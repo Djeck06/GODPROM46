@@ -7,6 +7,12 @@ Document
 ========
 */
 
+/*
+Use of svg style
+*/
+@import "svg.css" ;
+@import "timeline.css" ;
+
 /**
 Use a better box model (opinionated).
 */

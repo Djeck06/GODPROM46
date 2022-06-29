@@ -49,7 +49,7 @@ Route::group(['middleware' => 'verified'], function () {
         Route::get('/', [OrderController::class, 'index'])->name('index');
         Route::get('/{order:reference}/show', [OrderController::class, 'show'])->name('show');
         Route::get('/{order:reference}/history', [OrderController::class, 'track'])->name('history');
-        Route::get('/{order:reference}/pay', [StripeController::class, 'charge'])->name('goToPayment');
+        Route::get('/{order:reference}/payment-confirmation', [StripeController::class, 'charge'])->name('goToPayment');
     });
 });
 

@@ -70,6 +70,7 @@ class PriceParams extends Component
 
     public function edit(Price $price)
     {
+        dd($price) ;
         $this->useCachedRows();
 
         if ($this->editing->isNot($price)) $this->editing = $price;

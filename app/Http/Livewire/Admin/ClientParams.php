@@ -62,8 +62,12 @@ class ClientParams extends Component
 
     public function getRowsQueryProperty()
     {
-        $query = Client::query() ;
-        //->when($this->filters['search'], fn ($query, $search) => $query->where('name', 'like', '%' . $search . '%'));
+        $query = Client::query()->leftJoin('users', function($join) {
+            $join->on('users.id', '=', 'clients.user_id');
+          })
+        ->when($this->filters['search'], fn ($query, $search) => $query->where('first_name', 'like', '%' . $search . '%')
+        ->orWhere('last_name', 'like', '%' . $search . '%')
+        ->orWhere('users.email', 'like', '%' . $search . '%'));
         
         return $this->applySorting($query);
     }

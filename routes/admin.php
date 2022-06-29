@@ -33,10 +33,13 @@ Route::middleware('auth:admin')->group(function () {
   Route::get('/dashboard', [DashboardController::class, 'index'])->name('home');
   Route::get('/boxes', [DashboardController::class, 'boxes'])->name('boxes');
   Route::get('/carriers', [DashboardController::class, 'carriers'])->name('carriers');
-  Route::get('/carriers', [DashboardController::class, 'carriers'])->name('carriers');
   Route::get('/customers', [DashboardController::class, 'customers'])->name('customers');
+  Route::get('/users', [DashboardController::class, 'users'])->name('users');
 
-  Route::get('/commands', [DashboardController::class, 'commands'])->name('commands');
+  Route::group(['prefix' => 'order', 'as' => 'orders.'], function () {
+    Route::get('/{status?}', [DashboardController::class, 'commands'])->name('index');
+    Route::get('/{order:reference}/show', [OrderController::class, 'show'])->name('show');
+});
   Route::get('/docks', [DashboardController::class, 'docks'])->name('docks');
   Route::get('/command-assigns', [DashboardController::class, 'commandassigns'])->name('commandassigns');
   Route::get('/fencing', [DashboardController::class, 'fencing'])->name('fencing');

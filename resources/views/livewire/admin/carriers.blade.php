@@ -105,7 +105,7 @@
                         </x-table.row>
                     @empty
                         <x-table.row>
-                            <x-table.cell colspan="8">
+                            <x-table.cell colspan="11">
                                 <div class="flex justify-center items-center space-x-2">
                                     <x-icon.inbox class="h-5 w-5 text-cool-gray-400" />
                                     <span class="font-medium py-8 text-cool-gray-400 text-md">Aucun transpoteur défini!

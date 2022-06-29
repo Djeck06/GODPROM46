@@ -12,6 +12,10 @@ class Order extends Model
     use HasFactory, SoftDeletes;
 
     protected $guarded = [];
+    protected $fillable =[
+        
+        'reference',
+    ];
 
     public function client()
     {

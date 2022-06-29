@@ -12,11 +12,22 @@ class DashboardController extends Controller
         return view('admin.dashboard');
     }
 
-    public function commands()
+    public function commands ($status = null)
     {
-        return view('admin.commands', [
-            'title' => __('Gestions des commandes'),
-        ]);
+        $title = __('Gestions des commandes') ;
+        if(is_null($status)){
+            return view('admin.commands', [
+                'title' =>$title,
+            ]) ;
+        }else{
+            if($status == 'pending'){ $secondtitle = __('Commandes en attente de payement') ;}
+
+            return view('admin.commands', [
+                'title' => $title,
+                'secondtitle' => $secondtitle ,
+                'etat' => $status,
+            ]);
+        }
     }
 
     public function commandassigns()
