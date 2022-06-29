@@ -2,7 +2,7 @@
     <div class="py-4 space-y-4">
         <div class="flex justify-between">
             <div class="w-1/4 flex space-x-4">
-                <x-input.text wire:model="filters.search" placeholder="Rechercher un package..." />
+                <x-input.text wire:model="filters.search" placeholder="Rechercher un transporteur..." />
             </div>
 
             <div class="space-x-2 flex items-center">

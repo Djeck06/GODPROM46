@@ -2,7 +2,7 @@
     <div class="py-4 space-y-4">
         <div class="flex justify-between">
             <div class="w-1/4 flex space-x-4">
-                <x-input.text wire:model="filters.search" placeholder="Rechercher un package..." />
+                <x-input.text wire:model="filters.search" placeholder="Rechercher une commande..." />
             </div>
 
             <div class="space-x-2 flex items-center">
@@ -93,14 +93,32 @@
 
                             <x-table.cell>
                                 <div class="flex justify-center items-center">
-                                    <x-button class="flex items-center mr-3 bg-gray-200" wire:click="show({{ $order->id }})" >
-                                        Détail
-                                    </x-button>
+                                    
+
+                                   
+                                    <x-button.dropdown :align="'right'" :btnClasses="'bg-blue-600'" :width="48" class="bg-white" style="right: 6em; top: -1em;"  >
+                                        <x-slot name="trigger">
+                                           ...
+                                        </x-slot>
+
+                                        <x-slot name="content">
+                                            <a href="#" class="block px-4 py-2 hover:bg-blue-400 hover:text-white">Mon Compte</a>
+                                            <a href="#"
+                                                class="block px-4 py-2 hover:bg-blue-400 hover:text-white">Support</a>
+                                            <form method="POST" action="{{ route('admin.logout') }}">
+                                                @csrf
+                                                <a href="#" class="block px-4 py-2 hover:bg-blue-400 hover:text-white"
+                                                    onclick="event.preventDefault(); this.closest('form').submit();">Déconnexion</a>
+                                            </form>
+                                            
+                                        </x-slot>
+                                    </x-button.dropdown>
+
+                    
+                                 
                   
 
-                                    <x-button.primary class="flex items-center mr-3 " >
-                                        Etiquette
-                                    </x-button>
+                                    
                                     <div class="flex justify-center items-center">
                                         <x-button class="flex items-center mr-3" wire:click="edit({{ $order->id }})">
                                             <x-icon.edit class="w-4" />Modifier
@@ -364,7 +382,7 @@
             <x-slot name="footer">
                 <x-button.secondary wire:click="$set('showEditModal', false)">Annuler</x-button.secondary>
 
-                <x-button.primary type="submit">Enregistrer</x-button.primary>
+                <x-button.primary  type="submit">Enregistrer</x-button.primary>
             </x-slot>
         </x-modal.dialog>
     </form>
