@@ -96,21 +96,19 @@
                                     
 
                                    
-                                    <x-button.dropdown :align="'right'" :btnClasses="'bg-blue-600'" :width="48" class="bg-white" style="right: 6em; top: -1em;"  >
+                                    <x-button.dropdown :align="'right'" :btnClasses="'bg-blue-600 mr-3'" :width="40" class="bg-white" style="right: 4em; top: -1em;"  >
                                         <x-slot name="trigger">
                                            ...
+                                         
                                         </x-slot>
 
                                         <x-slot name="content">
-                                            <a href="#" class="block px-4 py-2 hover:bg-blue-400 hover:text-white">Mon Compte</a>
+                                            <a href="#" class="block px-4 py-2 hover:bg-blue-400 hover:text-white" wire:click="show({{ $order->id }})" >
+                                                Détail
+                                            </a>
                                             <a href="#"
-                                                class="block px-4 py-2 hover:bg-blue-400 hover:text-white">Support</a>
-                                            <form method="POST" action="{{ route('admin.logout') }}">
-                                                @csrf
-                                                <a href="#" class="block px-4 py-2 hover:bg-blue-400 hover:text-white"
-                                                    onclick="event.preventDefault(); this.closest('form').submit();">Déconnexion</a>
-                                            </form>
-                                            
+                                                class="block px-4 py-2 hover:bg-blue-400 hover:text-white">Etiquette</a>
+                                          
                                         </x-slot>
                                     </x-button.dropdown>
 
