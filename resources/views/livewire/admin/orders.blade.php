@@ -106,6 +106,9 @@
                                             <a href="#" class="block px-4 py-2 hover:bg-blue-400 hover:text-white" wire:click="show({{ $order->id }})" >
                                                 Détail
                                             </a>
+                                            <a href="#" class="block px-4 py-2 hover:bg-blue-400 hover:text-white" wire:click="assign({{ $order->id }})" >
+                                                Assignation
+                                            </a>
                                             <a href="#"
                                                 class="block px-4 py-2 hover:bg-blue-400 hover:text-white">Etiquette</a>
                                           

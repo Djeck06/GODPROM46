@@ -134,6 +134,28 @@ class CommandParams extends Component
         $this->showDetailModal = true;
     }
 
+    public function assign(Order $order)
+    {
+        $this->useCachedRows();
+        
+
+        if ($this->editing->isNot($order)) $this->editing = $order;
+
+        $this->items = [$this->makeBlankItem()];
+        unset($this->items[0]);
+        $this->items = array_values($this->items) ;
+        $this->editing->items->map(
+            function ($item, $key) {
+                $this->addItem(['type' => $item->package_id,
+                'quantity' => $item->quantity,
+                'has_insurance' => $item->has_insurance]) ;
+            }
+        )->toArray() ;
+        
+       
+        $this->showDetailModal = true;
+    }
+
     public function getRowsQueryProperty()
     {
         $query = Order::query() ;

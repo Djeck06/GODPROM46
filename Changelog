@@ -40,3 +40,10 @@ All notable changes are documented in this file using the [Keep a CHANGELOG](htt
     - work on page filtering
     - added pending orders
 
+## [] - 2022-02-07
+### added
+
+- create_order_processeds_table
+- create_appointments_table
+- create_transporter_tasks
+

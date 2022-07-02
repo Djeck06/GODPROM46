@@ -11,6 +11,7 @@
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
         <!-- Styles -->
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
@@ -18,7 +19,9 @@
         @stack('css')
 
         <!-- Scripts -->
-        <script src="{{ asset('js/app.js') }}" defer></script>
+        {{--<script src="{{ asset('js/app.js') }}" defer></script> --}}
+    <script src="{{ asset('js/admin.js') }}" defer></script>
+
     </head>
     <body class="font-sans antialiased flex flex-col min-h-screen">
         @include('partials.app.header')
