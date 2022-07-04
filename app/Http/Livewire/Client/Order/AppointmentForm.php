@@ -9,52 +9,64 @@ class AppointmentForm extends Component
 {
     public $order;
     public $showModal = false;
-    public $appointment_date ;
     public $settings;
+    public $order_appointment = Null ;
 
     public function rules()
     {
-        // return [
-        //     'appointment_date' => 'required',
-        // ];
-
         return [
             'settings.appointment_start' => 'required|date_format:H:i',
             'settings.appointment_end' => 'required|date_format:H:i',
-            'appointment_day' => 'required|date_format:Y-m-d',
+            'settings.appointment_day' => 'required|date_format:Y-m-d',
+
         ] ;
     }
 
-    public function makeBlankOrder()
+    public function makeBlankAppointment()
     {
-        return Order::make();
+        return [
+            'appointment_start' => '09:00',
+            'appointment_end' => '18:00',
+            'appointment_day' => Null
+        ];
     }
     
       
 
     public function mount()
     {
-        $this->settings = [
-            'appointment_start' => '09:00',
-            'appointment_end' => '18:00',
-            'appointment_days' => []
-        ];
-       // $this->appointment_date = $this->order->info->appointment_date ? $this->order->info->appointment_date->format('Y-m-d H:i') : null;
+        $this->settings = $this->makeBlankAppointment() ;
+        $this->order_appointment = $this->order->appointments->firstWhere('status','active') ;
+       
     }
 
     public function save()
     {
-        $this->order->info->update([
-            'appointment_date' => $this->appointment_date,
-        ]);
-        $this->showModal = false;
+       
+        $this->validate();
 
-        
-            
+        $this->order->appointments->map(function ($item) {
+            $item->status = 'canceled' ;
+            $item->save() ;
+        }) ;
+
+       
+        \App\Models\OrderAppointment::create([
+            'order_id' => $this->order->id,
+            'appointment_date' => $this->settings['appointment_day'],
+            'appointment_start' => $this->settings['appointment_start'],
+            'appointment_end' => $this->settings['appointment_end'],
+        ]);
+
+        $this->order->status = 'readytopickup' ;
+        $this->order->save() ;
+
+        $this->showModal = false;      
     }
 
     public function render()
     {
+        
         return view('livewire.client.order.appointment-form');
     }
 

@@ -106,9 +106,11 @@
                                             <a href="#" class="block px-4 py-2 hover:bg-blue-400 hover:text-white" wire:click="show({{ $order->id }})" >
                                                 Détail
                                             </a>
-                                            <a href="#" class="block px-4 py-2 hover:bg-blue-400 hover:text-white" wire:click="assign({{ $order->id }})" >
+                                            @if (in_array( $order->status , ['readytopickup']))
+                                            <a href="javascript:void(0)" class="block px-4 py-2 hover:bg-blue-400 hover:text-white" wire:click="assign({{ $order->id }})" >
                                                 Assignation
                                             </a>
+                                            @endif
                                             <a href="#"
                                                 class="block px-4 py-2 hover:bg-blue-400 hover:text-white">Etiquette</a>
                                           
@@ -512,4 +514,7 @@
             <x-button.secondary wire:click="$set('showDetailModal', false)">Fermer</x-button.secondary>
         </x-slot>
     </x-modal.dialog>
+
+    <livewire:admin.commands.assignmodal :order="$order" />
+
 </div>

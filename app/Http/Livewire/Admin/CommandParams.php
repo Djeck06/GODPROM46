@@ -16,8 +16,10 @@ class CommandParams extends Component
     use WithSorting, WithPerPagePagination, WithCachedRows;
     public $showEditModal = false;
     public $showDetailModal  = false;
+    public $showAssignModal = false;
 
     public Order $order;
+    public Transporter $transporter;
     public $etat;
     public $secondtitle ;
 
@@ -28,7 +30,6 @@ class CommandParams extends Component
 
     protected $queryString = ['sorts'];
 
-    public Transporter $transporter;
 
     public function rules()
     {
@@ -137,29 +138,16 @@ class CommandParams extends Component
     public function assign(Order $order)
     {
         $this->useCachedRows();
-        
 
-        if ($this->editing->isNot($order)) $this->editing = $order;
-
-        $this->items = [$this->makeBlankItem()];
-        unset($this->items[0]);
-        $this->items = array_values($this->items) ;
-        $this->editing->items->map(
-            function ($item, $key) {
-                $this->addItem(['type' => $item->package_id,
-                'quantity' => $item->quantity,
-                'has_insurance' => $item->has_insurance]) ;
-            }
-        )->toArray() ;
-        
-       
-        $this->showDetailModal = true;
+        $this->emit('assign', $order);
     }
 
     public function getRowsQueryProperty()
     {
         $query = Order::query() ;
-        if(!is_null($this->etat)){ $query = $query->where('status', $this->etat) ;}else{ $query = $query->where('status', 'paid') ;}
+        if(!is_null($this->etat)){ $query = $query->where('status', $this->etat) ;}else{ $query = $query->where(function ($q){
+            $q->where('status', 'paid')->orWhere('status', 'readytopickup');
+        }) ;}
         $query = $query->when($this->filters['search'], fn ($query, $search) => $query->where('reference', 'like', '%' . $search . '%'));
 
 

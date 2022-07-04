@@ -47,9 +47,9 @@ class Order extends Model
         return $this->hasMany(OrderEvent::class);
     }
 
-    public function info()
+    public function appointments()
     {
-        return $this->hasOne(OrderInfo::class);
+        return $this->hasMany(OrderAppointment::class);
     }
 
     private static function generateReference()

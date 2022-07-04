@@ -1,6 +1,6 @@
 <div>
-    @if ($order->status == 'paid')
-        @if ($order->info->appointment_date)
+    @if (in_array( $order->status , ['paid','readytopickup']))
+        @if (!is_null( $order_appointment))
             <span class="text-sm text-gray-500"></span>
             <span class="hidden sm:block">
                 <button type="button" wire:click="$toggle('showModal')" 
@@ -12,7 +12,7 @@
                             d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
                             clip-rule="evenodd" />
                     </svg>
-                    {{ __('Appointment Date: ') . $order->info->appointment_date->format('Y-m-d H:i') }}
+                    {{__('Appointment Date: ') . $order_appointment->appointment_date->format('Y-m-d') .' ' . $order_appointment->appointment_start .' to ' . $order_appointment->appointment_end }}
                 </button>
             </span>
         @else
@@ -50,6 +50,10 @@
                         <div class="col-span-6 sm:col-span-3">
                             <x-input.label>Heure de début des enlèvements</x-input.label>
                             <x-input.time wire:model.defer="settings.appointment_start" :options="$timeOptions" placeholder="Heure de début des enlèvements" />
+                            @error('settings.appointment_start')
+                                <div class="mt-1 text-red-500 text-sm">
+                                    {{ $message }}</div>
+                            @enderror
                         </div>
 
                         <div class="col-span-6 sm:col-span-3">
@@ -70,7 +74,11 @@
                         <div class="col-span-6 sm:col-span-2">
                             <x-input.label>Date</x-input.label>
                             
-                            <x-input.time :options="$dateOptions" wire:model.defer="appointment_day" placeholder="Date d'enlèvements" />
+                            <x-input.time :options="$dateOptions" wire:model.defer="settings.appointment_day" placeholder="Date d'enlèvements" />
+                            @error('settings.appointment_day')
+                                <div class="mt-1 text-red-500 text-sm">
+                                    {{ $message }}</div>
+                            @enderror
                             {{--
                             <x-input.text 
                             x-init="flatpickr($refs.datetimewidget, {wrap: true, enableTime: false, dateFormat: 'Y-m-d H:i'});"
@@ -78,7 +86,6 @@
                             wire:model.defer="settings.appointmentStart" placeholder="Date d'enlèvements" /> 
                             --}}
 
-                            <button type="button" class="py-2 px-4 mt-3 border border-gray-500 shadow-sm text-sm font-medium rounded-md text-gray-600 bg-white hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">Ajouter</button>
                         </div>
 
                         <div class="col-span-6 sm:col-span-4">
