@@ -24,14 +24,38 @@
 </x-common.nav-link>
 
 
-<span class="block py-2 pl-6 bg-blue-100 text-xs font-light text-gray-800 my-3">Commandes</span>
-<x-common.nav-link :href="route('admin.orders.index')" :active="request()->routeIs('admin.commands')">
-    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-        d="M4 6h16M4 10h16M4 14h16M4 18h16" />
-    </svg>
-    Commandes
-</x-common.nav-link>
+
+
+<x-common.nav-dropdown :active="request()->routeIs('admin.commands.*')">
+    <x-slot name="title">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+        </svg>
+        Commandes
+    </x-slot>
+
+    <x-common.nav-link  :href="route('admin.orders.index')" :active="request()->routeIs('admin.commands')">
+   
+    Tout
+    </x-common.nav-link>
+
+    <x-common.nav-link  :href="route('admin.orders.index',['status'=> 'readytopickup'])" :active="request()->routeIs('admin.commands.readytopickup')" >
+        
+    Pret pour l'enlevement
+    </x-common.nav-link>
+
+
+    <x-common.nav-link :href="route('admin.orders.index',['status'=> 'pending'])" :active="request()->routeIs('admin.commands.pending')">
+        
+    pending
+    </x-common.nav-link>
+    
+
+
+
+
+</x-common.nav-dropdown>
 
 
 
@@ -65,12 +89,7 @@
     recondition
     </x-common.nav-link>
 
-    <x-common.nav-link :href="route('admin.orders.index',['status'=> 'pending'])" :active="request()->routeIs('admin.docks')">
-        
-    pending
-    </x-common.nav-link>
-    
-
+ 
 
 
 

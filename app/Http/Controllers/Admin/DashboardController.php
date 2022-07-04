@@ -21,6 +21,7 @@ class DashboardController extends Controller
             ]) ;
         }else{
             if($status == 'pending'){ $secondtitle = __('Commandes en attente de payement') ;}
+            if($status == 'readytopickup'){ $secondtitle = __("Commandes pretes pour l'enlèvement") ;}
 
             return view('admin.commands', [
                 'title' => $title,

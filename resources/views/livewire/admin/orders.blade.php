@@ -1,5 +1,18 @@
 <div class="p-6 sm:p-8">
+
+    
     <div class="py-4 space-y-4">
+        @if(isset($etat))
+        <div class="flex justify-between">
+            <div class=" flex space-x-6">
+                <div class="text-2xl font-extrabold tracking-tight leading-none">
+                    {{$secondtitle}}
+                </div>
+            </div>
+
+           
+        </div>
+        @endif
         <div class="flex justify-between">
             <div class="w-1/4 flex space-x-4">
                 <x-input.text wire:model="filters.search" placeholder="Rechercher une commande..." />
