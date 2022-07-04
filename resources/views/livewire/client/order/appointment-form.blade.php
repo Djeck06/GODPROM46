@@ -88,13 +88,7 @@
 
                         </div>
 
-                        <div class="col-span-6 sm:col-span-4">
-                            
-                            <x-input.label>Jours d'enlèvements</x-input.label>
-
-                            
-                            
-                        </div>
+                        
                     </div>
 
                     <div class="hidden sm:block" aria-hidden="true">
