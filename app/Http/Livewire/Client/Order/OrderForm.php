@@ -135,12 +135,11 @@ class OrderForm extends Component
     {
         // dd($this->order);
         $client = auth()->user()->client;
-
         $order = $client->orders()->create([
-            'pickup_country' => $this->order->pickup_country,
+            'pickup_country' => intVal($this->order->pickup_country),
             'pickup_city' => $this->order->pickup_city,
             'pickup_address' => $this->order->pickup_address,
-            'delivery_country' => $this->order->delivery_country,
+            'delivery_country' => intVal($this->order->delivery_country),
             'delivery_city' => $this->order->delivery_city,
             'delivery_address' => $this->order->delivery_address,
             'delivery_phone' => $this->order->delivery_phone,
@@ -150,6 +149,8 @@ class OrderForm extends Component
             'insurance' => $this->summary['insurance'],
             'total' => $this->summary['total'],
         ]);
+
+       
 
         foreach ($this->prices as $item) {
             $order->items()->save(new OrderItem([
@@ -173,7 +174,7 @@ class OrderForm extends Component
         }
 
         //Dispatch OrderWasCreated event
-        OrderWasCreated::dispatch($order);
+        //OrderWasCreated::dispatch($order);
 
         return redirect()->route('orders.show', $order->reference)->with('success', 'Commande créé avec succès');
     }

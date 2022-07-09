@@ -54,7 +54,7 @@
         
         
 
-        @if ($order->status == 'pending')
+        @if (strtolower($order->status) == 'pending')
             
             <span class="sm:ml-3">
                

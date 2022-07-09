@@ -12,11 +12,7 @@ class Order extends Model
     use HasFactory, SoftDeletes;
 
     protected $guarded = [];
-    protected $fillable =[
-        
-        'reference',
-    ];
-
+ 
     public function client()
     {
         return $this->belongsTo(Client::class);
@@ -25,6 +21,11 @@ class Order extends Model
     public function items()
     {
         return $this->hasMany(OrderItem::class);
+    }
+
+    public function payment()
+    {
+        return $this->hasOne(OrderPayment::class);
     }
 
     public function pickupCountry()

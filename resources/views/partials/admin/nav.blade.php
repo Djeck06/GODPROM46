@@ -26,7 +26,7 @@
 
 
 
-<x-common.nav-dropdown :active="request()->routeIs('admin.commands.*')">
+<x-common.nav-dropdown :active="request()->routeIs('admin.orders.*')">
     <x-slot name="title">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -35,18 +35,18 @@
         Commandes
     </x-slot>
 
-    <x-common.nav-link  :href="route('admin.orders.index')" :active="request()->routeIs('admin.commands')">
+    <x-common.nav-link  :href="route('admin.orders.index')" :active="request()->routeIs('admin.orders.index')">
    
     Tout
     </x-common.nav-link>
 
-    <x-common.nav-link  :href="route('admin.orders.index',['status'=> 'readytopickup'])" :active="request()->routeIs('admin.commands.readytopickup')" >
+    <x-common.nav-link  :href="route('admin.orders.status',['status'=> 'readytopickup'])" :active="request()->routeIs('admin.orders.status')" >
         
     Pret pour l'enlevement
     </x-common.nav-link>
 
 
-    <x-common.nav-link :href="route('admin.orders.index',['status'=> 'pending'])" :active="request()->routeIs('admin.commands.pending')">
+    <x-common.nav-link :href="route('admin.orders.status',['status'=> 'pending'])" :active="request()->routeIs('admin.orders.status')">
         
     pending
     </x-common.nav-link>

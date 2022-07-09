@@ -37,7 +37,8 @@ Route::middleware('auth:admin')->group(function () {
   Route::get('/users', [DashboardController::class, 'users'])->name('users');
 
   Route::group(['prefix' => 'order', 'as' => 'orders.'], function () {
-    Route::get('/{status?}', [DashboardController::class, 'commands'])->name('index');
+    Route::get('/', [DashboardController::class, 'commands'])->name('index');
+    Route::get('/{status}', [DashboardController::class, 'commands'])->name('status');
     Route::get('/{order:reference}/show', [OrderController::class, 'show'])->name('show');
 });
   Route::get('/docks', [DashboardController::class, 'docks'])->name('docks');

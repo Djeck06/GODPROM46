@@ -38,34 +38,36 @@
                         <x-table.row wire:loading.class.delay="opacity-50" wire:key="row-{{ $order->id }}">
 
                             <x-table.cell>
-                                <a href="{{ route('orders.show', $order->reference) }}" class="inline-flex space-x-2 truncate text-sm leading-5">
-                                    {{ $order->reference }}
+                                <a href="{{ route('orders.show', $order->reference) }}" class="inline-flex space-x-2 truncate font-semibold text-sm leading-5">
+                                    #{{ $order->reference }}
                                 </a>
                             </x-table.cell>
 
                             <x-table.cell>
-                                <span class="">{{ $order->pickupCountry->name }}</span>
+                                <span class="">@if(!is_null( $order->pickupCountry)){{ $order->pickupCountry->name }}@endif</span>
                             </x-table.cell>
 
                             <x-table.cell>
-                                <span class="">{{ $order->deliveryCountry->name }}</span>
+                                <span class="">@if(!is_null( $order->deliveryCountry)){{ $order->deliveryCountry->name }}@endif</span>
                             </x-table.cell>
 
                             <x-table.cell>
-                                <span class="">{{ $order->price }}</span>
+                                <span class="">{{ $order->price }} $</span>
                             </x-table.cell>
 
                             <x-table.cell>
-                                <span class="">{{ $order->status }}</span>
+                                
+                                <span class="bg-green-100 font-semibold inline-flex px-2 py-2  text-xs">{{ $order->status }}</span>
+            
                             </x-table.cell>
 
                             <x-table.cell>
-                                <span class="">{{ $order->created_at->diffForHumans() }}</span>
+                            Il y a <span class="font-semibold ">  {{ explode('il y a',$order->created_at->diffForHumans())[1] }}</span>
                             </x-table.cell>
 
                             <x-table.cell>
                                 <div class="flex justify-center items-center">
-                                    <a href="{{ route('orders.show', $order->reference) }}" class="text-cool-gray-700 text-sm leading-5 font-medium focus:outline-none focus:text-cool-gray-800 focus:underline transition duration-150 ease-in-out">{{ __('Details') }}</a>
+                                    <a href="{{ route('orders.show', $order->reference) }}" class=" border border-blue-500 px-4 py-2 rounded text-blue-500 text-sm font-semibold header-btn ">{{ __('Details') }}</a>
 
                                 </div>
                             </x-table.cell>

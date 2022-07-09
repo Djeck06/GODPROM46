@@ -34,7 +34,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}']], f
 Route::group(['middleware' => 'verified'], function () {
     Route::resource('quotation', QuotationController::class);
 
-    Route::get('/payment', [StripeController::class, 'charge'])->name('goToPayment');
+    //Route::get('/payment', [StripeController::class, 'render'])->name('goToPayment');
     Route::post('/payment/process-payment', [StripeController::class, 'processPayment'])->name('processPayment');
 
 
@@ -49,7 +49,8 @@ Route::group(['middleware' => 'verified'], function () {
         Route::get('/', [OrderController::class, 'index'])->name('index');
         Route::get('/{order:reference}/show', [OrderController::class, 'show'])->name('show');
         Route::get('/{order:reference}/history', [OrderController::class, 'track'])->name('history');
-        Route::get('/{order:reference}/payment-confirmation', [StripeController::class, 'charge'])->name('goToPayment');
+        Route::get('/{order:reference}/payment-confirmation', [StripeController::class, 'render'])->name('goToPayment');
+        
     });
 });
 

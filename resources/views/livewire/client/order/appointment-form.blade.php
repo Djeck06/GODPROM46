@@ -1,5 +1,5 @@
 <div>
-    @if (in_array( $order->status , ['paid','readytopickup']))
+    @if (in_array( strtolower($order->status) , ['paid','readytopickup']))
         @if (!is_null( $order_appointment))
             <span class="text-sm text-gray-500"></span>
             <span class="hidden sm:block">
