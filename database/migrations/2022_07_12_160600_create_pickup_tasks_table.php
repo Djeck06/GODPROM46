@@ -29,6 +29,10 @@ class CreatePickupTasksTable extends Migration
             $table->softDeletes();
 
         });
+
+        Schema::disableForeignKeyConstraints();
+
+        Schema::dropIfExists('transporter_tasks');
     }
 
     /**
