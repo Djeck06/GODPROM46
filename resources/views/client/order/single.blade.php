@@ -42,7 +42,7 @@
                                     <h4 class="font-semibold">{{ __('Pickup Address') }}</h4>
                                     <address class="mt-4">
                                         <p>{{ $order->pickup_address }}</p>
-                                        <p>{{ $order->pickup_city }}, {{ $order->pickupCountry->name }}</p>
+                                        <p>{{ $order->pickup_city }}, @if(!is_null( $order->pickupCountry)) {{ $order->pickupCountry->name }} @endif</p>
                                     </address>
                                 </div>
                                 <div class="border-2 border-blue-400 p-4 rounded">
@@ -50,7 +50,7 @@
                                     <address class="mt-4">
                                         <p>{{ $order->delivery_address }}</p>
                                         <p>{{ __('Tel: ') }} {{ $order->delivery_phone }}</p>
-                                        <p>{{ $order->delivery_city }}, {{ $order->deliveryCountry->name }}</p>
+                                        <p>{{ $order->delivery_city }}, @if(!is_null( $order->deliveryCountry)) {{ $order->deliveryCountry->name }} @endif</p>
                                     </address>
                                 </div>
                             </div>

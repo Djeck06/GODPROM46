@@ -1,5 +1,9 @@
 <div>
+<<<<<<< HEAD
     @if (in_array( $order->status , ['Paid','readytopickup']))
+=======
+    @if ($order->lastStatus && in_array( strtolower($order->lastStatus->label) , ['readytopickup']))
+>>>>>>> df34639f832fa591e42b96746f8de9fdae92e226
         @if (!is_null( $order_appointment))
             <span class="text-sm text-gray-500"></span>
             <span class="hidden sm:block">
@@ -30,6 +34,22 @@
                 </button>
             </span>
         @endif
+
+
+    @endif
+
+    @if ($order->lastStatus && in_array( strtolower($order->lastStatus->label) , ['paid']))
+       
+            <span class="hidden sm:block">
+                <h3 class="text-lg font-bold leading-6 text-gray-900">
+                    <span class="text-sm text-blue-500">
+                    {{__('Your packages are underdelivery ') }} ...
+                    </span>
+
+                </h3>
+                
+            </span>
+   
 
 
     @endif

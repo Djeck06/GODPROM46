@@ -34,7 +34,7 @@ class CreateOrdersTable extends Migration
                 $table->string('delivery_phone')->nullable();
 
                 $table->text('notes')->nullable();
-                $table->string('status')->default('pending'); //pending | paying | readytopickup | pickuped |processing | sent | delivered | cancelled | refunded | closed | failed | expired |
+                //$table->string('status')->default('pending'); //pending | paid | packageissued | readytopickup | pickedup |processing | sent | delivered | cancelled | refunded | closed | failed | expired |
 
                 $table->integer('price')->default(0);
                 $table->integer('insurance')->default(0);

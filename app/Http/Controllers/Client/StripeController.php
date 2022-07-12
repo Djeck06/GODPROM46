@@ -7,59 +7,91 @@ use App\Http\Controllers\Controller;
 use App\Models\Order;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Arr;
+use Laravel\Cashier\Cashier;
+use Laravel\Cashier\Payment;
+
+
 
 
 class StripeController extends Controller
 {
-    public function charge(Order $order){
+    public function render(Order $order){
         $client = Auth::user()->client;
+        $stripeCustomer = $client->createOrGetStripeCustomer();
 
-        $payment =$client->payWith(
-            $order->total * 100, ['card', 'bancontact']
-        );
-        // return $payment->client_secret;
-        $paymentIntent = Arr::only($payment->asStripePaymentIntent()->toArray(), [
-            'id', 'status', 'payment_method_types', 'client_secret', 'payment_method',
-        ]);
 
-        $paymentIntent['payment_method'] = Arr::only($paymentIntent['payment_method'] ?? [], 'id');
+       
+        if(is_null($order->payment)){
+
+            $payment =$client->payWith(
+                $order->total * 100 , []
+            );
+            $paymentIntent = Arr::only($payment->asStripePaymentIntent()->toArray(), [
+                'id', 'status', 'payment_method_types', 'client_secret', 'payment_method',
+            ]);
+
+            $payment = new \App\Models\OrderPayment() ; 
+            $payment->order_id = $order->id ;
+            $payment->stripe_intent_id = $paymentIntent['id'];
+            $payment->save();
+
+        }else{  
+            $payment  =  $order->payment ;
+            if($payment->stripe_intent_id == "" || is_null($payment->stripe_intent_id)){
+                
+                $paymentSt =$client->payWith(
+                    $order->total * 100 , []
+                );
+                $paymentIntent = Arr::only($paymentSt->asStripePaymentIntent()->toArray(), [
+                    'id', 'status', 'payment_method_types', 'client_secret', 'payment_method',
+                ]);
+
+                $payment->stripe_intent_id = $paymentIntent['id'] ;
+                $payment->save();
+            }
+        }
+
+  
 
         return view('payment', [
             'stripeKey' => config('cashier.key'),
-            'amount' => $payment->amount() ,
+            'amount' => $order->total * 100 ,
             'payment' => $payment,
-            'paymentIntent' => array_filter($paymentIntent),
-            'paymentMethod' => (string) request('source_type', optional($payment->payment_method)->type),
+            'order' => $order,
+            // 'paymentMethod' => (string) request('source_type', optional($payment->payment_method)->type),
+            'paymentMethod' => (string) '',
             'errorMessage' => request('redirect_status') === 'failed'
                 ? 'Something went wrong when trying to confirm the payment. Please try again.'
                 : '',
-            'customer' => $payment->customer(),
+            'customer' => $stripeCustomer,
             'redirect' => route('orders.show',[$order]) ,
         ]);
 
-        // return view('client.order.payment', [
-        //     'title' => __('Payment Verification #') . $order->reference,
-        //     'order' => $order,
-        //     'user'=>$client,
-        //     'intent' => $client->createSetupIntent(),
-        //     'stripeKey' => config('cashier.key'),
-
-        // ]);
     }
 
     public function processPayment(Request $request)
     {
+       
+        $payment  = \App\Models\OrderPayment::find($request->input('payment'));
+        $paymentIntent = Cashier::stripe()->paymentIntents->retrieve( $payment->stripe_intent_id, ['expand' => ['payment_method']]);
+        $paymentMethod = $request->input('stripepaymentMethod');
+      
+       
         
-        $client = Auth::user()->client;
-        $paymentMethod = $request->input('payment_method');
-        $client->createOrGetStripeCustomer();
-        $client->addPaymentMethod($paymentMethod);
         try{
-            $client->charge($request->input('price')*100, $paymentMethod);
+            //if($paymentIntent->status === 'succeeded') throw new \Exception('You cannot confirm this Payment because it has already succeeded after being previously confirmed.');
+            Auth::user()->client->updateDefaultPaymentMethod($paymentMethod);
+            $paymentIntent->confirm(['payment_method'=> $paymentMethod]);
+           
         }catch (\Exception $e){
-            return back()->withErrors(['message' => 'Error creating subscription. ' . $e->getMessage()]);
+            return back()->withErrors(['message' =>  $e->getMessage()]);
         }
-        return redirect()->route('profile.orders');
+        // $payment->status = 'succeeded' ;
+        // $payment->save() ;
+
+        $payment->changeStatus('succeeded') ;
+        
+        return back()->with(['success' =>  'bien']);
     }
 
 

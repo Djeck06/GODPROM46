@@ -17,8 +17,10 @@ class CommandParams extends Component
     public $showEditModal = false;
     public $showDetailModal  = false;
     public $showAssignModal = false;
+    public $selectedsdata = [];
 
     public Order $order;
+    public $selectorder ;
     public Transporter $transporter;
     public $etat;
     public $secondtitle ;
@@ -64,8 +66,9 @@ class CommandParams extends Component
 
     public function mount()
     {
-        // $this->editing = $this->makeBlankCarrier();
+        
         $this->editing = $this->makeBlankOrder();
+        $this->selectorder = new Order();
         $this->items = [$this->makeBlankItem()];
 
     }
@@ -93,8 +96,6 @@ class CommandParams extends Component
     public function edit(Order $order)
     {
         $this->useCachedRows();
-        
-
         if ($this->editing->isNot($order)) $this->editing = $order;
 
         $this->items = [$this->makeBlankItem()];
@@ -108,7 +109,6 @@ class CommandParams extends Component
             }
         )->toArray() ;
         
-       
         $this->showEditModal = true;
     }
 
@@ -116,30 +116,38 @@ class CommandParams extends Component
     public function show(Order $order)
     {
         $this->useCachedRows();
-        
-
-        if ($this->editing->isNot($order)) $this->editing = $order;
+        $this->selectorder = $order;
 
         $this->items = [$this->makeBlankItem()];
         unset($this->items[0]);
         $this->items = array_values($this->items) ;
-        $this->editing->items->map(
+        $this->selectorder->items->map(
             function ($item, $key) {
                 $this->addItem(['type' => $item->package_id,
                 'quantity' => $item->quantity,
                 'has_insurance' => $item->has_insurance]) ;
             }
-        )->toArray() ;
-        
-       
+        );
         $this->showDetailModal = true;
     }
 
     public function assign(Order $order)
     {
         $this->useCachedRows();
-
         $this->emit('assign', $order);
+    }
+
+
+    public function tiket(Order $order)
+    {
+        $this->useCachedRows();
+        $this->emit('tiket', $order);
+    }
+
+    public function sendToPackaging()
+    {
+        $this->useCachedRows();
+        $this->emit('tiket', $order);
     }
 
     public function getRowsQueryProperty()

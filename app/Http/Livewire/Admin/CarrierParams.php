@@ -5,13 +5,25 @@ namespace App\Http\Livewire\Admin;
 use App\Http\Livewire\DataTable\WithCachedRows;
 use App\Http\Livewire\DataTable\WithPerPagePagination;
 use App\Http\Livewire\DataTable\WithSorting;
+use Livewire\WithFileUploads;
 use App\Models\Transporter;
 use Livewire\Component;
 
 class CarrierParams extends Component
 {
-    use WithSorting, WithPerPagePagination, WithCachedRows;
+    use WithSorting, WithPerPagePagination, WithCachedRows , WithFileUploads;
     public $showEditModal = false;
+  
+    public $files = ['lex'=> null,
+                        'kabis' => null,
+                        'ursaf' => null,
+                        'pdc'=> null,
+                        'asm'=> null,
+                        'asf'=> null,
+                        'asv'=> null,
+                        'cag'=> null,
+                        'alctd'=> null,
+                        'ati'=> null,] ;
 
     public $filters = [
         'search' => '',
@@ -32,7 +44,12 @@ class CarrierParams extends Component
             'editing.siren_number' => 'nullable',
             'editing.siret_number' => 'nullable',
             'editing.naf_code' => 'nullable',
-            'editing.registration_number' => 'nullable'
+            'editing.registration_number' => 'nullable',
+            'kabis_file' => 'image',
+            'ursaf_file' => 'image',
+            'file.lex' => 'image',
+            'file.pdc' => 'image',
+            'file.asm' => 'image',
         ];
     }
 
@@ -87,6 +104,14 @@ class CarrierParams extends Component
 
         $this->editing->save();
 
+        foreach($this->files as $key =>$file){
+            if(!is_null($file)){
+                // $this->editing->update([
+                //     $key => $file->store('/documents/transporter', 'public'),
+                // ]);
+            }
+        }
+       
         $this->showEditModal = false;
     }
 
