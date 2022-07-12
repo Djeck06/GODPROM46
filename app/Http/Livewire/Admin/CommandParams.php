@@ -147,7 +147,8 @@ class CommandParams extends Component
     public function sendToPackaging()
     {
         foreach($this->selectedsdata as $order_id){
-            Order::find($order_id)->packaging()->create([]) ;
+            // Order::find($order_id)->packaging()-
+            // >create([]) ;
         }
     }
 
