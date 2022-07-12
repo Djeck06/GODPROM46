@@ -21,7 +21,7 @@ class UpdateOrderPayments extends Migration
             $table->timestamps();
             $table->unsignedBigInteger('payment_platform_id')->nullable()->change();
             $table->string('account_number')->nullable()->change();
-            $table->string('stripe_intent_id')->change();
+            $table->string('stripe_intent_id');
 
 
 

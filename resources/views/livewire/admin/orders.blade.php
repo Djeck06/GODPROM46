@@ -30,8 +30,11 @@
                 <x-button.primary wire:click="create">
                     <x-icon.plus /> Nouveau
                 </x-button.primary>
+                @php
+                    $mess_age = __('are you sure') ;
+                @endphp
 
-                <x-button.primary wire:click.prevent="sendToPackaging" onclick="confirm({{__('are you sure')}})">
+                <x-button.primary wire:click.prevent="sendToPackaging" onclick="confirm('{{ $mess_age  }}')">
                     <x-icon.plus /> {{__('send to packaging')}}
                 </x-button.primary>
 
