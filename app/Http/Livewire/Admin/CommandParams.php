@@ -146,8 +146,9 @@ class CommandParams extends Component
 
     public function sendToPackaging()
     {
-        $this->useCachedRows();
-        $this->emit('tiket', $order);
+        foreach($this->selectedsdata as $order_id){
+            Order::find($order_id)->packaging()->create([]) ;
+        }
     }
 
     public function getRowsQueryProperty()
