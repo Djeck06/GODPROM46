@@ -18,6 +18,7 @@ class UpdateOrders2Table extends Migration
            
           
             $table->string('str_sku')->nullable();
+            $table->integer('express')->default(0);
 
         });
     }

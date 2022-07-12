@@ -58,7 +58,7 @@
                     @forelse ($commands as $order)
                         <x-table.row wire:loading.class.delay="opacity-50" wire:key="row-{{ $order->id }}">
                             <x-table.cell class="pr-0">
-                                <x-input.checkbox value="{{ $order->id }}" />
+                                <x-input.checkbox value="{{ $order->id }}" wire:model="selectedsdata" />
                             </x-table.cell>
 
                             <x-table.cell>
@@ -129,6 +129,7 @@
                                             Etiquette
                                             </a>
 
+                                            
 
                                            
                                           

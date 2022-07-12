@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDockerTasksTable extends Migration
+class CreatePackagingDeliveriesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,20 +13,28 @@ class CreateDockerTasksTable extends Migration
      */
     public function up()
     {
-        Schema::create('docker_tasks', function (Blueprint $table) {
+        Schema::create('packaging_deliveries', function (Blueprint $table) {
             $table->id();
            
 
-            $table->foreignId('order_id')
+            $table->foreignId('transporter_id')
+                ->nullable()
                 ->constrained()
                 ->cascadeOnUpdate();
 
-            
-            //$table->string('status')->defaut('pending'); // pending |packagesending | packageunsend| pickuppending | pickedup  |
+            $table->foreignId('packaging_id')
+                ->constrained()
+                ->cascadeOnUpdate();
+
+            $table->date('delivery_date')->nullable();
+            $table->date('departure_date')->nullable();
             
             $table->timestamps();
             $table->softDeletes();
         });
+
+       
+        Schema::dropIfExists('package_transmissions');
     }
 
     /**
@@ -36,6 +44,6 @@ class CreateDockerTasksTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('docker_tasks');
+        Schema::dropIfExists('packaging_deliveries');
     }
 }
