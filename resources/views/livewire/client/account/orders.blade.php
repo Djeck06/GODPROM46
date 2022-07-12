@@ -23,11 +23,12 @@
                 <x-slot name="head">
                     <x-table.heading sortable multi-column wire:click="sortBy('reference')"
                         :direction="$sorts['reference'] ?? null" class="">{{ __('Reference') }}</x-table.heading>
-                    <x-table.heading>{{ __('pickup country') }}</x-table.heading>
+                    <x-table.heading>{{ __('Pickup country') }}</x-table.heading>
                     <x-table.heading>{{ __('Delivery country') }}</x-table.heading>
                     <x-table.heading sortable multi-column wire:click="sortBy('price')"
                         :direction="$sorts['price'] ?? null" class="">{{ __('Price') }}</x-table.heading>
                     <x-table.heading>{{ __('Status') }}</x-table.heading>
+                    <x-table.heading>{{ __('Payment') }}</x-table.heading>
                     <x-table.heading sortable multi-column wire:click="sortBy('created_at')"
                         :direction="$sorts['created_at'] ?? null" class="">{{ __('Date') }}</x-table.heading>
                     <x-table.heading />
@@ -57,7 +58,12 @@
 
                             <x-table.cell>
                                 
-                                <span class="bg-green-100 font-semibold inline-flex px-2 py-2  text-xs">{{ $order->status }}</span>
+                                <span class="bg-green-100 font-semibold inline-flex px-2 py-2  text-xs">@if($order->lastStatus){{ $order->lastStatus->label }}@endif</span>
+            
+                            </x-table.cell>
+                            <x-table.cell>
+                                
+                                <span class="bg-green-100 font-semibold inline-flex px-2 py-2  text-xs">@if($order->payment && $order->payment->lastStatus){{ $order->payment->lastStatus->label }}@endif</span>
             
                             </x-table.cell>
 

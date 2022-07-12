@@ -274,7 +274,7 @@
                    
                 },
 
-                configureStripeElements: function () {
+                configureStripeElements: async function () {
                     // Stripe Elements are only needed when a payment method is required.
                     if (this.payment.status !== 'pending') {
                         return;
@@ -290,7 +290,7 @@
 
                         // Pass the appearance object to the Elements instance
                         
-                        const elements = stripe.elements();
+                        const elements =  stripe.elements();
                         // this.paymentElement = elements.create(
                         //     this.paymentMethod.element, this.paymentMethod.options ?? {}
                         // );
@@ -308,7 +308,7 @@
                     }
 
                     if (this.paymentElement) {
-                        this.$nextTick(() => {
+                        await this.$nextTick(() => {
                             // Clear the payment element first, otherwise Stripe Elements will emit a warning...
                             //document.getElementById("payment-element").innerHTML = "";
                             this.paymentElement.clear();
@@ -319,7 +319,7 @@
                     }
                 },
 
-                confirmPaymentMethod: function () {
+                confirmPaymentMethod: async function () {
                     this.isPaymentProcessing = true;
                     this.errorMessage = '';
 
@@ -349,6 +349,7 @@
 
                         //paymentPromise = stripe.confirmCardPayment(secret, data);
                         console.log("attempting");
+                        
                         stripe.createPaymentMethod({
                             type: 'card',
                             card: this.paymentElement,
@@ -365,6 +366,8 @@
                                 errorElement.textContent = result.error.message;
                             }else {
 
+                                
+                                
                                 console.log(result.paymentMethod)
                                 /* paymentMethod contains id, last4, and card type */
                                 var paymentMethod = result.paymentMethod['id'];

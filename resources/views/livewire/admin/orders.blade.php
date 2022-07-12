@@ -124,8 +124,13 @@
                                                 Assignation
                                             </a>
                                             @endif
-                                            <a href="#"
-                                                class="block px-4 py-2 hover:bg-blue-400 hover:text-white">Etiquette</a>
+
+                                            <a href="javascript:void(0)" class="block px-4 py-2 hover:bg-blue-400 hover:text-white" wire:click="tiket({{ $order->id }})" >
+                                            Etiquette
+                                            </a>
+
+
+                                           
                                           
                                         </x-slot>
                                     </x-button.dropdown>
@@ -409,13 +414,18 @@
         <x-slot name="content">
 
             <div class="md:grid md:grid-cols-1 md:gap-6">
-                @include('client.order.inc.header', ['order' => $order])
-
+                @if(!is_null($selectorder))
+                @include('client.order.inc.header', ['order' => $selectorder])
+                  
+                @endif
                 <div class="mt-5">
 
                     <div class="md:grid md:grid-cols-5 md:gap-6">
                         <div class="mt-5 md:mt-0 md:col-span-4">
-                            @include('client.order.inc.menu', ['order' => $order])
+                            @if(!is_null($selectorder))
+                                @include('client.order.inc.menu', ['order' => $selectorder])
+
+                            @endif
                             <div class="md:col-span-1">
                                 <div class="p-4 bg-gray-100 rounded">
                                     <h3 class="text-lg font-bold leading-6 text-gray-900">
@@ -424,16 +434,16 @@
                                     <ul>
                                         <li class="py-3 w-full flex items-center justify-between text-sm">
                                             <span>{{ __('Subtotal') }}</span>
-                                            <span class="font-bold text-gray-900">{{ $order->price   }}€</span>
+                                            <span class="font-bold text-gray-900">{{ $selectorder->price   }}€</span>
                                         </li>
                                         <li class="py-3 w-full flex items-center justify-between text-sm">
                                             <span>{{ __('Insurance Fees') }}</span>
-                                            <span class="font-bold text-gray-900">{{ $order->insurance }}€</span>
+                                            <span class="font-bold text-gray-900">{{ $selectorder->insurance }}€</span>
                                         </li>
                                         <li
                                             class="py-3 w-full flex items-center justify-between text-md border-t border-gray-20">
                                             <span class="font-semibold text-gray-800">{{ __('Total') }}</span>
-                                            <span class="font-bold text-gray-900">{{ $order->total }}€</span>
+                                            <span class="font-bold text-gray-900">{{ $selectorder->total }}€</span>
                                         </li>
                                     </ul>
                                 
@@ -444,16 +454,16 @@
                                     <div class="border-2 border-blue-400 p-4 rounded">
                                         <h4 class="font-semibold">{{ __('Pickup Address') }}</h4>
                                         <address class="mt-4">
-                                            <p>{{ $order->pickup_address }}</p>
-                                            <p>{{ $order->pickup_city }}, {{ $order->pickupCountry->name }}</p>
+                                            <p>{{ $selectorder->pickup_address }}</p>
+                                            <p>@if(!is_null($selectorder->pickupCountry)){{ $selectorder->pickup_city }}, {{ $selectorder->pickupCountry->name }}@endif</p>
                                         </address>
                                     </div>
                                     <div class="border-2 border-blue-400 p-4 rounded">
                                         <h4 class="font-semibold">{{ __('Delivery Address') }}</h4>
                                         <address class="mt-4">
-                                            <p>{{ $order->delivery_address }}</p>
-                                            <p>{{ __('Tel: ') }} {{ $order->delivery_phone }}</p>
-                                            <p>{{ $order->delivery_city }}, {{ $order->deliveryCountry->name }}</p>
+                                            <p>{{ $selectorder->delivery_address }}</p>
+                                            <p>{{ __('Tel: ') }} {{ $selectorder->delivery_phone }}</p>
+                                            <p>@if(!is_null($selectorder->deliveryCountry)){{ $selectorder->delivery_city }}, {{ $selectorder->deliveryCountry->name }}@endif</p>
                                         </address>
                                     </div>
                                 </div>
@@ -464,7 +474,8 @@
 
 
                                 <ul role="list" class="-my-6 divide-y divide-gray-200">
-                                    @foreach ($order->items as $item)
+                                @if(!is_null($selectorder))
+                                    @foreach ($selectorder->items as $item)
                                         <li class="flex py-6">
                                             <div
                                                 class="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
@@ -494,16 +505,17 @@
                                             </div>
                                         </li>
                                     @endforeach
+                                @endif
                                 </ul>
 
-                                @if ($order->notes)
+                                @if ($selectorder->notes)
                                     <div class="py-5">
                                         <div class="border-t border-gray-400"></div>
                                     </div>
 
                                     <div class="border-2 border-blue-400 p-4 rounded">
                                         <h4 class="font-semibold">{{ __('Additional notes') }}</h4>
-                                        <p>{{ $order->notes }}</p>
+                                        <p>{{ $selectorder->notes }}</p>
                                     </div>
                                 @endif
 
@@ -513,8 +525,11 @@
                         
 
                         <div class="md:col-span-1">
-                            
-                            @include('client.order.inc.sidebar', ['order' => $order])
+                            @if(!is_null($selectorder))
+
+                                @include('client.order.inc.sidebar', ['order' => $selectorder])
+
+                            @endif
                             
                         </div>
                     </div>
@@ -528,6 +543,7 @@
         </x-slot>
     </x-modal.dialog>
 
-    <livewire:admin.commands.assignmodal :order="$order" />
+    <livewire:admin.commands.assignmodal :order="$selectorder" />
+    <livewire:admin.commands.tiketmodal :order="$selectorder" />
 
 </div>

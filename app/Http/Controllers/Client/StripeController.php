@@ -18,10 +18,11 @@ class StripeController extends Controller
     public function render(Order $order){
         $client = Auth::user()->client;
         $stripeCustomer = $client->createOrGetStripeCustomer();
-        
 
+
+       
         if(is_null($order->payment)){
-            
+
             $payment =$client->payWith(
                 $order->total * 100 , []
             );
@@ -29,18 +30,28 @@ class StripeController extends Controller
                 'id', 'status', 'payment_method_types', 'client_secret', 'payment_method',
             ]);
 
-            $payment = new \App\Models\OrderPayment(['stripe_intent_id'=> $paymentIntent['id']]);
-            $order->payment()->save($payment);
-        }else{
+            $payment = new \App\Models\OrderPayment() ; 
+            $payment->order_id = $order->id ;
+            $payment->stripe_intent_id = $paymentIntent['id'];
+            $payment->save();
 
+        }else{  
             $payment  =  $order->payment ;
-            //dd($payment->strip_intent_id) ;
-            //$paymentIntent = Cashier::stripe()->paymentIntents->retrieve( $payment->strip_intent_id, ['expand' => ['payment_method']]);
+            if($payment->stripe_intent_id == "" || is_null($payment->stripe_intent_id)){
+                
+                $paymentSt =$client->payWith(
+                    $order->total * 100 , []
+                );
+                $paymentIntent = Arr::only($paymentSt->asStripePaymentIntent()->toArray(), [
+                    'id', 'status', 'payment_method_types', 'client_secret', 'payment_method',
+                ]);
+
+                $payment->stripe_intent_id = $paymentIntent['id'] ;
+                $payment->save();
+            }
         }
 
-       
-        
-       
+  
 
         return view('payment', [
             'stripeKey' => config('cashier.key'),
@@ -56,20 +67,11 @@ class StripeController extends Controller
             'redirect' => route('orders.show',[$order]) ,
         ]);
 
-        // return view('client.order.payment', [
-        //     'title' => __('Payment Verification #') . $order->reference,
-        //     'order' => $order,
-        //     'user'=>$client,
-        //     'intent' => $client->createSetupIntent(),
-        //     'stripeKey' => config('cashier.key'),
-
-        // ]);
     }
 
     public function processPayment(Request $request)
     {
-        dump($request->all()) ;
-
+       
         $payment  = \App\Models\OrderPayment::find($request->input('payment'));
         $paymentIntent = Cashier::stripe()->paymentIntents->retrieve( $payment->stripe_intent_id, ['expand' => ['payment_method']]);
         $paymentMethod = $request->input('stripepaymentMethod');
@@ -77,14 +79,18 @@ class StripeController extends Controller
        
         
         try{
-            //$client->charge($request->input('price')*100, $paymentMethod);
+            //if($paymentIntent->status === 'succeeded') throw new \Exception('You cannot confirm this Payment because it has already succeeded after being previously confirmed.');
+            Auth::user()->client->updateDefaultPaymentMethod($paymentMethod);
             $paymentIntent->confirm(['payment_method'=> $paymentMethod]);
-            dump($paymentIntent) ;
+           
         }catch (\Exception $e){
             return back()->withErrors(['message' =>  $e->getMessage()]);
         }
-        $payment->status = 'succeeded' ;
-        $payment->save() ;
+        // $payment->status = 'succeeded' ;
+        // $payment->save() ;
+
+        $payment->changeStatus('succeeded') ;
+        
         return back()->with(['success' =>  'bien']);
     }
 

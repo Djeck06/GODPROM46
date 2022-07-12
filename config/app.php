@@ -180,6 +180,7 @@ return [
          * Package Service Providers...
          */
         SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
+        BinaryCats\Sku\SkuServiceProvider::class,
         /*
          * Application Service Providers...
          */
