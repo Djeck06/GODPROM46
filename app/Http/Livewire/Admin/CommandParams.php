@@ -21,6 +21,7 @@ class CommandParams extends Component
 
     public Order $order;
     public $selectorder ;
+    public $selectAll = false ;
     public Transporter $transporter;
     public $etat;
     public $secondtitle ;
@@ -146,6 +147,7 @@ class CommandParams extends Component
 
     public function sendToPackaging()
     {
+        dd($this->selectedsdata) ;
         foreach($this->selectedsdata as $order_id){
             // Order::find($order_id)->packaging()-
             // >create([]) ;

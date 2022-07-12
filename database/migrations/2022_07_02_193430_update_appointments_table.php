@@ -15,7 +15,8 @@ class UpdateAppointmentsTable extends Migration
     {
         Schema::table('order_appointments', function (Blueprint $table) {
            
-            $table->string('status')->default('active')->change(); // active / canceled
+            $table->string('status')->default('active'); // active / canceled
+            //$table->string('status')->default('active')->change(); // active / canceled
 
         });
     }
