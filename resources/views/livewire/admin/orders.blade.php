@@ -30,6 +30,11 @@
                 <x-button.primary wire:click="create">
                     <x-icon.plus /> Nouveau
                 </x-button.primary>
+
+                <x-button.primary wire:click.prevent="sendToPackaging" onclick="confirm({{__('are you sure')}})">
+                    <x-icon.plus /> {{__('send to packaging')}}
+                </x-button.primary>
+
             </div>
         </div>
 
@@ -37,7 +42,7 @@
             <x-table>
                 <x-slot name="head">
                     <x-table.heading>
-                        <x-input.checkbox />
+                        <x-input.checkbox  wire:model ="selectAll"/>
                     </x-table.heading>
                     <x-table.heading>Date et Heure</x-table.heading>
                     <x-table.heading sortable multi-column wire:click="sortBy('name')"
