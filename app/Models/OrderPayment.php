@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Validator;
+
 
 
 class OrderPayment extends Model
@@ -14,7 +16,6 @@ class OrderPayment extends Model
     public static function boot()
     {
         parent::boot();
-
         static::created(function ($model) {
             $model->status()->create([
                 'label' => 'pending',
@@ -22,13 +23,6 @@ class OrderPayment extends Model
             ]);
         });
 
-        // static::saving(function ($model) {
-        //     if($model->status == "succeeded" ){
-        //         $order = Order::find($model->order_id) ;
-        //         $order->status = 'paid' ;
-        //         $order->save() ;
-        //     }
-        // });
     }
 
     protected $guarded = [];
@@ -36,16 +30,29 @@ class OrderPayment extends Model
        
     ];
 
-    public function changeStatus(String $status){
-        $this->status()->create([
-            'label' =>  $status,
-            'source' => $this->getTable(),
-        ]);
+ 
+    public static  function validatePayment(Array $input){
 
-        if($status == "succeeded"){
-            Order::find($this->order_id)->changeStatus('paid') ;
-        }
+        $rules = ['stripepaymentMethod'=> 'required|string',
+                    'payment'=> ['required','integer','exists:order_payments,id',function ($attribute, $value, $fail) use( $input) {
+                        $payment = SELF::find($value);
+                        if(!is_null($payment)){
+                            $order = $payment->order ;
+                            if(is_null($order)){
+                                $fail("Erreur : un payement n'est lié à aucune commande ");
+                            }
+                            if($payment->lastStatus->label !== 'pending'){ 
+                                $fail("Erreur : un payement a déja été fait ");
+                            }
+                        }
+                        
+                    } ]];
+        $messages = [];
+
+        return Validator::make($input, $rules, $messages)->validate($input, $rules);
+        
     }
+
 
     public function order()
     {

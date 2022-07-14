@@ -4,6 +4,7 @@ namespace App\Models;
 
 
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Model;
 
 
 trait StatusTrait
@@ -29,6 +30,20 @@ trait StatusTrait
 
         $relation = new HasOne($builder->getQuery(), $this, 'source_id', 'id');
         return $relation;
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::created(function (Model $model): void
+        {
+            $model->status()->create([
+                'label' => 'pending',
+                'source' => $model->getTable(),
+            ]);
+            
+        });
     }
 
 }

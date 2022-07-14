@@ -9,16 +9,18 @@ use App\Models\Transporter;
 use App\Models\Order;
 use Livewire\Component;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use App\Services\ProcessTrait;
+
 
 
 class CommandParams extends Component
 {
-    use WithSorting, WithPerPagePagination, WithCachedRows;
+    use WithSorting, WithPerPagePagination, WithCachedRows , ProcessTrait;
     public $showEditModal = false;
     public $showDetailModal  = false;
     public $showAssignModal = false;
+    public $sendToPackagingModal = false;
     public $selectedsdata = [];
-
     public Order $order;
     public $selectorder ;
     public $selectAll = false ;
@@ -71,6 +73,7 @@ class CommandParams extends Component
         $this->editing = $this->makeBlankOrder();
         $this->selectorder = new Order();
         $this->items = [$this->makeBlankItem()];
+        $this->resultmessages = Null;
 
     }
 
@@ -93,7 +96,6 @@ class CommandParams extends Component
         $this->showEditModal = true;
     }
 
-    // public function edit(Transporter $transporter)
     public function edit(Order $order)
     {
         $this->useCachedRows();
@@ -132,12 +134,13 @@ class CommandParams extends Component
         $this->showDetailModal = true;
     }
 
+   
+
     public function assign(Order $order)
     {
         $this->useCachedRows();
         $this->emit('assign', $order);
     }
-
 
     public function tiket(Order $order)
     {
@@ -145,21 +148,72 @@ class CommandParams extends Component
         $this->emit('tiket', $order);
     }
 
-    public function sendToPackaging()
+
+    
+    /**
+     * @author     Original Author <harry.kouevi@gmail.com>
+     * @see        13/07/2022 23:15
+     * @since      13/07/2022 23:15
+     *
+     * @param String    $closure
+     * @param Order   $order
+     *
+     * @return  void
+     */
+    public function next( String $closure , Order $order)
     {
-        dd($this->selectedsdata) ;
+        
+        $this->sendToPackagingModal = true;
+
+        $this->useCachedRows();
+        if ($this->editing->isNot($order)) $this->editing = $order;
+        $this->editing->delivery_phone = Null ;
+        $this->currentmethodname = $closure ;
+        $method= static::$methods[$closure] ;
+        
+        if($this->$method($order)) $this->resultmessages ='success'; 
+
+    }
+
+
+    /**
+     * @author     Original Author <harry.kouevi@gmail.com>
+     * @see        13/07/2022 23:15
+     * @since      13/07/2022 23:15
+     *  mass assign to packaging
+     * @param Order   $order
+     *
+     * @return  void
+     */
+    public function sendToPackaging( Order $order)
+    {
+       
+        $successdata = [] ;
         foreach($this->selectedsdata as $order_id){
-            // Order::find($order_id)->packaging()-
-            // >create([]) ;
+            $get  = Order::find($order_id) ;
+            if($get->packagings->count() == 0){
+                $get->packagings()->create([]) ;
+                $successdata[] = $get->id ;
+            }
         }
+        $this->resultmessages ='success at'. implode( "," , $successdata ) ;
+        $this->selectedsdata = [] ;
+        $this->sendToPackagingModal = true;
+
     }
 
     public function getRowsQueryProperty()
     {
         $query = Order::query() ;
-        if(!is_null($this->etat)){ $query = $query->where('status', $this->etat) ;}else{ $query = $query->where(function ($q){
-            $q->where('status', 'paid')->orWhere('status', 'readytopickup');
-        }) ;}
+        if(!is_null($this->etat)){ 
+            $query = $query->whereHas('status', function ($q){
+                $q->where('label', $this->etat);
+            }) ;
+        }else{ 
+            $query = $query->whereHas('status', function ($q){
+                $q->where('label', 'paid')->orWhere('label', 'readytopickup');
+            });
+        }
         $query = $query->when($this->filters['search'], fn ($query, $search) => $query->where('reference', 'like', '%' . $search . '%'));
 
 
@@ -251,6 +305,7 @@ class CommandParams extends Component
 
         $this->editing->packages()->sync($syncData);
        
+        
 
         if (!file_exists(public_path('orders/qrcode'))) {
             mkdir(public_path('orders/qrcode'), 0777, true);
@@ -269,7 +324,7 @@ class CommandParams extends Component
 
     public function render()
     {
-      
+        //dd($this->rows) ;
         return view('livewire.admin.orders', [
             'commands' => $this->rows,
         ]);

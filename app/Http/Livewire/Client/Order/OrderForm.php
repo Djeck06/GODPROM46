@@ -133,7 +133,6 @@ class OrderForm extends Component
 
     public function save()
     {
-        // dd($this->order);
         $client = auth()->user()->client;
         $order = $client->orders()->create([
             'pickup_country' => intVal($this->order->pickup_country),
@@ -155,7 +154,6 @@ class OrderForm extends Component
         foreach ($this->prices as $item) {
             $order->items()->save(new OrderItem([
                 'package_id' => $item['package_id'],
-                //'name' => $item['label'],
                 'quantity' => $item['quantity'],
                 'price' => $item['price'],
                 //'has_insurance' => $item['insurance_price'] > 0
@@ -175,7 +173,6 @@ class OrderForm extends Component
 
         //Dispatch OrderWasCreated event
         //OrderWasCreated::dispatch($order);
-
         return redirect()->route('orders.show', $order->reference)->with('success', 'Commande créé avec succès');
     }
 

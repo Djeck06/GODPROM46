@@ -33,10 +33,11 @@
                 @php
                     $mess_age = __('are you sure') ;
                 @endphp
-
+                @if(isset($etat) && $etat == "paid")
                 <x-button.primary wire:click.prevent="sendToPackaging" onclick="confirm('{{ $mess_age  }}')">
                     <x-icon.plus /> {{__('send to packaging')}}
                 </x-button.primary>
+                @endif
 
             </div>
         </div>
@@ -99,16 +100,16 @@
                             </x-table.cell>
 
                             <x-table.cell>
-                                <span class="">{{ $order->name }}</span>
+                                <span class="bg-green-100 font-semibold inline-flex px-2 py-1 rounded-2xl text-gray-800 text-xs">{{ $order->lastStatus->label }}</span>
                             </x-table.cell>
 
                             <x-table.cell>
-                                <span class="">{{ $order->name }}</span>
+                                <span class=""></span>
                             </x-table.cell>
 
                             <x-table.cell>
                                
-                                <span class="bg-red-100 font-semibold inline-flex px-2 py-1 rounded-2xl text-red-800 text-xs">{{ $order->status }}</span>
+                                <span class="bg-red-100 font-semibold inline-flex px-2 py-1 rounded-2xl text-red-800 text-xs">@if($order->payment){{ $order->payment->lastStatus->label }}@else pending @endif</span>
                                 
                             </x-table.cell>
 
@@ -127,14 +128,16 @@
                                             <a href="#" class="block px-4 py-2 hover:bg-blue-400 hover:text-white" wire:click="show({{ $order->id }})" >
                                                 Détail
                                             </a>
-                                            @if (in_array( $order->status , ['readytopickup']))
-                                            <a href="javascript:void(0)" class="block px-4 py-2 hover:bg-blue-400 hover:text-white" wire:click="assign({{ $order->id }})" >
-                                                Assignation
-                                            </a>
-                                            @endif
+                                            @foreach ($order->privatestate as $state)
+                                                @if(!is_null($state['nextactionname']) )
+                                                    <a href="javascript:void(0)" class="block px-4 py-2 hover:bg-blue-400 hover:text-white" wire:click="next('{{ $state['nextactionname']}}', {{$order->id }})" >
+                                                        {{ __($state['nextactionname']) }}
+                                                    </a>
+                                                @endif
+                                            @endforeach
 
                                             <a href="javascript:void(0)" class="block px-4 py-2 hover:bg-blue-400 hover:text-white" wire:click="tiket({{ $order->id }})" >
-                                            Etiquette
+                                                Etiquette
                                             </a>
 
                                             
@@ -551,7 +554,35 @@
             <x-button.secondary wire:click="$set('showDetailModal', false)">Fermer</x-button.secondary>
         </x-slot>
     </x-modal.dialog>
+    
+    <x-modal.dialog wire:model.defer="sendToPackagingModal" cssWidth="sm:w-3/12">
+        <x-slot name="title"></x-slot>
 
+        <x-slot name="content">
+
+            <div class="md:grid md:grid-cols-1 md:gap-6">
+               
+                <div class="mt-5">
+                @error('editing.delivery_phone')
+                    <div class="mt-1 text-red-500 text-sm">
+                        {{ $message }}</div>
+                @enderror
+
+                @error('editing.id')
+                    <div class="mt-1 text-red-500 text-sm">
+                        {{ $message }}</div>
+                @enderror
+
+                    {{ $resultmessages }}
+                </div>
+            </div>
+
+        </x-slot>
+
+        <x-slot name="footer">
+            <x-button.secondary wire:click="$set('sendToPackagingModal', false)">Fermer</x-button.secondary>
+        </x-slot>
+    </x-modal.dialog>
     <livewire:admin.commands.assignmodal :order="$selectorder" />
     <livewire:admin.commands.tiketmodal :order="$selectorder" />
 

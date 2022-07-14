@@ -71,25 +71,24 @@ class StripeController extends Controller
 
     public function processPayment(Request $request)
     {
-       
+        \App\Models\OrderPayment::validatePayment($request->input());
         $payment  = \App\Models\OrderPayment::find($request->input('payment'));
+       
         $paymentIntent = Cashier::stripe()->paymentIntents->retrieve( $payment->stripe_intent_id, ['expand' => ['payment_method']]);
         $paymentMethod = $request->input('stripepaymentMethod');
       
        
         
         try{
-            //if($paymentIntent->status === 'succeeded') throw new \Exception('You cannot confirm this Payment because it has already succeeded after being previously confirmed.');
             Auth::user()->client->updateDefaultPaymentMethod($paymentMethod);
             $paymentIntent->confirm(['payment_method'=> $paymentMethod]);
            
         }catch (\Exception $e){
             return back()->withErrors(['message' =>  $e->getMessage()]);
         }
-        // $payment->status = 'succeeded' ;
-        // $payment->save() ;
 
         $payment->changeStatus('succeeded') ;
+        $payment->order->changeStatus('paid') ;
         
         return back()->with(['success' =>  'bien']);
     }
