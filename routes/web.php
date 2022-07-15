@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Front\PageController;
+use App\Http\Controllers\ProcessController;
 use App\Http\Controllers\Client\DashboardController;
 use App\Http\Controllers\Client\OrderController;
 use App\Http\Controllers\Client\ProfileController;
@@ -48,6 +49,7 @@ Route::group(['middleware' => 'verified'], function () {
     Route::group(['prefix' => 'order', 'as' => 'orders.'], function () {
         Route::get('/', [OrderController::class, 'index'])->name('index');
         Route::get('/{order:reference}/show', [OrderController::class, 'show'])->name('show');
+        Route::get('/{order:reference}/next', [ProcessController::class, 'next'])->name('process');
         Route::get('/{order:reference}/history', [OrderController::class, 'track'])->name('history');
         Route::get('/{order:reference}/payment-confirmation', [StripeController::class, 'render'])->name('goToPayment');
         
