@@ -10,6 +10,7 @@ use App\Models\Order;
 use Livewire\Component;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use App\Services\ProcessTrait;
+use DB ;
 
 
 
@@ -204,20 +205,24 @@ class CommandParams extends Component
 
     public function getRowsQueryProperty()
     {
-        $query = Order::query() ;
-       
+        $query = Order::query()->select('orders.*') ;
+        
         if(!is_null($this->etat)){ 
             $etat = $this->etat ;
-            $query = $query->whereHas('lastStatus', function ($q) use($etat) {
-                $q->where('label', $etat);
-            }) ;
-
-            //dd( $query->toSql()) ;
-            // dd( $query->with('lastStatus')->get()) ;
+            $query = $query->join('status', 'orders.id', '=', 'status.source_id')
+            ->where('source', 'orders')
+            ->where('status.label', $etat )
+            ->whereIn('status.created_at', function ($query) {
+                $query->selectRaw('MAX(status.created_at) as last_post_created_at')
+                    ->from('status')
+                    //->join('status', 'orders.id', '=', 'status.source_id')
+                    ->where('source', 'orders')
+                    ->orderBy('status.id', 'desc')
+                    ->groupBy('status.source_id');
+            })->orderBy('status.id', 'desc');
         }else{ 
-            $query = $query->whereHas('status', function ($q){
-                $q->where('label', 'paid')->orWhere('label', 'readytopickup');
-            });
+            $query = $query->join('status', 'orders.id', '=', 'status.source_id')->where('source','orders')->orderBy('status.created_at','desc') ;
+
         }
         $query = $query->when($this->filters['search'], fn ($query, $search) => $query->where('reference', 'like', '%' . $search . '%'));
 

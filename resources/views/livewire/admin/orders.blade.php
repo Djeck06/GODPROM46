@@ -80,7 +80,7 @@
 
                             <x-table.cell>
                                 <span class="inline-flex space-x-2 truncate text-sm leading-5">
-                                    {{ $order->client->last_name}} {{ $order->client->first_name}}
+                                @if($order->client) {{ $order->client->last_name}} {{ $order->client->first_name}} @endif
                                 </span>
                             </x-table.cell>
 
@@ -100,7 +100,7 @@
                             </x-table.cell>
 
                             <x-table.cell>
-                                <span class="bg-green-100 font-semibold inline-flex px-2 py-1 rounded-2xl text-gray-800 text-xs">{{ $order->lastStatus->label }}</span>
+                                @if($order->lastStatus)<span class="bg-green-100 font-semibold inline-flex px-2 py-1 rounded-2xl text-gray-800 text-xs">{{ $order->lastStatus->label }}</span> @endif
                             </x-table.cell>
 
                             <x-table.cell>
