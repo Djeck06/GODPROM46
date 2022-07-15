@@ -79,12 +79,12 @@
 
                             <x-table.cell>
                                 <span class="inline-flex space-x-2 truncate text-sm leading-5">
-                                    {{ $order->name }}
+                                    {{ $order->client->last_name}} {{ $order->client->first_name}}
                                 </span>
                             </x-table.cell>
 
                             <x-table.cell>
-                                <span class="">{{ $order->reference }}</span>
+                                <span class="">{{ $order->pickup_city }}</span>
                             </x-table.cell>
                             <x-table.cell>
                                 <span class="">{{ $order->pickup_address }}</span>
