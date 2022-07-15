@@ -205,10 +205,15 @@ class CommandParams extends Component
     public function getRowsQueryProperty()
     {
         $query = Order::query() ;
+       
         if(!is_null($this->etat)){ 
-            $query = $query->whereHas('status', function ($q){
-                $q->where('label', $this->etat);
+            $etat = $this->etat ;
+            $query = $query->whereHas('lastStatus', function ($q) use($etat) {
+                $q->where('label', $etat);
             }) ;
+
+            //dd( $query->toSql()) ;
+            // dd( $query->with('lastStatus')->get()) ;
         }else{ 
             $query = $query->whereHas('status', function ($q){
                 $q->where('label', 'paid')->orWhere('label', 'readytopickup');
