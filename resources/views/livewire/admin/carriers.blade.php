@@ -177,132 +177,56 @@
                     Documents
                 </div>
                 <div class="sm:grid sm:grid-cols-2 sm:gap-x-12 ">
-                   
-                    <x-input.group label="KABIS" for="kabis" :error="$errors->first('files.kabis')">
-                        <x-input.file-upload wire:model.defer="files.kabis" id="kabis">
-                            <span class="h-12 w-12 rounded-full overflow-hidden bg-gray-100">
-                                @if ($files['kabis'])
-                                    <img src="{{ $files['kabis']->temporaryUrl() }}" alt="Profile Photo">
+                    @forelse ($files as $key => $t)
+                    <div class="sm:grid sm:grid-cols-2  ">
+                    
+                        <x-input.group label="{{$fileslongnames[$key]['label']}}" for="{{$key}}" :error="$errors->first('files.'.$key)">
+                            <x-input.file-upload wire:model.defer="files.{{$key}}" id="{{$key}}" name="{{$key}}" >
+                            
+                                <div wire:loading wire:target="files.{{$key}}">Uploading...</div>
+                            
+                            </x-input.file-upload>
+                        </x-input.group>
+                        <div class="sm:grid sm:grid-cols-1">
+                        @if ($files[$key])
+                            @if(collect(['jpg', 'png', 'jpeg', 'webp'])->contains($t->getClientOriginalExtension()))
+                                <span class="h-12 w-12  overflow-hidden bg-gray-100">
+                                    <img src="{{ $t->temporaryUrl() }}" alt="Profile Photo">
+                                </span> 
+                            @else
+
+                                <span class="h-12 w-12  overflow-hidden bg-gray-100">
+                                    <svg class="h-12 w-12" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                    </svg>
+                                </span>
+                            @endif
+                        @else
+                            @if(array_key_exists('model',$fileslongnames[$key]))
+                                @if(collect(['jpg', 'png', 'jpeg', 'webp'])->contains($fileslongnames[$key]['model']['extension']) )
+                                    <span class="h-12 w-12  overflow-hidden bg-gray-100">
+                                        <img src="{{ $fileslongnames[$key]['model']['fileUrl'] }}" alt="Profile Photo">
+                                    </span> 
                                 @else
-                                    <img src="{{ $files['kabis'] }}" alt="Profile Photo">
+                                
+                                    <span class="h-12 w-12  overflow-hidden bg-gray-100">
+                                        <svg class="h-12 w-12" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                        </svg>
+                                        
+                                    </span>
+                                    {{ $fileslongnames[$key]['model']['file_name'] }}
                                 @endif
-                            </span> 
-                        </x-input.file-upload>
-                    </x-input.group>
+                                  
+                            @endif
 
-                   
+                        @endif
+                        </div>
+                    </div>
+                    
+                    
+                    @endforeach
 
-                    <x-input.group label="URSAF" for="ursaf" :error="$errors->first('files.ursaf')">
-                        <x-input.file-upload wire:model="files.ursaf" id="ursaf">
-                            <span class="h-12 w-12 rounded-full overflow-hidden bg-gray-100">
-                                @if ($files['ursaf'])
-                                    <img src="{{ $files['ursaf']->temporaryUrl() }}" alt="Profile Photo">
-                                @elseupload
-                                    <img src="{{ $files['ursaf'] }}" alt="Profile Photo">
-                                @endif
-                            </span>
-                        </x-input.file-upload>
-                    </x-input.group>
-
-                    <x-input.group label="Licence d'Exploitation" for="lex" :error="$errors->first('files.lex')">
-                        <x-input.file-upload wire:model="files.lex" id="lex">
-                            <span class="h-12 w-12 rounded-full overflow-hidden bg-gray-100">
-                                @if ($files['lex'])
-                                    <img src="{{ $files['lex']->temporaryUrl() }}" alt="Profile Photo">
-                                @elseupload
-                                    <img src="{{ $files['lex'] }}" alt="Profile Photo">
-                                @endif
-                            </span>  
-                        </x-input.file-upload>
-                    </x-input.group>
-
-                    <x-input.group label="Permis de Conduire" for="pdc" :error="$errors->first('files.pdc')">
-                        <x-input.file-upload wire:model="files.pdc" id="pdc">
-                            <span class="h-12 w-12 rounded-full overflow-hidden bg-gray-100">
-                                @if ($files['pdc'])
-                                    <img src="{{ $files['pdc']->temporaryUrl() }}" alt="Profile Photo">
-                                @elseupload
-                                    <img src="{{ $files['pdc'] }}" alt="Profile Photo">
-                                @endif
-                            </span>  
-                        </x-input.file-upload>
-                    </x-input.group> 
-
-                    <x-input.group label="Assurance marchandise" for="asm" :error="$errors->first('files.asm')">
-                        <x-input.file-upload wire:model="files.asm" id="asm">
-                            <span class="h-12 w-12 rounded-full overflow-hidden bg-gray-100">
-                                @if ($files['asm'])
-                                    <img src="{{ $files['asm']->temporaryUrl() }}" alt="Profile Photo">
-                                @elseupload
-                                    <img src="{{ $files['asm'] }}" alt="Profile Photo">
-                                @endif
-                            </span>  
-                           
-                        </x-input.file-upload>
-                    </x-input.group>
-
-                    <x-input.group label="Assurance Flotte" for="asf" :error="$errors->first('files.asf')">
-                        <x-input.file-upload wire:model="files.asf" id="asf">
-                            <span class="h-12 w-12 rounded-full overflow-hidden bg-gray-100">
-                                @if ($files['asf'])
-                                    <img src="{{ $files['asf']->temporaryUrl() }}" alt="Profile Photo">
-                                @elseupload
-                                    <img src="{{ $files['asf'] }}" alt="Profile Photo">
-                                @endif
-                            </span>  
-                        </x-input.file-upload>
-                    </x-input.group>
-
-                    <x-input.group label="Assurance Véhicule" for="asv" :error="$errors->first('files.asv')">
-                        <x-input.file-upload wire:model="files.asv" id="asv">
-                            <span class="h-12 w-12 rounded-full overflow-hidden bg-gray-100">
-                                @if ($files['asv'])
-                                    <img src="{{ $files['asv']->temporaryUrl() }}" alt="Profile Photo">
-                                @elseupload
-                                    <img src="{{ $files['asv'] }}" alt="Profile Photo">
-                                @endif
-                            </span> 
-                            
-                        </x-input.file-upload>
-                    </x-input.group>
-
-                    <x-input.group label="Carte grise" for="cag" :error="$errors->first('files.cag')">
-                        <x-input.file-upload wire:model="files.cag" id="cag">
-                            <span class="h-12 w-12 rounded-full overflow-hidden bg-gray-100">
-                                @if ($files['cag'])
-                                    <img src="{{ $files['cag']->temporaryUrl() }}" alt="Profile Photo">
-                                @elseupload
-                                    <img src="{{ $files['cag'] }}" alt="Profile Photo">
-                                @endif
-                            </span> 
-                            
-                        </x-input.file-upload>
-                    </x-input.group>
-
-                    <x-input.group label="Attestation LCTD" for="alctd" :error="$errors->first('files.alctd')">
-                        <x-input.file-upload wire:model="files.alctd" id="alctd">
-                            <span class="h-12 w-12 rounded-full overflow-hidden bg-gray-100">
-                                @if ($files['alctd'])
-                                    <img src="{{ $files['alctd']->temporaryUrl() }}" alt="Profile Photo">
-                                @elseupload
-                                    <img src="{{ $files['alctd'] }}" alt="Profile Photo">
-                                @endif
-                            </span> 
-                            
-                        </x-input.file-upload>
-                    </x-input.group>
-
-                    <x-input.group label="Attestation d'impôts" for="ati" :error="$errors->first('files.ati')">
-                        <x-input.file-upload wire:model="files.ati" id="ati">
-                            <span class="h-12 w-12 rounded-full overflow-hidden bg-gray-100">
-                                @if ($files['ati'])
-                                    <img src="{{ $files['ati']->temporaryUrl() }}" alt="Profile Photo">
-                                @elseupload
-                                    <img src="{{ $files['ati'] }}" alt="Profile Photo">
-                                @endif
-                            </span> 
-                        </x-input.file-upload>
-                    </x-input.group>
                 </div>
                
                

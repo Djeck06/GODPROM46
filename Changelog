@@ -66,6 +66,12 @@ All notable changes are documented in this file using the [Keep a CHANGELOG](htt
 
 - getting orders by status finalize
 
+## [] - 2022-26-07
+
+- getting order at packaging state
+- getting order at deposit state
+- updating transporter (file upload at 50%)
+
 
 
 

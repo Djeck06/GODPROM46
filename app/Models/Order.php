@@ -40,24 +40,7 @@ class Order extends Model
     ];
 
    
-    public function getPrivatestateAttribute($value)
-    {
-        $mot = [];
-        $mot = array_values(collect(SELF::privatestatuslist)->filter(function ($item) use ($mot){
-           
-            if(!is_null($this->lastStatus) ){
-               
-                if($item['current'] == $this->lastStatus->label ){
-                    return $mot = ['current' => $item['current'] ,'next' => $item['next'] , 'nextactionname' => $item['nextactionname'] ] ;
-                }
-            }else{
-                return $mot = ['current' => Null ,'next' => Null , 'nextactionname' => Null ] ;
-            }
-        })->toArray());
-        
-        
-        return $mot;
-    }
+    
 
     public function getCodebarAttribute($value)
     {   

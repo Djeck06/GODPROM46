@@ -20,4 +20,9 @@ class Transporter extends Model
         'naf_code',
         'status',
     ];
+
+    public function medias()
+    {
+        return $this->hasMany('App\Models\Media', 'model_id', 'id')->where('model_type',$this->getTable());
+    }
 }

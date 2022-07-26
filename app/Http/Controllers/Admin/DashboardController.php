@@ -31,6 +31,43 @@ class DashboardController extends Controller
         }
     }
 
+    public function packagings ($status = null)
+    {
+        $title = __('Conditionnement') ;
+        if(is_null($status)){
+            return view('admin.packagings', [
+                'title' =>$title,
+            ]) ;
+        }else{
+            if($status == 'pending'){ $secondtitle = __('Commandes en attente de conditionnement') ;}
+           
+            return view('admin.packagings', [
+                'title' => $title,
+                'secondtitle' => $secondtitle ,
+                'etat' => $status,
+            ]);
+        }
+    }
+
+
+    public function deposits ($status = null)
+    {
+        $title = __('Reception de Commandes') ;
+        if(is_null($status)){
+            return view('admin.deposits', [
+                'title' =>$title,
+            ]) ;
+        }else{
+            if($status == 'pending'){ $secondtitle = __('Reception en attente') ;}
+           
+            return view('admin.deposits', [
+                'title' => $title,
+                'secondtitle' => $secondtitle ,
+                'etat' => $status,
+            ]);
+        }
+    }
+
     public function commandassigns()
     {
         return view('admin.commands', [

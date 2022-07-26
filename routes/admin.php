@@ -39,10 +39,23 @@ Route::middleware('auth:admin')->group(function () {
   Route::group(['prefix' => 'order', 'as' => 'orders.'], function () {
     Route::get('/', [DashboardController::class, 'commands'])->name('index');
     Route::get('/{status}', [DashboardController::class, 'commands'])->name('status');
-    Route::get('/{order:reference}/show', [OrderController::class, 'show'])->name('show');
-});
-  Route::get('/docks', [DashboardController::class, 'docks'])->name('docks');
-  Route::get('/command-assigns', [DashboardController::class, 'commandassigns'])->name('commandassigns');
+    //Route::get('/{order:reference}/show', [OrderController::class, 'show'])->name('show');
+  });
+
+  Route::group(['prefix' => 'docks', 'as' => 'docks.'], function () {
+    Route::group(['prefix' => 'packagings', 'as' => 'packagings.'], function () {
+      Route::get('/', [DashboardController::class, 'packagings'])->name('index');
+      Route::get('/{status}', [DashboardController::class, 'packagings'])->name('status');
+      //Route::get('/{order:reference}/show', [OrderController::class, 'show'])->name('show');
+    });
+    Route::group(['prefix' => 'deposits', 'as' => 'deposits.'], function () {
+      Route::get('/', [DashboardController::class, 'deposits'])->name('index');
+      Route::get('/{status}', [DashboardController::class, 'packagings'])->name('status');
+      //Route::get('/{order:reference}/show', [OrderController::class, 'show'])->name('show');
+    });
+  });
+
+  // Route::get('/command-assigns', [DashboardController::class, 'commandassigns'])->name('commandassigns');
   Route::get('/fencing', [DashboardController::class, 'fencing'])->name('fencing');
 
 

@@ -6,14 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Packaging extends Model
+class Deposit extends Model
 {
     use HasFactory, SoftDeletes, StatusTrait  ;
 
     const privatestatuslist = [
-        ['current'=> 'pending' , 'next'=> 'completed' , 'nextactionname'=> Null ],
-        ['current'=> 'completed' , 'next'=> 'underdelivery' , 'nextactionname'=> Null],
-        ['current'=> 'underdelivery' , 'next'=> 'delivered' , 'nextactionname'=> Null],
+        ['current'=> 'pending' , 'next'=> Null , 'nextactionname'=> Null ],
     ];
 
     protected $guarded = [];

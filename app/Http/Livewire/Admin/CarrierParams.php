@@ -8,13 +8,14 @@ use App\Http\Livewire\DataTable\WithSorting;
 use Livewire\WithFileUploads;
 use App\Models\Transporter;
 use Livewire\Component;
+use Maatwebsite\Excel\Concerns\ToArray;
 
 class CarrierParams extends Component
 {
     use WithSorting, WithPerPagePagination, WithCachedRows , WithFileUploads;
     public $showEditModal = false;
   
-    public $files = ['lex'=> null,
+    public $items = ['lex'=> null,
                         'kabis' => null,
                         'ursaf' => null,
                         'pdc'=> null,
@@ -24,6 +25,9 @@ class CarrierParams extends Component
                         'cag'=> null,
                         'alctd'=> null,
                         'ati'=> null,] ;
+
+    public $fileslongnames ; 
+    public $initaction ;
 
     public $filters = [
         'search' => '',
@@ -35,7 +39,7 @@ class CarrierParams extends Component
 
     public function rules()
     {
-        return [
+        $rules = [
             'editing.firstname' => 'required',
             'editing.lastname' => 'required',
             'editing.phone' => 'required',
@@ -45,18 +49,45 @@ class CarrierParams extends Component
             'editing.siret_number' => 'nullable',
             'editing.naf_code' => 'nullable',
             'editing.registration_number' => 'nullable',
-            'kabis_file' => 'image',
-            'ursaf_file' => 'image',
-            'file.lex' => 'image',
-            'file.pdc' => 'image',
-            'file.asm' => 'image',
+           
         ];
+
+        if($this->initaction == 'create' ){
+            foreach($this->files as $k=>$v){
+                $rules['files.'.$k] = 'required|file' ;
+            }
+        }
+
+        if($this->initaction == 'edit' ){
+            foreach($this->files as $k=>$v){
+                $rules['files.'.$k] = 'nullable|file' ;
+            }
+        }
+
+        return $rules ;
     }
 
     public function mount()
     {
+        
+        $this->initaction = Null;
         $this->editing = $this->makeBlankCarrier();
+        $this->files = $this->items;
+        $this->fileslongnames= ['lex'=> ['label'=>'Licence d exploitation'],
+                        'kabis' => ['label'=> "KABIS"],
+                        'ursaf' => ['label'=> "URSAF"],
+                        'pdc'=> ['label'=> "Permis de Conduire"],
+                        'asm'=> ['label'=> "Assurance marchandise"],
+                        'asf'=> ['label'=> "Assurance Flotte"],
+                        'asv'=> ['label'=> "Assurance véhicule"],
+                        'cag'=> ['label'=> "Carte grise"],
+                        'alctd'=> ['label'=> "Attestation LCTD"],
+                        'ati'=> ['label'=> "Attestation d'impôts"],
+                    ] ;
+
     }
+
+ 
 
     public function makeBlankCarrier()
     {
@@ -68,16 +99,28 @@ class CarrierParams extends Component
         $this->useCachedRows();
 
         if ($this->editing->getKey()) $this->editing = $this->makeBlankCarrier();
-
+        $this->initaction = 'create' ;
         $this->showEditModal = true;
     }
 
     public function edit(Transporter $transporter)
     {
         $this->useCachedRows();
-
         if ($this->editing->isNot($transporter)) $this->editing = $transporter;
 
+      
+        $this->editing->medias->map(
+            function ($item) {
+                if( array_key_exists($item->document_type, $this->files)){
+                    $this->fileslongnames[$item->document_type]['model'] = $item->toArray() ;
+                    $this->fileslongnames[$item->document_type]['model']['fileUrl'] = $item->fileUrl() ;
+                }
+            }
+        );
+
+      
+       
+        $this->initaction = 'edit' ;
         $this->showEditModal = true;
     }
 
@@ -86,7 +129,7 @@ class CarrierParams extends Component
         $query = Transporter::query()
             ->when($this->filters['search'], fn ($query, $search) => $query->where('firstname', 'like', '%' . $search . '%')->orWhere('lastname', 'like', '%' . $search . '%')
             ->orWhere('phone', 'like', '%' . $search . '%'));
-
+        //dd($query->with('medias')->get()) ;
         return $this->applySorting($query);
     }
 
@@ -100,19 +143,63 @@ class CarrierParams extends Component
     public function save()
     {
         $this->validate();
-        // dd($this->editing);
 
         $this->editing->save();
+        $this->saveMedia();
+        
+        $this->initaction = Null ;
+        $this->showEditModal = false;
+    }
 
-        foreach($this->files as $key =>$file){
+    private function saveMedia(){
+        $medias = $this->editing->medias ;
+        $medias_existant_keys =[];
+
+        if(count($medias) > 0){
+            $medias_existant_keys = $medias->map(function($item){
+                return $item->document_type ;
+            })->ToArray() ;
+            $medias->map(function($item){
+                if( array_key_exists($item->document_type, $this->files)){
+                
+                    if(!is_null($file = $this->files[$item->document_type] )){
+                        
+                        $item->name= $file->store('/transporters/', 'public') ;
+                        $item->file_name= $file->getClientOriginalName();
+                        $item->extension= $file->getClientOriginalExtension() ;
+                        $item->mime_type= $file->getClientMimeType() ;
+                        $item->size= $file->getSize()  ;
+                        $item->order_column=
+                        $item->save();
+
+                    }
+                
+                }
+            }) ;
+        }
+
+        
+
+        $orther_files = $this->files ;
+        foreach($medias_existant_keys as $v){
+            unset($orther_files[$v]) ;
+        }
+
+        foreach($orther_files as $key =>$file){
             if(!is_null($file)){
-                // $this->editing->update([
-                //     $key => $file->store('/documents/transporter', 'public'),
-                // ]);
+                $media = new \App\Models\Media ;
+                $media->model_id= $this->editing->id ;
+                $media->model_type= $this->editing->getTable() ;
+                $media->name=  $file->store('/transporters/', 'public') ;
+                $media->file_name= $file->getClientOriginalName();
+                $media->extension= $file->getClientOriginalExtension() ;
+
+                $media->mime_type= $file->getClientMimeType() ;
+                $media->size= $file->getSize() ;
+                $media->document_type= $key ;
+                $media->save();
             }
         }
-       
-        $this->showEditModal = false;
     }
 
     public function render()

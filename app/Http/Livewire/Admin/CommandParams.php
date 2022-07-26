@@ -282,7 +282,7 @@ class CommandParams extends Component
     {
         $this->validate();
         $orderitems = [];
-        
+       
         foreach ($this->items as $item) {
             $price = \App\Models\Price::where('package_id', $item['type'])->where('pickup_country_id', $this->editing->pickup_country)->where('delivery_country_id', $this->editing->delivery_country)->first();
             $insurance =  0;
