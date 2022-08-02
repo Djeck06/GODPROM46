@@ -4,8 +4,6 @@ namespace App\Http\Livewire\Admin\Commands;
 
 
 use App\Http\Livewire\DataTable\WithCachedRows;
-use App\Http\Livewire\DataTable\WithPerPagePagination;
-use App\Http\Livewire\DataTable\WithSorting;
 use App\Models\Order;
 use Livewire\Component;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
@@ -13,7 +11,7 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class Tiketmodal extends Component
 {
-    use WithSorting, WithPerPagePagination, WithCachedRows;
+    use  WithCachedRows;
 
     public $showTiketModal = false;
 
@@ -27,20 +25,10 @@ class Tiketmodal extends Component
     ];
 
 
-    protected $queryString = ['sorts'];
-
-
-    public function rules()
-    {
-        return [
-           
-        ];
-    }
 
     public function mount()
     {
         $this->editing = $this->makeBlankOrder();
-        
     }
 
 
@@ -58,18 +46,8 @@ class Tiketmodal extends Component
         $this->showTiketModal = true;
     }
 
-
-   
-
-    public function save()
-    {}
-
     public function render()
-    {
-      
+    { 
         return view('livewire.admin.commands.tiketmodal');
-        // return view('livewire.admin.commands.tiketmodal', [
-        //     'commands' => $this->rows,
-        // ]);
     }
 }

@@ -17,7 +17,7 @@ trait StatusTrait
             if(!is_null($this->lastStatus) ){
                
                 if($item['current'] == $this->lastStatus->label ){
-                    return $mot = ['current' => $item['current'] ,'next' => $item['next'] , 'nextactionname' => $item['nextactionname'] ] ;
+                    return $mot = ['current' => $item['current'] ,'next' => $item['next'] , 'nextactionname' => $item['nextactionname']  ] ;
                 }
             }else{
                 return $mot = ['current' => Null ,'next' => Null , 'nextactionname' => Null ] ;
@@ -27,7 +27,8 @@ trait StatusTrait
         
         return $mot;
     }
-    
+
+
     public function changeStatus(String $status){
         $this->status()->create([
             'label' =>  $status,
@@ -41,6 +42,17 @@ trait StatusTrait
     }
     
     public function lastStatus()
+    {
+        $r = $this->status();
+        
+        $r->getQuery()->orderBy('created_at','desc')->limit(1);
+        $builder = $r->latest(); // Add your own conditions etc...
+
+        $relation = new HasOne($builder->getQuery(), $this, 'source_id', 'id');
+        return $relation;
+    }
+
+    public function lasttstatus()
     {
         $r = $this->status();
         

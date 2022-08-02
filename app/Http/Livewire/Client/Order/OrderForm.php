@@ -11,9 +11,12 @@ use App\Models\Price;
 use Livewire\Component;
 // use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use App\Http\Controllers\StripeTrait ;
+
 
 class OrderForm extends Component
 {
+    use StripeTrait ;
     public Order $order;
     public $items = [];
     public $prices = [];
@@ -159,6 +162,8 @@ class OrderForm extends Component
                 //'has_insurance' => $item['insurance_price'] > 0
             ]));
         }
+
+        $this->paymentItent($client,$order) ;
 
         if (!file_exists(public_path('orders/qrcode'))) {
             mkdir(public_path('orders/qrcode'), 0777, true);

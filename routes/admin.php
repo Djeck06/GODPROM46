@@ -40,6 +40,13 @@ Route::middleware('auth:admin')->group(function () {
     Route::get('/', [DashboardController::class, 'commands'])->name('index');
     Route::get('/{status}', [DashboardController::class, 'commands'])->name('status');
     //Route::get('/{order:reference}/show', [OrderController::class, 'show'])->name('show');
+
+  });
+
+  Route::group(['prefix' => 'appointment', 'as' => 'appointments.'], function () {
+    Route::get('/', [DashboardController::class, 'appointments'])->name('index');
+    Route::get('/{status}', [DashboardController::class, 'appointments'])->name('status');
+    //Route::get('/{order:reference}/show', [OrderController::class, 'show'])->name('show');
   });
 
   Route::group(['prefix' => 'docks', 'as' => 'docks.'], function () {
@@ -63,7 +70,7 @@ Route::middleware('auth:admin')->group(function () {
     Route::get('/countries', [ParamsController::class, 'countries'])->name('countries');
     Route::get('/packages', [ParamsController::class, 'packages'])->name('packages');
     Route::get('/prices', [ParamsController::class, 'prices'])->name('prices');
-    Route::get('/appointments', [ParamsController::class, 'appointments'])->name('appointments');
+    Route::get('/appoints', [ParamsController::class, 'appointments'])->name('appointments');
 
     
   });

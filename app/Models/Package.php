@@ -16,4 +16,6 @@ class Package extends Model
         'image',
     ];
 
+    
+
 }

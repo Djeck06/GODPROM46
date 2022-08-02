@@ -105,19 +105,19 @@
                             open = true;
                         })
                     " x-show.transition.out.duration.1000ms="open" style="display: none;"
-                    class="text-gray-500">Saved!</span>
+                    class="text-gray-500">{{__('Saved!')}}</span>
 
                 <span class="inline-flex rounded-md shadow-sm">
                     <button type="button"
                         class="py-2 px-4 border border-gray-300 rounded-md text-sm leading-5 font-medium text-gray-700 hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800 transition duration-150 ease-in-out">
-                        Cancel
+                        {{__('Cancel')}}
                     </button>
                 </span>
 
                 <span class="inline-flex rounded-md shadow-sm">
                     <button type="submit"
                         class="inline-flex justify-center py-2 px-4 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue active:bg-blue-700 transition duration-150 ease-in-out">
-                        Save
+                        {{__('Save')}}
                     </button>
                 </span>
             </div>

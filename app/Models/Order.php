@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+
 
 
 class Order extends Model
@@ -22,22 +24,28 @@ class Order extends Model
 
     const statusvisibleforclient = ['pending' , 'paid' ,'packageissued' , 'readytopickup' , 'pickedup'] ;
 
-    const publicstatuslist = [
+    // const publicstatuslist = [
+    //     ['current'=> 'pending' , 'next'=> 'paid' ,  'todisplay'=> True ,'nextactionname'=> 'pay'], 
+    //     ['current'=> 'paid' , 'next'=> 'packageissued' , 'nextactionname'=> 'receivepackaging'],
+    //     ['current'=> 'packageissued' , 'next'=> 'readytopickup' , 'nextactionname'=> 'set_appointment_date'],
+    //     ['current'=> 'readytopickup' , 'next'=> 'readytopickup' , 'nextactionname'=> 'set_appointment_date'],
+    //     ['current'=> 'readytopickup' , 'next'=> 'pickedup' , 'nextactionname'=> 'pickup'],
+    // ];
+
+    const privatestatuslist = [
+        //['current'=> 'pending' , 'next'=> Null , 'nextactionname'=> Null ],
         ['current'=> 'pending' , 'next'=> 'paid' ,  'todisplay'=> True ,'nextactionname'=> 'pay'], 
-        ['current'=> 'paid' , 'next'=> 'packageissued' , 'nextactionname'=> 'receivepackaging'],
+
+        ['current'=> 'paid' , 'next'=> 'packagingprocessing' , 'nextactionname'=> 'sendtopackagings'],
+        ['current'=> 'packagingprocessing' , 'next'=> 'packagingdeliveryprocessing' , 'nextactionname'=> Null],
+        ['current'=> 'packagingdeliveryprocessing' , 'next'=> 'packageissued' , 'nextactionname'=>'receivepackaging'],
         ['current'=> 'packageissued' , 'next'=> 'readytopickup' , 'nextactionname'=> 'set_appointment_date'],
         ['current'=> 'readytopickup' , 'next'=> 'readytopickup' , 'nextactionname'=> 'set_appointment_date'],
+        ['current'=> 'readytopickup' , 'next'=> Null , 'todisplay'=> True , 'nextactionname'=> 'goto_appointment'],
         ['current'=> 'readytopickup' , 'next'=> 'pickedup' , 'nextactionname'=> 'pickup'],
     ];
 
-    const privatestatuslist = [
-        ['current'=> 'pending' , 'next'=> Null , 'nextactionname'=> Null ],
-        ['current'=> 'paid' , 'next'=> 'packagingprocessing' , 'nextactionname'=> 'sendtopackagings'],
-        ['current'=> 'packagingprocessing' , 'next'=> 'packagingunderdelivery' , 'nextactionname'=> Null],
-        ['current'=> 'packagingunderdelivery' , 'next'=> 'packagingdelivered' , 'nextactionname'=> 'transmitpackaging'],
-        ['current'=> 'packagingdelivered' , 'next'=> 'readytopickup' , 'nextactionname'=> 'set_appointment_date'],
-        ['current'=> 'readytopickup' , 'next'=> 'pickedup' , 'nextactionname'=> 'pickup'],
-    ];
+    
 
    
     
@@ -46,7 +54,7 @@ class Order extends Model
     {   
         $mot = Null;
         $generator = new BarcodeGeneratorPNG();
-        if(!is_null($this->str_sku)) $mot = base64_encode($generator->getBarcode($this->str_sku, $generator::TYPE_CODE_128 , 3, 200 , [255, 0, 0])) ;
+        if(!is_null($this->str_sku)) $mot = base64_encode($generator->getBarcode($this->str_sku, $generator::TYPE_CODE_128 , 3, 200 )) ;
 
         return $mot;
     }
@@ -88,7 +96,8 @@ class Order extends Model
                     $fail("une commande est déja au niveau du packaging ");
                 }
             } 
-        }]] ;
+        }] ,
+        'editing.transporter_id'=> 'required|numeric|exists:transporters,id'] ;
 
         return $rules ;
     }
@@ -133,6 +142,17 @@ class Order extends Model
         return $this->hasMany(Packaging::class);
     }
 
+    public function lastpackaging()
+    {
+        $r = $this->packagings();
+        
+        $r->getQuery()->orderBy('created_at','desc')->limit(1);
+        $builder = $r->latest(); // Add your own conditions etc...
+
+        $relation = new HasOne($builder->getQuery(), $this, 'order_id', 'id');
+        return $relation;
+    }
+
     public function events()
     {
         return $this->hasMany(OrderEvent::class);
@@ -141,6 +161,17 @@ class Order extends Model
     public function appointments()
     {
         return $this->hasMany(OrderAppointment::class);
+    }
+
+    public function lastappointment()
+    {
+        $r = $this->appointments();
+        
+        $r->getQuery()->orderBy('created_at','desc')->limit(1);
+        $builder = $r->latest(); // Add your own conditions etc...
+
+        $relation = new HasOne($builder->getQuery(), $this, 'order_id', 'id');
+        return $relation;
     }
 
     private static function generateReference()

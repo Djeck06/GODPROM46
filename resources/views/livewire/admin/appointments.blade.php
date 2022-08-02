@@ -50,67 +50,49 @@
                     </x-table.heading>
                     <x-table.heading>Date et Heure</x-table.heading>
                     <x-table.heading sortable multi-column wire:click="sortBy('name')"
-                        :direction="$sorts['name'] ?? null">Réference</x-table.heading>
-                    <x-table.heading sortable multi-column wire:click="sortBy('name')"
-                        :direction="$sorts['name'] ?? null">Client</x-table.heading>
+                        :direction="$sorts['name'] ?? null">Réference
+                    </x-table.heading>
                     <x-table.heading>Ville d'enlèvement</x-table.heading>
                     <x-table.heading>Adresse d'Enlevement</x-table.heading>
-                    <x-table.heading>Pays de Livraison</x-table.heading>
-                    <x-table.heading>Ville de Livraison</x-table.heading>
+                    <x-table.heading>Rendez-vous</x-table.heading>
                     <x-table.heading>Statut</x-table.heading>
-                    <x-table.heading>Payement</x-table.heading>
                     <x-table.heading />
                 </x-slot>
 
                 <x-slot name="body">
-                    @forelse ($commands as $order)
-                        <x-table.row wire:loading.class.delay="opacity-50" wire:key="row-{{ $order->id }}">
+                    @forelse ($datas as $el)
+                        <x-table.row wire:loading.class.delay="opacity-50" wire:key="row-{{ $el->id }}">
                             <x-table.cell class="pr-0">
-                                <x-input.checkbox value="{{ $order->id }}" wire:model="selectedsdata" />
+                                <x-input.checkbox value="{{ $el->id }}" wire:model="selectedsdata" />
                             </x-table.cell>
 
                             <x-table.cell>
-                                <span class="">{{ $order->created_at->diffForHumans()  }}<br> {{ $order->created_at->toAtomString()  }}</span>
+                                <span class="">{{ $el->created_at->diffForHumans()  }}<br> {{ $el->created_at->toAtomString()  }}</span>
                             </x-table.cell>
                            
                             <x-table.cell>
-                                <span class="">{{ $order->reference }}</span>
+                                <span class="">{{ $el->order->reference }}</span>
+                            </x-table.cell>
+
+
+                            <x-table.cell>
+                                <span class="">{{ $el->order->pickup_city }}</span>
+                            </x-table.cell>
+                            <x-table.cell>
+                                <span class="">{{ $el->order->pickup_address }}</span>
                             </x-table.cell>
 
                             <x-table.cell>
-                                <span class="inline-flex space-x-2 truncate text-sm leading-5">
-                                @if($order->client) {{ $order->client->last_name}} {{ $order->client->first_name}} @endif
+                                <span class="">
+                                    {{ $el->appointment_date->format('Y-m-d') .' ' . $el->appointment_start .' to ' . $el->appointment_end }}
+
                                 </span>
                             </x-table.cell>
 
                             <x-table.cell>
-                                <span class="">{{ $order->pickup_city }}</span>
-                            </x-table.cell>
-                            <x-table.cell>
-                                <span class="">{{ $order->pickup_address }}</span>
+                                @if($el->lastStatus)<span class="{{ $el->lastStatus->color }} font-semibold inline-flex px-2 py-1 rounded-2xl text-gray-800 text-xs">{{ $el->lastStatus->label }}</span> @endif
                             </x-table.cell>
 
-                            <x-table.cell>
-                                <span class="">{{ $order->name }}</span>
-                            </x-table.cell>
-
-                            <x-table.cell>
-                                <span class="">{{ $order->delivery_city }}</span>
-                            </x-table.cell>
-
-                            <x-table.cell>
-                                @if($order->lastStatus)<span class="{{ $order->lastStatus->color }} font-semibold inline-flex px-2 py-1 rounded-2xl text-gray-800 text-xs">{{ $order->lastStatus->label }}</span> @endif
-                            </x-table.cell>
-
-                           
-
-                            <x-table.cell>
-                            @if($order->payment && $order->payment->lastStatus)
-                                <span class="{{ $order->payment->lastStatus->color }} font-semibold inline-flex px-2 py-1 rounded-2xl  text-xs">{{ $order->payment->lastStatus->label }} </span> 
-                            @else
-                                <span class="bg-red-100 text-red-800 font-semibold inline-flex px-2 py-1 rounded-2xl  text-xs"> pending </span> 
-                            @endif
-                            </x-table.cell>
 
                             <x-table.cell>
                                 <div class="flex justify-center items-center">
@@ -124,18 +106,18 @@
                                         </x-slot>
 
                                         <x-slot name="content">
-                                            <a href="#" class="block px-4 py-2 hover:bg-blue-400 hover:text-white" wire:click="show({{ $order->id }})" >
+                                            <a href="#" class="block px-4 py-2 hover:bg-blue-400 hover:text-white" wire:click="show({{ $el->id }})" >
                                                 Détail
                                             </a>
-                                            @foreach ($order->privatestate as $state)
+                                            @foreach ($el->privatestate as $state)
                                                 @if(!is_null($state['nextactionname']) )
-                                                    <a href="javascript:void(0)" class="block px-4 py-2 hover:bg-blue-400 hover:text-white" wire:click="next('{{ $state['nextactionname']}}', {{$order->id }})" >
+                                                    <a href="javascript:void(0)" class="block px-4 py-2 hover:bg-blue-400 hover:text-white" wire:click="next('{{ $state['nextactionname']}}', {{$el->id }})" >
                                                         {{ __($state['nextactionname']) }}
                                                     </a>
                                                 @endif
                                             @endforeach
 
-                                            <a href="javascript:void(0)" class="block px-4 py-2 hover:bg-blue-400 hover:text-white" wire:click="tiket({{ $order->id }})" >
+                                            <a href="javascript:void(0)" class="block px-4 py-2 hover:bg-blue-400 hover:text-white" wire:click="tiket({{ $el->id }})" >
                                                 Etiquette
                                             </a>
 
@@ -146,18 +128,6 @@
                                         </x-slot>
                                     </x-button.dropdown>
 
-                    
-                                 
-                  
-
-                                    
-                                    <div class="flex justify-center items-center">
-                                        <x-button class="flex items-center mr-3" wire:click="edit({{ $order->id }})">
-                                            <x-icon.edit class="w-4" />Modifier
-                                        </x-button>
-
-                                    </div>
-
                                 </div>
                             </x-table.cell>
                         </x-table.row>
@@ -166,7 +136,7 @@
                             <x-table.cell colspan="11">
                                 <div class="flex justify-center items-center space-x-2">
                                     <x-icon.inbox class="h-5 w-5 text-cool-gray-400" />
-                                    <span class="font-medium py-8 text-cool-gray-400 text-md">Aucune commande!
+                                    <span class="font-medium py-8 text-cool-gray-400 text-md">Aucun Rendez-vous
                                     </span>
                                 </div>
                             </x-table.cell>
@@ -177,36 +147,29 @@
             </x-table>
 
             <div>
-                {{ $commands->links() }}
+                {{ $datas->links() }}
             </div>
         </div>
     </div>
 
     <!-- Save  Modal -->
-    <form wire:submit.prevent="save">
-        <x-modal.dialog wire:model.defer="showEditModal" cssWidth="sm:w-8/12">
-            <x-slot name="title">Editer une commande</x-slot>
-            <x-slot name="content"></x-slot>
-            <x-slot name="footer"></x-slot>
-        </x-modal.dialog>
-    </form>
-
+  
     <x-modal.dialog wire:model.defer="showDetailModal" cssWidth="sm:w-8/12">
         <x-slot name="title">Consulter une commande</x-slot>
 
         <x-slot name="content">
 
             <div class="md:grid md:grid-cols-1 md:gap-6">
-                @if(!is_null($selectorder))
-                @include('client.order.inc.header', ['order' => $selectorder])
+                @if(!is_null($selectappointment))
+                @include('client.order.inc.header', ['order' => $selectappointment])
                   
                 @endif
                 <div class="mt-5">
 
                     <div class="md:grid md:grid-cols-5 md:gap-6">
                         <div class="mt-5 md:mt-0 md:col-span-4">
-                            @if(!is_null($selectorder))
-                                @include('client.order.inc.menu', ['order' => $selectorder])
+                            @if(!is_null($selectappointment))
+                                @include('client.order.inc.menu', ['order' => $selectappointment])
 
                             @endif
                             <div class="md:col-span-1">
@@ -217,16 +180,16 @@
                                     <ul>
                                         <li class="py-3 w-full flex items-center justify-between text-sm">
                                             <span>{{ __('Subtotal') }}</span>
-                                            <span class="font-bold text-gray-900">{{ $selectorder->price   }}€</span>
+                                            <span class="font-bold text-gray-900">{{ $selectappointment->price   }}€</span>
                                         </li>
                                         <li class="py-3 w-full flex items-center justify-between text-sm">
                                             <span>{{ __('Insurance Fees') }}</span>
-                                            <span class="font-bold text-gray-900">{{ $selectorder->insurance }}€</span>
+                                            <span class="font-bold text-gray-900">{{ $selectappointment->insurance }}€</span>
                                         </li>
                                         <li
                                             class="py-3 w-full flex items-center justify-between text-md border-t border-gray-20">
                                             <span class="font-semibold text-gray-800">{{ __('Total') }}</span>
-                                            <span class="font-bold text-gray-900">{{ $selectorder->total }}€</span>
+                                            <span class="font-bold text-gray-900">{{ $selectappointment->total }}€</span>
                                         </li>
                                     </ul>
                                 
@@ -237,16 +200,16 @@
                                     <div class="border-2 border-blue-400 p-4 rounded">
                                         <h4 class="font-semibold">{{ __('Pickup Address') }}</h4>
                                         <address class="mt-4">
-                                            <p>{{ $selectorder->pickup_address }}</p>
-                                            <p>@if(!is_null($selectorder->pickupCountry)){{ $selectorder->pickup_city }}, {{ $selectorder->pickupCountry->name }}@endif</p>
+                                            <p>{{ $selectappointment->pickup_address }}</p>
+                                            <p>@if(!is_null($selectappointment->pickupCountry)){{ $selectappointment->pickup_city }}, {{ $selectappointment->pickupCountry->name }}@endif</p>
                                         </address>
                                     </div>
                                     <div class="border-2 border-blue-400 p-4 rounded">
                                         <h4 class="font-semibold">{{ __('Delivery Address') }}</h4>
                                         <address class="mt-4">
-                                            <p>{{ $selectorder->delivery_address }}</p>
-                                            <p>{{ __('Tel: ') }} {{ $selectorder->delivery_phone }}</p>
-                                            <p>@if(!is_null($selectorder->deliveryCountry)){{ $selectorder->delivery_city }}, {{ $selectorder->deliveryCountry->name }}@endif</p>
+                                            <p>{{ $selectappointment->delivery_address }}</p>
+                                            <p>{{ __('Tel: ') }} {{ $selectappointment->delivery_phone }}</p>
+                                            <p>@if(!is_null($selectappointment->deliveryCountry)){{ $selectappointment->delivery_city }}, {{ $selectappointment->deliveryCountry->name }}@endif</p>
                                         </address>
                                     </div>
                                 </div>
@@ -256,49 +219,16 @@
                                 </div>
 
 
-                                <ul role="list" class="-my-6 divide-y divide-gray-200">
-                                @if(!is_null($selectorder))
-                                    @foreach ($selectorder->items as $item)
-                                        <li class="flex py-6">
-                                            <div
-                                                class="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
-                                                <img src="{{ $item->package->image ? asset($item->package->image) : asset('images/package/default.jpeg') }}"
-                                                    alt="Package image" class="h-full w-full object-cover object-center">
-                                            </div>
+                              
 
-                                            <div class="ml-4 flex flex-1 flex-col">
-                                                <div>
-                                                    <div class="flex justify-between text-base font-medium text-gray-900">
-                                                        <h3>
-                                                            <a href="#"> {{ $item->package->name }} </a>
-                                                        </h3>
-                                                        <p class="ml-4">{{ $item->quantity *  $item->price }}€</p>
-                                                    </div>
-                                                    {{--<p class="mt-1 text-sm text-gray-500">{{ $item->package->name }}</p> --}}
-                                                </div>
-                                                <div class="flex flex-1 items-end justify-between text-sm">
-                                                    <p class="text-gray-500">
-                                                        {{ $item->quantity }} x {{ $item->price }}€
-                                                        @if ($item->has_insurance)
-                                                            <br><span
-                                                                class="text-gray-3000">{{ __('Insurance Fees').': ' . '5€' }}</span>
-                                                        @endif
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    @endforeach
-                                @endif
-                                </ul>
-
-                                @if ($selectorder->notes)
+                                @if ($selectappointment->notes)
                                     <div class="py-5">
                                         <div class="border-t border-gray-400"></div>
                                     </div>
 
                                     <div class="border-2 border-blue-400 p-4 rounded">
                                         <h4 class="font-semibold">{{ __('Additional notes') }}</h4>
-                                        <p>{{ $selectorder->notes }}</p>
+                                        <p>{{ $selectappointment->notes }}</p>
                                     </div>
                                 @endif
 
@@ -308,9 +238,9 @@
                         
 
                         <div class="md:col-span-1">
-                            @if(!is_null($selectorder))
+                            @if(!is_null($selectappointment))
 
-                                @include('client.order.inc.sidebar', ['order' => $selectorder])
+                                @include('client.order.inc.sidebar', ['order' => $selectappointment])
 
                             @endif
                             
@@ -327,10 +257,8 @@
     </x-modal.dialog>
     
     
-  
+    <livewire:admin.commands.assignmodal/>
     <livewire:admin.commands.tiketmodal  />
-    <livewire:admin.commands.sendtopackagingmodal/>
-    <livewire:admin.commands.deliverymodal  />
 
 
 </div>

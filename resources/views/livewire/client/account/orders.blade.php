@@ -28,7 +28,6 @@
                     <x-table.heading sortable multi-column wire:click="sortBy('price')"
                         :direction="$sorts['price'] ?? null" class="">{{ __('Price') }}</x-table.heading>
                     <x-table.heading>{{ __('Status') }}</x-table.heading>
-                    <x-table.heading>{{ __('Payment') }}</x-table.heading>
                     <x-table.heading sortable multi-column wire:click="sortBy('created_at')"
                         :direction="$sorts['created_at'] ?? null" class="">{{ __('Date') }}</x-table.heading>
                     <x-table.heading />
@@ -57,15 +56,14 @@
                             </x-table.cell>
 
                             <x-table.cell>
-                                
-                                <span class="bg-green-100 font-semibold inline-flex px-2 py-2  text-xs">@if($order->lastStatus){{ $order->lastStatus->label }}@endif</span>
+                                @if($order->lastStatus)
+                                <span class="{{ $order->lastStatus->color }} font-semibold inline-flex px-2 py-2  md:w-full text-xs">{{ __($order->lastStatus->label) }}</span>
+                                @else
+                                <span class="bg-red-100 font-semibold inline-flex px-2 py-2  md:w-full text-xs">{{ __("wrong") }}</span>
+                                @endif
             
                             </x-table.cell>
-                            <x-table.cell>
-                                
-                                <span class="bg-green-100 font-semibold inline-flex px-2 py-2  text-xs">@if($order->payment && $order->payment->lastStatus){{ $order->payment->lastStatus->label }}@endif</span>
-            
-                            </x-table.cell>
+                            
 
                             <x-table.cell>
                             Il y a <span class="font-semibold ">  {{ explode('il y a',$order->created_at->diffForHumans())[1] }}</span>

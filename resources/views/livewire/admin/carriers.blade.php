@@ -58,7 +58,7 @@
                             </x-table.cell>
                             <x-table.cell>
                                 <span class="inline-flex space-x-2 truncate text-sm leading-5">
-                                    {{ $transporter->register_number }}
+                                    {{ $transporter->registration_number }}
                                 </span>
                             </x-table.cell>
                             <x-table.cell>
@@ -154,7 +154,9 @@
                 </div>
                 <div class="sm:grid sm:grid-cols-2 sm:gap-x-12 ">
                 
-                    
+                    <x-input.group for="registration_number" label="Numérod'immatriculation" :error="$errors->first('editing.registration_number')">
+                        <x-input.text wire:model.defer="editing.registration_number" id="registration_number" placeholder="Numérod'immatriculation" />
+                    </x-input.group>
 
                     <x-input.group for="tva_number" label="Numéro TVA" :error="$errors->first('editing.tva_number')">
                         <x-input.text wire:model.defer="editing.tva_number" id="tva_number" placeholder="Numéro TVA" />
@@ -179,15 +181,18 @@
                 <div class="sm:grid sm:grid-cols-2 sm:gap-x-12 ">
                     @forelse ($files as $key => $t)
                     <div class="sm:grid sm:grid-cols-2  ">
-                    
-                        <x-input.group label="{{$fileslongnames[$key]['label']}}" for="{{$key}}" :error="$errors->first('files.'.$key)">
-                            <x-input.file-upload wire:model.defer="files.{{$key}}" id="{{$key}}" name="{{$key}}" >
-                            
-                                <div wire:loading wire:target="files.{{$key}}">Uploading...</div>
-                            
-                            </x-input.file-upload>
-                        </x-input.group>
+                        
+                            <x-input.group  label="{{$fileslongnames[$key]['label']}}" for="{{$key}}" :error="$errors->first('files.'.$key)">
+                                <x-input.file-upload wire:model.defer="files.{{$key}}" id="{{$key}}" name="{{$key}}" >
+                                
+                                
+                                </x-input.file-upload>
+                            </x-input.group>
+                        
+
                         <div class="sm:grid sm:grid-cols-1">
+                        <div wire:loading wire:target="files.{{$key}}">Uploading...</div>
+
                         @if ($files[$key])
                             @if(collect(['jpg', 'png', 'jpeg', 'webp'])->contains($t->getClientOriginalExtension()))
                                 <span class="h-12 w-12  overflow-hidden bg-gray-100">
@@ -195,28 +200,37 @@
                                 </span> 
                             @else
 
-                                <span class="h-12 w-12  overflow-hidden bg-gray-100">
+                                <span class="h-12 w-12  overflow-hidden bg-white">
                                     <svg class="h-12 w-12" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                                     </svg>
                                 </span>
+                               
+                               
                             @endif
+                                <span class="text-xs">
+                                    {{ $t->getClientOriginalName()}}
+                                </span>
                         @else
                             @if(array_key_exists('model',$fileslongnames[$key]))
                                 @if(collect(['jpg', 'png', 'jpeg', 'webp'])->contains($fileslongnames[$key]['model']['extension']) )
                                     <span class="h-12 w-12  overflow-hidden bg-gray-100">
                                         <img src="{{ $fileslongnames[$key]['model']['fileUrl'] }}" alt="Profile Photo">
                                     </span> 
+
                                 @else
                                 
-                                    <span class="h-12 w-12  overflow-hidden bg-gray-100">
+                                    <span class="h-12 w-12  overflow-hidden bg-white">
                                         <svg class="h-12 w-12" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                                         </svg>
                                         
                                     </span>
-                                    {{ $fileslongnames[$key]['model']['file_name'] }}
+                                    
                                 @endif
+                                <span class="text-xs">
+                                    {{ $fileslongnames[$key]['model']['file_name'] }}
+                                    </span>
                                   
                             @endif
 

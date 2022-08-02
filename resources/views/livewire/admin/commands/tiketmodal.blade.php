@@ -135,7 +135,7 @@
                                         <div class="w-8/12">
                                             <img class="w-full p-2 border border-gray-100 mb-2"
                                                 src="{{ asset('orders/qrcode/' . $editing->reference . '.svg') }}"
-                                                alt="{{ __('Order ' . $editing->reference . ' QRCODE') }}">
+                                                alt="{{ __('Order').' '. $editing->reference . ' QRCODE'}}">
 
                                         </div>
                                     </div>

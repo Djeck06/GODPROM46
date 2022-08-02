@@ -1,0 +1,1 @@
+<input {{ $attributes }} class="shadow-none" type="radio" />

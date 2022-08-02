@@ -21,12 +21,14 @@
         <!-- Scripts -->
         {{--<script src="{{ asset('js/app.js') }}" defer></script> --}}
     <script src="{{ asset('js/admin.js') }}" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.min.js"></script>
+    <script src="https://js.stripe.com/v3"></script>
 
     </head>
     <body class="font-sans antialiased flex flex-col min-h-screen">
         @include('partials.app.header')
         <!-- Page Content -->
-        <main class="main relative flex-grow">
+        <main class="main relative flex-grow"  id="app">
             {{ $slot }}
         </main>
 

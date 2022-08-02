@@ -10,7 +10,7 @@ class ProfileController extends Controller
     public function index()
     {
         return view('client.profile.index', [
-            'title' => __('My Profile'),
+            'title' => __('My profile'),
         ]);
     }
 

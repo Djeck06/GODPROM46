@@ -1,10 +1,13 @@
 <div>
-    @if ($order->lastStatus && in_array( strtolower($order->lastStatus->label) , ['readytopickup']))
-        @if (!is_null( $order_appointment))
-            <span class="text-sm text-gray-500"></span>
+    @if ($editing->lastStatus && in_array( strtolower($editing->lastStatus->label) , ['readytopickup','packageissued']))
+        
             <span class="hidden sm:block">
-                <button type="button" wire:click="$toggle('showModal')" 
+
+              
+
+                <button type="button" wire:click="next('set_appointment_date', {{$editing->id }})" 
                     class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    
                     <!-- Heroicon name: solid/pencil -->
                     <svg xmlns="http://www.w3.org/2000/svg" class="-ml-1 mr-2 h-5 w-5 text-gray-500" viewBox="0 0 20 20"
                         fill="currentColor">
@@ -12,42 +15,27 @@
                             d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
                             clip-rule="evenodd" />
                     </svg>
-                    {{__('Appointment Date: ') . $order_appointment->appointment_date->format('Y-m-d') .' ' . $order_appointment->appointment_start .' to ' . $order_appointment->appointment_end }}
+                    @if (!is_null( $order_appointment))
+                            {{__('Appointment Date:').' ' . $order_appointment->appointment_date->format('Y-m-d') .' ' . $order_appointment->appointment_start .' to ' . $order_appointment->appointment_end }}
+                    @else
+                            {{ __('Set Appointment Date') }}
+                    @endif
                 </button>
             </span>
-        @else
-            <span class="hidden sm:block">
-                <button type="button" wire:click="$toggle('showModal')" 
-                    class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                    <!-- Heroicon name: solid/pencil -->
-                    <svg xmlns="http://www.w3.org/2000/svg" class="-ml-1 mr-2 h-5 w-5 text-gray-500" viewBox="0 0 20 20"
-                        fill="currentColor">
-                        <path fill-rule="evenodd"
-                            d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
-                            clip-rule="evenodd" />
-                    </svg>
-                    {{ __('Set Appointment Date') }}
-                </button>
-            </span>
-        @endif
-
-
+   
     @endif
 
-    @if ($order->lastStatus && in_array( strtolower($order->lastStatus->label) , ['paid']))
+    @if ($editing->lastStatus && in_array( strtolower($editing->lastStatus->label) , ['paid']))
        
             <span class="hidden sm:block">
                 <h3 class="text-lg font-bold leading-6 text-gray-900">
-                    <span class="text-sm text-blue-500">
-                    {{__('Your packages are underdelivery ') }} ...
+                    <span class="text-sm text-blue-300">
+                    {{__('Your packages are being delivered') }} ...
                     </span>
 
                 </h3>
                 
             </span>
-   
-
-
     @endif
 
     <form wire:submit.prevent="save">

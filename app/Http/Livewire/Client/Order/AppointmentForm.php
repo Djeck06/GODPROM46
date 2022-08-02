@@ -4,22 +4,40 @@ namespace App\Http\Livewire\Client\Order;
 
 use App\Models\Order;
 use Livewire\Component;
+use App\Services\ProcessTrait;
+
 
 class AppointmentForm extends Component
 {
+    use ProcessTrait;
+
     public $order;
     public $showModal = false;
     public $settings;
     public $order_appointment = Null ;
 
+
+    /**
+     * @author     Original Author <harry.kouevi@gmail.com>
+     * @see        31/07/2022 03:58
+     * @since      13/07/2022 23:15
+     *
+     * @param String    $closure
+     * @param Order   $order
+     *
+     * @return  void
+     */
+    public function next( String $closure , Order $order)
+    {
+       
+        $this->currentmethodname = $closure ;
+        $method= static::$methods[$closure] ;
+        $this->$method($order); 
+    }
+
     public function rules()
     {
-        return [
-            'settings.appointment_start' => 'required|date_format:H:i',
-            'settings.appointment_end' => 'required|date_format:H:i',
-            'settings.appointment_day' => 'required|date_format:Y-m-d',
-
-        ] ;
+        return \App\Models\OrderAppointment::setappointmentdateRules() ;
     }
 
     public function makeBlankAppointment()
@@ -36,7 +54,9 @@ class AppointmentForm extends Component
     public function mount()
     {
         $this->settings = $this->makeBlankAppointment() ;
-        $this->order_appointment = $this->order->appointments->firstWhere('status','active') ;
+        $this->editing =$this->order ;
+        $this->order_appointment = $this->editing->lastappointment ;
+       
        
     }
 
@@ -45,22 +65,9 @@ class AppointmentForm extends Component
        
         $this->validate();
 
-        $this->order->appointments->map(function ($item) {
-            $item->status = 'canceled' ;
-            $item->save() ;
-        }) ;
-
-       
-        \App\Models\OrderAppointment::create([
-            'order_id' => $this->order->id,
-            'appointment_date' => $this->settings['appointment_day'],
-            'appointment_start' => $this->settings['appointment_start'],
-            'appointment_end' => $this->settings['appointment_end'],
-        ]);
-
-        $this->order->status = 'readytopickup' ;
-        $this->order->save() ;
-
+        $this->__set_appointment_date__($this->editing,$this->settings);
+        $this->editing = Order::find($this->editing->id) ;
+        $this->order_appointment  = $this->editing->lastappointment;
         $this->showModal = false;      
     }
 

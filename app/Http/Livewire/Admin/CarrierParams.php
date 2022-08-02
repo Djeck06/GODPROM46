@@ -54,7 +54,7 @@ class CarrierParams extends Component
 
         if($this->initaction == 'create' ){
             foreach($this->files as $k=>$v){
-                $rules['files.'.$k] = 'required|file' ;
+                $rules['files.'.$k] = 'nullable|file' ;
             }
         }
 

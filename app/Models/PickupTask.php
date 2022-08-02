@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 
-class Packaging extends Model
+class PickupTask extends Model
 {
     use HasFactory, SoftDeletes, StatusTrait  ;
 

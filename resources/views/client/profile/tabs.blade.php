@@ -5,7 +5,7 @@
             <path stroke-linecap="round" stroke-linejoin="round"
                 d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
-        {{ __('My Profile') }}
+        {{ __('My Profile')}}
     </x-tabs.tab>
 
     <x-tabs.tab url="{{ route('profile.orders') }}">
@@ -14,7 +14,7 @@
             <path stroke-linecap="round" stroke-linejoin="round"
                 d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
         </svg>
-        {{ __('My Orders') }}
+        {{ __('My Orders')}}
     </x-tabs.tab>
 
     <x-tabs.tab url="{{ route('profile.settings') }}">

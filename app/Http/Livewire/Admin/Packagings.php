@@ -5,10 +5,8 @@ namespace App\Http\Livewire\Admin;
 use App\Http\Livewire\DataTable\WithCachedRows;
 use App\Http\Livewire\DataTable\WithPerPagePagination;
 use App\Http\Livewire\DataTable\WithSorting;
-use App\Models\Transporter;
 use App\Models\Packaging;
 use Livewire\Component;
-use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use App\Services\ProcessTrait;
 use DB ;
 
@@ -17,15 +15,11 @@ use DB ;
 class Packagings extends Component
 {
     use WithSorting, WithPerPagePagination, WithCachedRows , ProcessTrait;
+
     public $showEditModal = false;
     public $showDetailModal  = false;
-    public $showAssignModal = false;
-    public $sendToPackagingModal = false;
-    public $selectedsdata = [];
     public Packaging $packaging;
-    public $selectorder ;
-    public $selectAll = false ;
-    public Transporter $transporter;
+    public $selectpackage ;
     public $etat;
     public $secondtitle ;
 
@@ -33,8 +27,35 @@ class Packagings extends Component
         'search' => '',
     ];
 
+    protected $listeners = [
+        'nameToParent'
+    ];
 
     protected $queryString = ['sorts'];
+
+    /**
+     * @author     Original Author <harry.kouevi@gmail.com>
+     * @see        31/07/2022 03:58
+     * @since      13/07/2022 23:15
+     *
+     * @param String    $closure
+     * @param Packaging   $packaging
+     *
+     * @return  void
+     */
+    public function next( String $closure , Packaging $packaging)
+    {
+       
+      
+        $this->currentmethodname = $closure ;
+        $method= static::$methods[$closure] ;
+        $this->$method($packaging); 
+    }
+
+    public function nameToParent(Packaging $packaging)
+    {
+        if ($this->editing->isNot($packaging))  $this->editing = $packaging;
+    }
 
 
     public function rules()
@@ -69,17 +90,11 @@ class Packagings extends Component
     }
 
     public function mount()
-    {
-        
+    {  
         $this->editing = $this->makeBlankPackaging();
         $this->selectpackaging = new Packaging();
         $this->resultmessages = Null;
 
-    }
-
-    public function makeBlankCarrier()
-    {
-        return Transporter::make();
     }
 
     public function makeBlankPackaging()
@@ -87,42 +102,6 @@ class Packagings extends Component
         return Packaging::make();
     }
 
-    // public function create()
-    // {
-    //     $this->useCachedRows();
-    //     $this->items = [$this->makeBlankItem()];
-    //     if ($this->editing->getKey()) $this->editing = $this->makeBlankPackaging();
-
-    //     $this->showEditModal = true;
-    // }
-
-
-
-
-    /**
-     * @author     Original Author <harry.kouevi@gmail.com>
-     * @see        13/07/2022 23:15
-     * @since      13/07/2022 23:15
-     *
-     * @param String    $closure
-     * @param Order   $order
-     *
-     * @return  void
-     */
-    // public function next( String $closure , Order $order)
-    // {
-        
-    //     $this->sendToPackagingModal = true;
-
-    //     $this->useCachedRows();
-    //     if ($this->editing->isNot($order)) $this->editing = $order;
-    //     $this->editing->delivery_phone = Null ;
-    //     $this->currentmethodname = $closure ;
-    //     $method= static::$methods[$closure] ;
-        
-    //     if($this->$method($order)) $this->resultmessages ='success'; 
-
-    // }
 
     public function getRowsQueryProperty()
     {
@@ -133,8 +112,8 @@ class Packagings extends Component
             $query = $query->join('status', 'packagings.id', '=', 'status.source_id')
             ->where('source', 'packagings')
             ->where('status.label', $etat )
-            ->whereIn('status.created_at', function ($query) {
-                $query->selectRaw('MAX(status.created_at) as last_post_created_at')
+            ->whereIn('status.id', function ($query) {
+                $query->selectRaw('MAX(status.id) as last_post_id')
                     ->from('status')
                     //->join('status', 'packagings.id', '=', 'status.source_id')
                     ->where('source', 'packagings')
@@ -142,7 +121,15 @@ class Packagings extends Component
                     ->groupBy('status.source_id');
             })->orderBy('status.id', 'desc');
         }else{ 
-            $query = $query->join('status', 'packagings.id', '=', 'status.source_id')->where('source','packagings')->orderBy('status.created_at','desc') ;
+            $query = $query->join('status', 'packagings.id', '=', 'status.source_id')->orderBy('status.created_at', 'desc')
+            ->where('source', 'packagings')
+            ->whereIn('status.id', function ($query) {
+                $query->selectRaw('MAX(status.id) as last_post_id')
+                    ->from('status')
+                    ->where('source', 'packagings')
+                    ->orderBy('status.id', 'desc')
+                    ->groupBy('status.source_id');
+            }) ;
 
         }
         $query = $query->when($this->filters['search'], fn ($query, $search) => $query->where('reference', 'like', '%' . $search . '%'));
@@ -158,19 +145,30 @@ class Packagings extends Component
         });
     }
 
+    public function show(Packaging $packaging)
+    {
+        $this->useCachedRows();
+        $this->selectpackaging = $packaging;
+        $this->showDetailModal = true;
+    }
+
+    public function tiket(Packaging $packaging)
+    {
+        $this->useCachedRows();
+        $this->emit('tiket', $packaging->order);
+    }
+
 
     public function save()
     {
         $this->validate();
-       
         $this->editing->save();
-       
         $this->showEditModal = false;
     }
 
     public function render()
     {
-        //dd($this->rows) ;
+        
         return view('livewire.admin.packagings', [
             'packagings' => $this->rows,
         ]);

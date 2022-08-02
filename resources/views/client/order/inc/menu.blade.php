@@ -1,5 +1,5 @@
 <x-tabs>
-    @if(!is_null($order->reference))
+    @if(!is_null($order) && !is_null($order->reference))
     <x-tabs.tab url="{{ route('orders.show', $order->reference) }}">
         <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-5 w-5" fill="none" viewBox="0 0 24 24"
             stroke="currentColor" stroke-width="2">

@@ -15,7 +15,7 @@ class ProcessController extends Controller
     {
         //dd($order->lastStatus->label ) ;
      
-        $next = $this->getNextStatus($order->lastStatus->label, $order ) ;
+        $next = $this->getNextPrivateStatus($order->lastStatus->label, $order ) ;
         if(array_key_exists('todisplay', $next) && $next['todisplay'] == true){
             $methodname = static::$methods[$next['nextactionname']] ;
             return $this->$methodname($order) ;
